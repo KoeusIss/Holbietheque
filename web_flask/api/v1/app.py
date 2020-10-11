@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ 
-starts Flask app
+Starts Flask app
 """
 from flask import Flask
 
@@ -9,14 +9,13 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 @app.route('/status', strict_slashes=False)
 def status():
-    """status
+    """GET /status
 
     Returns:
-        json: returns the status of our app
+        (json): returns the status of our app
     """
     return {'status': 'OK'}
 
 if __name__ == "__main__":
-    """Main function
-    """
+    """ Main function """
     app.run('0.0.0.0', 5000)

@@ -12,6 +12,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "run-flask": "python3 -m web_flask.api.v1.app",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

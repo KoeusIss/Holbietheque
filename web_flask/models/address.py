@@ -8,4 +8,5 @@ from sqlalchemy import Column, String, ForeignKey, DateTime
 
 
 class Address(BaseModel, Base):
-    __tablename__ = "adresses"
+    __tablename__ = "addresses"
+    state_id = Column(String(60), ForeignKey("states.id"), nullable=False)

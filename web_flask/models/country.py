@@ -5,7 +5,7 @@ from datetime import datetime
 import sqlalchemy
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, DateTime
-from models.states import State
+from models.state import State
 from sqlalchemy.orm import relationship
 
 

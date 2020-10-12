@@ -4,15 +4,17 @@ from models.country import Country
 from models import storage
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
-# from flasgger.utils import swag_from
 
 
-@app_views.route('/countries, methods=['GET'],
+@app_views.route('/countries', methods=['GET'],
                  strict_slashes=False)
-# @swag_from('documentation/city/cities_by_state.yml', methods=['GET'])
 def get_countries():
     """
     Retrieves the list of all cities objects
-    of a specific State, or a specific city
+    of a specific Country, or a specific city
     """
-    return storage.all(Country)
+    all_countries = storage.all(Country).values()
+    list_countries = []
+    for country in all_countries:
+        list_countries.append(country.to_dict())
+    return jsonify(list_countries)

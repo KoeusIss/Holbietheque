@@ -1,35 +1,46 @@
-#!/usr/bin/python3
-""" objects that handles all default RestFul API actions for cities """
-from models.state import State
-from models.country import Country
-from models import storage
-from api.v1.views import app_views
+""" States Views-API endpoint """
+from web_flask.models.state import State
+from web_flask.models.country import Country
+from web_flask.models import storage
+from web_flask.api.v1.views import app_views
 from flask import abort, make_response, request, jsonify
 
 
-@app_views.route('/<countryId>/states', methods=['GET'],
-                 strict_slashes=False)
-def get_states(countryId):
-    """ GET /api/v1/:countryId/states """
-    the_country = storage.get(Country, countryId)
+@app_views.route(
+    '/<country_id>/states',
+    methods=['GET'],
+    strict_slashes=False
+)
+def get_states(country_id):
+    """ GET /api/v1/:country_id/states """
+    the_country = storage.get(Country, country_id)
     list_states = []
     for state in the_country.states:
         list_states.append(state.to_dict())
     return jsonify(list_states)
 
-@app_views.route('/states/<stateId>', methods=['GET'],
-                 strict_slashes=False)
-def get_state(stateId):
-    """ GET /api/v1/states/:stateId """
-    the_state = storage.get(State, stateId)
+
+@app_views.route(
+    '/states/<state_id>',
+    methods=['GET'],
+    strict_slashes=False
+)
+def get_state(state_id):
+    """ GET /api/v1/states/:state_id """
+    the_state = storage.get(State, state_id)
     if not the_state:
         abort(404)
     return jsonify(the_state.to_dict())
 
-@app_views.route('countries/<countryId>/states', methods=['POST'], strict_slashes=False)
-def create_state(countryId):
-    """ POST /api/v1/countries/:countryId/states """
-    the_country = storage.get(Country, countryId)
+
+@app_views.route(
+    'countries/<country_id>/states',
+    methods=['POST'],
+    strict_slashes=False
+)
+def create_state(country_id):
+    """ POST /api/v1/countries/:country_id/states """
+    the_country = storage.get(Country, country_id)
     if not the_country:
         abort(404)
     if not request.get_json():
@@ -43,10 +54,15 @@ def create_state(countryId):
     instance.save()
     return make_response(jsonify(instance.to_dict()), 201)
 
-@app_views.route('/states/<stateId>', methods=['DELETE'], strict_slashes=False)
-def delete_state(stateId):
-    """ DELETE /api/v1/states/:stateId"""
-    the_state = storage.get(State, stateId)
+
+@app_views.route(
+    '/states/<state_id>',
+    methods=['DELETE'],
+    strict_slashes=False
+)
+def delete_state(state_id):
+    """ DELETE /api/v1/states/:state_id"""
+    the_state = storage.get(State, state_id)
 
     if not the_state:
         abort(404)
@@ -56,10 +72,14 @@ def delete_state(stateId):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/states/<stateId>', methods=['PUT'], strict_slashes=False)
-def update_state(stateId):
+@app_views.route(
+    '/states/<state_id>',
+    methods=['PUT'],
+    strict_slashes=False
+)
+def update_state(state_id):
     """ PUT /api/v1/:stateId """
-    the_state = storage.get(State, stateId)
+    the_state = storage.get(State, state_id)
     if not the_state:
         abort(404)
 

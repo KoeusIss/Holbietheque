@@ -28,3 +28,5 @@ __pycache__/
 
 # main
 main.py
+.idea
+holbenv

@@ -1,10 +1,7 @@
-#!/usr/bin/python3
-"""[summary]
-"""
-from datetime import datetime
-from models.base_model import BaseModel, Base
-import sqlalchemy
-from sqlalchemy import Column, String, ForeignKey, DateTime
+""" Addresses model """
+
+from web_flask.models.base_model import BaseModel, Base
+from sqlalchemy import Column, String, ForeignKey
 
 
 class Address(BaseModel, Base):

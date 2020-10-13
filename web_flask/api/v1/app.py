@@ -1,12 +1,9 @@
-#!/usr/bin/python3
 """ Flask Application """
-from models import storage
-from api.v1.views import app_views
-from os import environ
-from flask import Flask, render_template, make_response, jsonify
+from web_flask.models import storage
+from web_flask.api.v1.views import app_views
+from flask import Flask, make_response, jsonify
 from flask_cors import CORS
 from flasgger import Swagger
-from flasgger.utils import swag_from
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
@@ -22,13 +19,9 @@ def close_db(error):
 
 @app.errorhandler(404)
 def not_found(error):
-    """ 404 Error
-    ---
-    responses:
-      404:
-        description: a resource was not found
-    """
+    """ Abort 404 """
     return make_response(jsonify({'error': "Not found"}), 404)
+
 
 app.config['SWAGGER'] = {
     'title': 'Holbietheque Restful API',
@@ -38,12 +31,6 @@ app.config['SWAGGER'] = {
 Swagger(app)
 
 
-if __name__ == "__main__":
+def create_app():
     """ Main Function """
-    host = environ.get('API_HOST')
-    port = environ.get('API_PORT')
-    if not host:
-        host = '0.0.0.0'
-    if not port:
-        port = '5000'
-    app.run(host=host, port=port, threaded=True)
+    return app

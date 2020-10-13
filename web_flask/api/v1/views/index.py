@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ Index """
-from api.v1.views import app_views
+from web_flask.api.v1.views import app_views
 from flask import jsonify
 
 

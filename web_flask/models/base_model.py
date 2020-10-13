@@ -1,11 +1,6 @@
-#!/usr/bin/python3
-"""
-Contains class BaseModel
-"""
+""" BaseModel model """
 from datetime import datetime
-import models
-from os import getenv
-import sqlalchemy
+import web_flask.models
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
@@ -15,13 +10,22 @@ Base = declarative_base()
 
 
 class BaseModel:
-    """The BaseModel class from which future classes will be derived"""
-    id = Column(String(60), primary_key=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow)
+    """ BaseModel class for models """
+    id = Column(
+        String(60),
+        primary_key=True
+    )
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow
+    )
+    updated_at = Column(
+        DateTime,
+        default=datetime.utcnow
+    )
 
     def __init__(self, *args, **kwargs):
-        """Initialization of the base model"""
+        """ Initialization """
         if kwargs:
             for key, value in kwargs.items():
                 if key != "__class__":
@@ -42,18 +46,21 @@ class BaseModel:
             self.updated_at = self.created_at
 
     def __str__(self):
-        """String representation of the BaseModel class"""
-        return "[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id,
-                                         self.__dict__)
+        """ String representation of the BaseModel class """
+        return "[{:s}] ({:s}) {}".format(
+            self.__class__.__name__,
+            self.id,
+            self.__dict__
+        )
 
     def save(self):
-        """updates the attribute 'updated_at' with the current datetime"""
+        """ Save updated instance """
         self.updated_at = datetime.utcnow()
-        models.storage.new(self)
-        models.storage.save()
+        web_flask.models.storage.new(self)
+        web_flask.models.storage.save()
 
     def to_dict(self, save_fs=None):
-        """returns a dictionary containing all keys/values of the instance"""
+        """ Returns a dictionary containing all keys/values of the instance """
         new_dict = self.__dict__.copy()
         if "created_at" in new_dict:
             new_dict["created_at"] = new_dict["created_at"].strftime(time)
@@ -68,5 +75,5 @@ class BaseModel:
         return new_dict
 
     def delete(self):
-        """delete the current instance from the storage"""
-        models.storage.delete(self)
+        """ Deletes the current instance from the storage """
+        web_flask.models.storage.delete(self)

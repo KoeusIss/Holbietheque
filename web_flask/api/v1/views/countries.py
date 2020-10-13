@@ -1,13 +1,15 @@
-#!/usr/bin/python3
-""" objects that handles all default RestFul API actions for cities """
-from models.country import Country
-from models import storage
-from api.v1.views import app_views
+""" Countries Views-API endpoint """
+from web_flask.models.country import Country
+from web_flask.models import storage
+from web_flask.api.v1.views import app_views
 from flask import abort, make_response, request, jsonify
 
 
-@app_views.route('/countries', methods=['GET'],
-                 strict_slashes=False)
+@app_views.route(
+    '/countries',
+    methods=['GET'],
+    strict_slashes=False
+)
 def get_countries():
     """ GET /api/v1/countries """
     all_countries = storage.all(Country).values()
@@ -16,16 +18,25 @@ def get_countries():
         list_countries.append(country.to_dict())
     return jsonify(list_countries)
 
-@app_views.route('/countries/<countryId>', methods=['GET'],
-                 strict_slashes=False)
-def get_country(countryId):
-    """ GET /api/v1/countries/:countryId """
-    the_country = storage.get(Country, countryId)
+
+@app_views.route(
+    '/countries/<country_id>',
+    methods=['GET'],
+    strict_slashes=False
+)
+def get_country(country_id):
+    """ GET /api/v1/countries/:country_id """
+    the_country = storage.get(Country, country_id)
     if not the_country:
         abort(404)
     return jsonify(the_country.to_dict())
 
-@app_views.route('/countries', methods=['POST'], strict_slashes=False)
+
+@app_views.route(
+    '/countries',
+    methods=['POST'],
+    strict_slashes=False
+)
 def create_country():
     """ POST /api/v1/countries """
     if not request.get_json():
@@ -40,12 +51,15 @@ def create_country():
     instance.save()
     return make_response(jsonify(instance.to_dict()), 201)
 
-@app_views.route('/countries/<countryId>', methods=['DELETE'],
-                 strict_slashes=False)
-def delete_country(countryId):
-    """ DELETE /api/v1/countries/:countryId """
 
-    country = storage.get(Country, countryId)
+@app_views.route(
+    '/countries/<country_id>',
+    methods=['DELETE'],
+    strict_slashes=False
+)
+def delete_country(country_id):
+    """ DELETE /api/v1/countries/:country_id """
+    country = storage.get(Country, country_id)
 
     if not country:
         abort(404)
@@ -55,10 +69,15 @@ def delete_country(countryId):
 
     return make_response(jsonify({}), 200)
 
-@app_views.route('/countries/<countryId>', methods=['PUT'], strict_slashes=False)
-def update_country(countryId):
-    """ PUT /api/v1/countries/:countryId """
-    country = storage.get(Country, countryId)
+
+@app_views.route(
+    '/countries/<country_id>',
+    methods=['PUT'],
+    strict_slashes=False
+)
+def update_country(country_id):
+    """ PUT /api/v1/countries/:country_id """
+    country = storage.get(Country, country_id)
 
     if not country:
         abort(404)

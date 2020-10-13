@@ -4,6 +4,13 @@ Holbietheque is a library of profile and resume for **Holberton school** student
 
 
 ## Usage
+### Python requirements
+In order to avoid any problems you need to install these packages
+```bash
+$ sudo apt-get install python3-dev
+$ sudo apt-get install libmysqlclient-dev
+$ sudo apt-get install zlib1g-dev
+```
 In order to run flask api server you need to pass this command
 ```bash
 yarn run-flask

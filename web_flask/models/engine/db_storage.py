@@ -71,6 +71,10 @@ class DBStorage:
     def close(self):
         """ Closes connections application/database """
         self.__session.remove()
+
+    def roll(self):
+        """ Closes connections application/database """
+        self.__session.rollback()
         
     def get(self, cls, id):
         """ Returns single object based on ID """

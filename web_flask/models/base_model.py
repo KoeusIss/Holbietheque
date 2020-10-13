@@ -77,3 +77,8 @@ class BaseModel:
     def delete(self):
         """ Deletes the current instance from the storage """
         web_flask.models.storage.delete(self)
+
+    @staticmethod
+    def rollback():
+        """ Rollback """
+        web_flask.models.storage.roll()

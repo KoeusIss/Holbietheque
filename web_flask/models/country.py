@@ -16,14 +16,18 @@ class Country(BaseModel, Base):
     __tablename__ = "countries"
     iso = Column(
         String(16),
-        nullable=False
+        nullable=False,
+        unique=True
     )
     name = Column(
         String(128),
-        nullable=False
+        nullable=False,
+        unique=True
     )
     phone_code = Column(
-        String(16)
+        String(16),
+        nullable=False,
+        unique=True
     )
     states = relationship(
         "State",

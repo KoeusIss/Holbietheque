@@ -3,6 +3,7 @@ from web_flask.models.country import Country
 from web_flask.models import storage
 from web_flask.api.v1.views import app_views
 from flask import abort, make_response, request, jsonify
+from sqlalchemy.exc import *
 
 
 @app_views.route(
@@ -48,8 +49,12 @@ def create_country():
 
     data = request.get_json()
     instance = Country(**data)
-    instance.save()
-    return make_response(jsonify(instance.to_dict()), 201)
+    try:
+        instance.save()
+        return make_response(jsonify(instance.to_dict()), 201)
+    except (IntegrityError, OperationalError) as error:
+        instance.rollback()
+        return make_response(jsonify({"error": error.orig.args[1]}), 400)
 
 
 @app_views.route(

@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "run-flask": "MYSQL_USER=holbie_dev MYSQL_PWD=holbie_dev_pwd MYSQL_HOST=localhost MYSQL_DB=holbietheque_dev_db python3 -m web_flask.api.v1.app",
+    "run-flask": "gunicorn -b 0.0.0.0:5000 web_flask.wsgi:app",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

@@ -5,6 +5,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from web_flask.models.state import State
 from web_flask.models.country import Country
 from web_flask.models.address import Address
+from web_flask.models.student import Student
 from web_flask.models.base_model import Base
 from os import environ, path
 from dotenv import load_dotenv
@@ -14,7 +15,7 @@ from web_flask.config import base_dir
 load_dotenv(path.join(base_dir, '.env'))
 
 
-classes = {"Country": Country, "State": State, "Address": Address}
+classes = {"Country": Country, "State": State, "Address": Address, "Student": Student}
 
 
 class DBStorage:

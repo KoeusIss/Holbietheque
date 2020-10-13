@@ -29,8 +29,10 @@ __pycache__/
 # main
 main.py
 .idea
-holbenv
 
 #env
 H_ENV
 hblerton
+holbenv
+
+.vscode

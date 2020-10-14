@@ -3,6 +3,8 @@
 from web_flask.models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
+from web_flask.models.country import CountrySchema
+from marshmallow import Schema, fields, ValidationError, pre_load
 
 
 class State(BaseModel, Base):
@@ -26,3 +28,9 @@ class State(BaseModel, Base):
         backref="state",
         cascade="all, delete"
     )
+
+class StateSchema(Schema):
+    """ State Schema """
+    id = fields.Str()
+    name = fields.Str()
+    country = fields.Nested(CountrySchema)

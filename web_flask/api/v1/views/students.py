@@ -1,6 +1,6 @@
 """ Students Views-API endpoints """
 
-from web_flask.models.student import Student
+from web_flask.models.student import Student, StudentSchema, AddressSchema
 from web_flask.models import storage
 from web_flask.api.v1.views import app_views
 from flask import abort, make_response, request, jsonify
@@ -15,10 +15,12 @@ from sqlalchemy.exc import *
 def get_students():
     """ GET /api/v1/students """
     all_students = storage.all(Student).values()
-    list_students = []
-    for country in all_students:
-        list_students.append(country.to_dict())
-    return jsonify(list_students)
+    students_schema = StudentSchema(
+        many=True,
+        only=["id", "first_name", "last_name"]
+    )
+    students = students_schema.dump(all_students)
+    return {"students": students}
 
 
 @app_views.route(
@@ -28,10 +30,12 @@ def get_students():
 )
 def get_student(student_id):
     """ GET /api/v1/students/:student_id """
+    student_schema = StudentSchema()
     the_student = storage.get(Student, student_id)
     if not the_student:
         abort(404)
-    return jsonify(the_student.to_dict())
+    student = student_schema.dump(the_student)
+    return jsonify({"student": student})
 
 
 @app_views.route(

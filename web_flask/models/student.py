@@ -2,6 +2,8 @@
 from web_flask.models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from marshmallow import Schema, fields, ValidationError, pre_load
+from web_flask.models.address import AddressSchema
 
 
 class Student(BaseModel, Base):
@@ -45,3 +47,17 @@ class Student(BaseModel, Base):
         back_populates="student",
         cascade="all, delete"
     )
+       
+ 
+class StudentSchema(Schema):
+    """
+    docstring
+    """
+    id = fields.Str()
+    first_name = fields.Str()
+    last_name = fields.Str()
+    middle_name = fields.Str()
+    id_number = fields.Str()
+    passport_number = fields.Str()
+    marital_status = fields.Str()
+    address = fields.Nested(AddressSchema)

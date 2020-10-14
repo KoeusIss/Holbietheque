@@ -1,10 +1,13 @@
 """ Countries Views-API endpoints """
 
-from web_flask.models.country import Country
+from web_flask.models.country import Country, CountrySchema
 from web_flask.models import storage
 from web_flask.api.v1.views import app_views
 from flask import abort, make_response, request, jsonify
 from sqlalchemy.exc import *
+
+countries_schema = CountrySchema(many=True, only=["id", "name"])
+country_schema = CountrySchema()
 
 
 @app_views.route(
@@ -15,10 +18,8 @@ from sqlalchemy.exc import *
 def get_countries():
     """ GET /api/v1/countries """
     all_countries = storage.all(Country).values()
-    list_countries = []
-    for country in all_countries:
-        list_countries.append(country.to_dict())
-    return jsonify(list_countries)
+    countries = country_schema.dump(all_countries)
+    return {"countries": countries}
 
 
 @app_views.route(
@@ -31,7 +32,8 @@ def get_country(country_id):
     the_country = storage.get(Country, country_id)
     if not the_country:
         abort(404)
-    return jsonify(the_country.to_dict())
+    country = country_schema.dump(the_country)
+    return {"country": country}
 
 
 @app_views.route(

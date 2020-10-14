@@ -6,6 +6,10 @@ from web_flask.models import storage
 from web_flask.api.v1.views import app_views
 from flask import abort, make_response, request, jsonify
 
+country_schema = CountrySchema(only=["name"])
+states_schema = StateSchema(many=True, only=["id", "name"])
+state_schema = StateSchema()
+
 
 @app_views.route(
     '/<country_id>/states',
@@ -15,8 +19,6 @@ from flask import abort, make_response, request, jsonify
 def get_states(country_id):
     """ GET /api/v1/:country_id/states """
     the_country = storage.get(Country, country_id)
-    country_schema = CountrySchema(only=["id", "name"])
-    state_schema = StateSchema(many=True, only=["id", "name"])
     country = country_schema.dump(the_country)
     states = state_schema.dump(the_country.states)
     return {"country": country, "states": states}
@@ -30,7 +32,6 @@ def get_states(country_id):
 def get_state(state_id):
     """ GET /api/v1/states/:state_id """
     the_state = storage.get(State, state_id)
-    state_schema = StateSchema()
     if not the_state:
         abort(404)
     return {"state": state_schema.dump(the_state)}

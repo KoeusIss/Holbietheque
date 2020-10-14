@@ -3,8 +3,12 @@
 from web_flask.models.student import Student, StudentSchema, AddressSchema
 from web_flask.models import storage
 from web_flask.api.v1.views import app_views
-from flask import abort, make_response, request, jsonify
+from flask import request
 from sqlalchemy.exc import *
+
+students_schema = StudentSchema(many=True)
+student_schema = StudentSchema()
+address_schema = AddressSchema()
 
 
 @app_views.route(
@@ -15,12 +19,12 @@ from sqlalchemy.exc import *
 def get_students():
     """ GET /api/v1/students """
     all_students = storage.all(Student).values()
-    students_schema = StudentSchema(
-        many=True,
-        only=["id", "first_name", "last_name"]
-    )
     students = students_schema.dump(all_students)
-    return {"students": students}
+    return {
+        "success": True,
+        "message": "data found",
+        "students": students
+    }
 
 
 @app_views.route(
@@ -30,12 +34,18 @@ def get_students():
 )
 def get_student(student_id):
     """ GET /api/v1/students/:student_id """
-    student_schema = StudentSchema()
     the_student = storage.get(Student, student_id)
     if not the_student:
-        abort(404)
+        return {
+            "failed": True,
+            "message": "data not found"
+        }, 400
     student = student_schema.dump(the_student)
-    return jsonify({"student": student})
+    return {
+        "success": True,
+        "message": "data found",
+        "student": student
+    }
 
 
 @app_views.route(
@@ -46,22 +56,26 @@ def get_student(student_id):
 def create_student():
     """ POST /api/v1/students """
     if not request.get_json():
-        make_response(jsonify({"error": "Not a JSON"}), 400)
-    if 'first_name' not in request.get_json():
-        make_response(jsonify({"error": "Missing first name"}), 400)
-    if 'last_name' not in request.get_json():
-        make_response(jsonify({"error": "Missing last name"}), 400)
-    if 'id_number' not in request.get_json():
-        make_response(jsonify({"error": "Missing id number"}), 400)
-
+        return {
+            "failed": True,
+            "message": "not a json"
+        }, 400
     data = request.get_json()
     instance = Student(**data)
     try:
         instance.save()
-        return make_response(jsonify(instance.to_dict()), 201)
+        student = student_schema.dump(instance)
+        return {
+            "success": True,
+            "message": "created successfully",
+            "student": student
+        }, 201
     except (IntegrityError, OperationalError) as error:
         instance.rollback()
-        return make_response(jsonify({"error": error.orig.args[1]}), 400)
+        return {
+           "failed": True,
+           "message": error.orig.args[1]
+        }, 400
 
 
 @app_views.route(
@@ -71,15 +85,18 @@ def create_student():
 )
 def delete_student(student_id):
     """ DELETE /api/v1/students/:student_id """
-    country = storage.get(Student, student_id)
-
-    if not country:
-        abort(404)
-
-    storage.delete(country)
+    the_student = storage.get(Student, student_id)
+    if not the_student:
+        return {
+           "failed": True,
+           "message": "data not found"
+        }, 400
+    storage.delete(the_student)
     storage.save()
-
-    return make_response(jsonify({"message": "deleted successfully"}), 200)
+    return {
+        "success": True,
+        "message": "deleted successfully"
+    }, 200
 
 
 @app_views.route(
@@ -89,19 +106,26 @@ def delete_student(student_id):
 )
 def update_student(student_id):
     """ PUT /api/v1/students/:student_id """
-    student = storage.get(Student, student_id)
-
-    if not student:
-        abort(404)
-
+    the_student = storage.get(Student, student_id)
+    if not the_student:
+        return {
+           "failed": True,
+           "message": "data not found"
+        }, 400
     if not request.get_json():
-        abort(400, description="Not a JSON")
-
+        return {
+            "failed": True,
+            "message": "not a json"
+        }, 400
     ignore = ['id', 'created_at', 'updated_at']
-
     data = request.get_json()
     for key, value in data.items():
         if key not in ignore:
-            setattr(student, key, value)
+            setattr(the_student, key, value)
     storage.save()
-    return make_response(jsonify(student.to_dict()), 200)
+    student = student_schema.dump(the_student)
+    return {
+        "success": True,
+        "message": "updated successfully",
+        "student": student
+    }, 200

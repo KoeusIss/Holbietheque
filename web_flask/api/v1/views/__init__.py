@@ -7,3 +7,4 @@ from web_flask.api.v1.views.index import *
 from web_flask.api.v1.views.countries import *
 from web_flask.api.v1.views.states import *
 from web_flask.api.v1.views.students import *
+from web_flask.api.v1.views.addresses import *

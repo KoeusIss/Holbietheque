@@ -1,4 +1,5 @@
-""" Countries Views-API endpoint """
+""" Countries Views-API endpoints """
+
 from web_flask.models.country import Country
 from web_flask.models import storage
 from web_flask.api.v1.views import app_views
@@ -41,11 +42,13 @@ def get_country(country_id):
 def create_country():
     """ POST /api/v1/countries """
     if not request.get_json():
-        abort(400, description="Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if 'iso' not in request.get_json():
-        abort(400, description="Missing iso")
+        return make_response(jsonify({"error": "Missing iso"}), 400)
     if 'name' not in request.get_json():
-        abort(400, description="Missing name")
+        return make_response(jsonify({"error": "Missing name"}), 400)
+    if 'phone_code' not in request.get_json():
+        return make_response(jsonify({"error": "Missing phone code"}), 400)
 
     data = request.get_json()
     instance = Country(**data)

@@ -42,6 +42,6 @@ class Student(BaseModel, Base):
     address = relationship(
         "Address",
         uselist=False,
-        backref="student",
+        back_populates="student",
         cascade="all, delete"
     )

@@ -38,9 +38,9 @@ class Address(BaseModel, Base):
     )
     student_id = Column(
         String(60),
-        ForeignKey('student.id')
+        ForeignKey('students.id')
     )
     student = relationship(
         'Student',
-        backref='student'
+        back_populates='address'
     )

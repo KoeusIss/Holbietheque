@@ -140,7 +140,7 @@ CREATE TABLE `holbietheque_dev_db`.`certificates`
  `expire`         bit(1) NOT NULL DEFAULT b'0' ,
  `issued_at`      date NOT NULL ,
  `expired_at`     date DEFAULT NULL ,
- `certeficate_id` varchar(60) DEFAULT NULL ,
+ `certificate_id` varchar(60) DEFAULT NULL ,
  `description`    varchar(255) DEFAULT NULL ,
  `student_id`     varchar(60) NOT NULL ,
  `created_at`     datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ,

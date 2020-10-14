@@ -1,6 +1,7 @@
 """ Students Views-API endpoints """
 
 from web_flask.models.student import Student, StudentSchema, AddressSchema
+from web_flask.models.certificate import CertificateSchema
 from web_flask.models import storage
 from web_flask.api.v1.views import app_views
 from flask import request
@@ -9,6 +10,7 @@ from sqlalchemy.exc import *
 students_schema = StudentSchema(many=True)
 student_schema = StudentSchema()
 address_schema = AddressSchema()
+certificates_schema = CertificateSchema(many=True, only=["name"])
 
 
 @app_views.route(

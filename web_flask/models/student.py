@@ -4,6 +4,7 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from marshmallow import Schema, fields, ValidationError, pre_load
 from web_flask.models.address import AddressSchema
+from web_flask.models.certificate import CertificateSchema
 
 
 class Student(BaseModel, Base):
@@ -15,6 +16,7 @@ class Student(BaseModel, Base):
         passport_number: (str) passport number
         marital_status: (str) marital status
         address: (str) reference to student's address
+        certificates: (str) student's certificates
 
     """
     __tablename__ = "students"
@@ -47,12 +49,15 @@ class Student(BaseModel, Base):
         back_populates="student",
         cascade="all, delete"
     )
+    certificates = relationship(
+        "Certificate",
+        backref="student",
+        cascade="all, delete"
+    )
        
  
 class StudentSchema(Schema):
-    """
-    docstring
-    """
+    """ Student Schema """
     id = fields.Str()
     first_name = fields.Str()
     last_name = fields.Str()
@@ -61,3 +66,4 @@ class StudentSchema(Schema):
     passport_number = fields.Str()
     marital_status = fields.Str()
     address = fields.Nested(AddressSchema)
+    certificates = fields.Nested(CertificateSchema(many=True))

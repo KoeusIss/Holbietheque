@@ -36,6 +36,7 @@ class Country(BaseModel, Base):
         cascade="all, delete"
     )
 
+
 class CountrySchema(Schema):
     """ Country Schema """
     id = fields.Str()

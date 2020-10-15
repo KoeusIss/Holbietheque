@@ -70,6 +70,12 @@ class Student(BaseModel, Base):
         backref="student",
         cascade="all, delete"
     )
+    social = relationship(
+        "Social",
+        uselist=False,
+        back_populates="student",
+        cascade="all, delete"
+    )
        
  
 class StudentSchema(Schema):

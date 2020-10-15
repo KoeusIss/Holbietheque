@@ -12,3 +12,4 @@ from web_flask.api.v1.views.certificates import *
 from web_flask.api.v1.views.educations import *
 from web_flask.api.v1.views.experiences import *
 from web_flask.api.v1.views.projects import *
+from web_flask.api.v1.views.socials import *

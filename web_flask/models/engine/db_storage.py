@@ -11,6 +11,7 @@ from web_flask.models.certificate import Certificate
 from web_flask.models.education import Education
 from web_flask.models.experience import Experience
 from web_flask.models.project import Project
+from web_flask.models.social import Social
 
 from os import environ, path
 from dotenv import load_dotenv
@@ -23,7 +24,7 @@ load_dotenv(path.join(base_dir, '.env'))
 classes = {"Country": Country, "State": State,
            "Address": Address, "Student": Student,
            "Certificate": Certificate, "Education": Education,
-           "Experience": Experience, "Project": Project}
+           "Experience": Experience, "Project": Project, "Social": Social}
 
 
 class DBStorage:

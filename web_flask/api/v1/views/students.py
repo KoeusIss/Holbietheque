@@ -5,6 +5,7 @@ from web_flask.models.certificate import CertificateSchema
 from web_flask.models.education import EducationSchema
 from web_flask.models.experience import ExperienceSchema
 from web_flask.models.project import ProjectSchema
+from web_flask.models.social import SocialSchema
 from web_flask.models import storage
 from web_flask.api.v1.views import app_views
 from flask import request
@@ -17,6 +18,7 @@ certificates_schema = CertificateSchema(many=True)
 educations_schema = EducationSchema(many=True)
 experiences_schema = ExperienceSchema(many=True)
 projects_schema = ProjectSchema(many=True)
+social_schema = SocialSchema()
 
 
 @app_views.route(
@@ -48,6 +50,7 @@ def get_student(student_id):
     educations = educations_schema.dump(the_student.educations)
     experiences = experiences_schema.dump(the_student.experiences)
     projects = projects_schema.dump(the_student.projects)
+    social = social_schema.dump(the_student.social)
     if not the_student:
         return {
             "failed": True,
@@ -62,7 +65,8 @@ def get_student(student_id):
         "certificates": certicates,
         "education": educations,
         "experiences": experiences,
-        "projects": projects
+        "projects": projects,
+        "social": social
     }
 
 

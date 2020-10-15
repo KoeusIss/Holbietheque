@@ -18,7 +18,7 @@ class Project(BaseModel, Base):
         student_id: (str) a reference to education's student
 
     """
-    __tablename__ = "educations"
+    __tablename__ = "projects"
     name = Column(
         String(128),
         nullable=False
@@ -53,9 +53,10 @@ class Project(BaseModel, Base):
 
 class ProjectSchema(Schema):
     """ Education Schema """
+    id = fields.Str()
     name = fields.Str()
-    start_at = fields.Date()
-    end_at = fields.Date()
+    start_at = fields.Str()
+    end_at = fields.Str()
     status = fields.Str()
     url = fields.Str()
     github_url = fields.Str()

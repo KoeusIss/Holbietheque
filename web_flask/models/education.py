@@ -58,11 +58,12 @@ class Education(BaseModel, Base):
 
 class EducationSchema(Schema):
     """ Education Schema """
+    id = fields.Str()
     school = fields.Str()
     degree = fields.Str()
     major = fields.Str()
-    start_at = fields.Date()
-    end_at = fields.Date()
+    start_at = fields.Str()
+    end_at = fields.Str()
     is_finished = fields.Boolean()
     grade = fields.Str()
     description = fields.Str()

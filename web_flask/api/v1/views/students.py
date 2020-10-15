@@ -2,6 +2,9 @@
 
 from web_flask.models.student import Student, StudentSchema, AddressSchema
 from web_flask.models.certificate import CertificateSchema
+from web_flask.models.education import EducationSchema
+from web_flask.models.experience import ExperienceSchema
+from web_flask.models.project import ProjectSchema
 from web_flask.models import storage
 from web_flask.api.v1.views import app_views
 from flask import request
@@ -10,7 +13,10 @@ from sqlalchemy.exc import *
 students_schema = StudentSchema(many=True)
 student_schema = StudentSchema()
 address_schema = AddressSchema()
-certificates_schema = CertificateSchema(many=True, only=["name"])
+certificates_schema = CertificateSchema(many=True)
+educations_schema = EducationSchema(many=True)
+experiences_schema = ExperienceSchema(many=True)
+projects_schema = ProjectSchema(many=True)
 
 
 @app_views.route(
@@ -37,6 +43,11 @@ def get_students():
 def get_student(student_id):
     """ GET /api/v1/students/:student_id """
     the_student = storage.get(Student, student_id)
+    address = address_schema.dump(the_student.address)
+    certicates = certificates_schema.dump(the_student.certificates)
+    educations = educations_schema.dump(the_student.educations)
+    experiences = experiences_schema.dump(the_student.experiences)
+    projects = projects_schema.dump(the_student.projects)
     if not the_student:
         return {
             "failed": True,
@@ -46,7 +57,12 @@ def get_student(student_id):
     return {
         "success": True,
         "message": "data found",
-        "student": student
+        "student": student,
+        "address": address,
+        "certificates": certicates,
+        "education": educations,
+        "experiences": experiences,
+        "projects": projects
     }
 
 

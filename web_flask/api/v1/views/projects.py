@@ -15,7 +15,7 @@ project_schema = ProjectSchema()
     methods=['POST'],
     strict_slashes=False
 )
-def create_certificate(student_id):
+def create_project(student_id):
     """ POST /api/v1/students/:student_id/projects """
     the_student = storage.get(Student, student_id)
     if not request.get_json():
@@ -52,7 +52,7 @@ def create_certificate(student_id):
     methods=['PUT'],
     strict_slashes=False
 )
-def update_certificate(project_id):
+def update_project(project_id):
     """ PUT /api/v1/projects/:project_id """
     the_project = storage.get(Project, project_id)
     if not the_project:

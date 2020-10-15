@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship
 from marshmallow import Schema, fields, ValidationError, pre_load
 from web_flask.models.address import AddressSchema
 from web_flask.models.certificate import CertificateSchema
+from web_flask.models.education import EducationSchema
 
 
 class Student(BaseModel, Base):
@@ -54,6 +55,21 @@ class Student(BaseModel, Base):
         backref="student",
         cascade="all, delete"
     )
+    educations = relationship(
+        "Education",
+        backref="student",
+        cascade="all, delete"
+    )
+    experiences = relationship(
+        "Experience",
+        backref="student",
+        cascade="all, delete"
+    )
+    projects = relationship(
+        "Project",
+        backref="student",
+        cascade="all, delete"
+    )
        
  
 class StudentSchema(Schema):
@@ -65,5 +81,3 @@ class StudentSchema(Schema):
     id_number = fields.Str()
     passport_number = fields.Str()
     marital_status = fields.Str()
-    address = fields.Nested(AddressSchema)
-    certificates = fields.Nested(CertificateSchema(many=True))

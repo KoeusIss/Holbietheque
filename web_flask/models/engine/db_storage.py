@@ -7,6 +7,11 @@ from web_flask.models.country import Country
 from web_flask.models.address import Address
 from web_flask.models.student import Student
 from web_flask.models.base_model import Base
+from web_flask.models.certificate import Certificate
+from web_flask.models.education import Education
+from web_flask.models.experience import Experience
+from web_flask.models.project import Project
+
 from os import environ, path
 from dotenv import load_dotenv
 from web_flask.config import base_dir
@@ -15,7 +20,10 @@ from web_flask.config import base_dir
 load_dotenv(path.join(base_dir, '.env'))
 
 
-classes = {"Country": Country, "State": State, "Address": Address, "Student": Student}
+classes = {"Country": Country, "State": State,
+           "Address": Address, "Student": Student,
+           "Certificate": Certificate, "Education": Education,
+           "Experience": Experience, "Project": Project}
 
 
 class DBStorage:

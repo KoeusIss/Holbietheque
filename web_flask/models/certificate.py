@@ -1,8 +1,9 @@
 """ Certificate model """
 
 from web_flask.models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, ForeignKey, Boolean, Date
+from sqlalchemy import Column, String, ForeignKey, Boolean, Date, DateTime
 from marshmallow import Schema, fields, ValidationError, pre_load
+from datetime import datetime
 
 
 class Certificate(BaseModel, Base):
@@ -32,11 +33,11 @@ class Certificate(BaseModel, Base):
         nullable=False
     )
     issued_at = Column(
-        Date,
-        nullable=False
+        DateTime,
+        nullable=False,
     )
     expired_at = Column(
-        Date,
+        DateTime,
         default=None
     )
     is_expire = Column(
@@ -50,14 +51,14 @@ class Certificate(BaseModel, Base):
         String(255)
     )
 
-
 class CertificateSchema(Schema):
     """ Certificate Schema """
+    id = fields.Str()
     name = fields.Str()
     authority = fields.Str()
     certificate_id = fields.Str()
-    issued_at = fields.Date()
-    expired_at = fields.Date()
+    issued_at = fields.Str()
+    expired_at = fields.Str()
     is_expire = fields.Boolean()
     description = fields.Str()
     student_id = fields.Str()

@@ -9,3 +9,6 @@ from web_flask.api.v1.views.states import *
 from web_flask.api.v1.views.students import *
 from web_flask.api.v1.views.addresses import *
 from web_flask.api.v1.views.certificates import *
+from web_flask.api.v1.views.educations import *
+from web_flask.api.v1.views.experiences import *
+from web_flask.api.v1.views.projects import *

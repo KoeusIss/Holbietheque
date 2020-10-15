@@ -15,7 +15,7 @@ experience_schema = ExperienceSchema()
     methods=['POST'],
     strict_slashes=False
 )
-def create_certificate(student_id):
+def create_experience(student_id):
     """ POST /api/v1/students/:student_id/experiences """
     the_student = storage.get(Student, student_id)
     if not request.get_json():
@@ -52,7 +52,7 @@ def create_certificate(student_id):
     methods=['PUT'],
     strict_slashes=False
 )
-def update_certificate(experience_id):
+def update_experience(experience_id):
     """ PUT /api/v1/experiences/:experience_id """
     the_experience = storage.get(Experience, experience_id)
     if not the_experience:

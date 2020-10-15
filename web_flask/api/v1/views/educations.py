@@ -15,7 +15,7 @@ education_schema = EducationSchema()
     methods=['POST'],
     strict_slashes=False
 )
-def create_certificate(student_id):
+def create_education(student_id):
     """ POST /api/v1/students/:student_id/educations """
     the_student = storage.get(Student, student_id)
     if not request.get_json():
@@ -52,7 +52,7 @@ def create_certificate(student_id):
     methods=['PUT'],
     strict_slashes=False
 )
-def update_certificate(education_id):
+def update_education(education_id):
     """ PUT /api/v1/educations/:education_id """
     the_education = storage.get(Education, education_id)
     if not the_education:

@@ -17,7 +17,7 @@ class Experience(BaseModel, Base):
         student_id: (str) a reference to education's student
 
     """
-    __tablename__ = "educations"
+    __tablename__ = "experiences"
     title = Column(
         String(128),
         nullable=False
@@ -53,11 +53,12 @@ class Experience(BaseModel, Base):
 
 class ExperienceSchema(Schema):
     """ Experience Schema """
+    id = fields.Str()
     title = fields.Str()
     job_type = fields.Str()
     company = fields.Str()
-    start_at = fields.Date()
-    end_at = fields.Date()
+    start_at = fields.Str()
+    end_at = fields.Str()
     is_actual = fields.Boolean()
     description = fields.Str()
     student_id = fields.Str()

@@ -3,7 +3,7 @@
 from web_flask.models.country import Country, CountrySchema
 from web_flask.models import storage
 from web_flask.api.v1.views import app_views
-from flask import abort, make_response, request, jsonify
+from flask import request
 from sqlalchemy.exc import *
 
 countries_schema = CountrySchema(many=True, only=["id", "name"])
@@ -18,8 +18,11 @@ country_schema = CountrySchema()
 def get_countries():
     """ GET /api/v1/countries """
     all_countries = storage.all(Country).values()
-    countries = country_schema.dump(all_countries)
-    return {"countries": countries}
+    countries = countries_schema.dump(all_countries)
+    return {
+        "message": "data found",
+        "countries": countries
+    }
 
 
 @app_views.route(
@@ -31,9 +34,15 @@ def get_country(country_id):
     """ GET /api/v1/countries/:country_id """
     the_country = storage.get(Country, country_id)
     if not the_country:
-        abort(404)
+        return {
+            "failed": True,
+            "message": "data not found"
+        }, 400
     country = country_schema.dump(the_country)
-    return {"country": country}
+    return {
+        "message": "data found",
+        "country": country
+    }
 
 
 @app_views.route(
@@ -44,22 +53,26 @@ def get_country(country_id):
 def create_country():
     """ POST /api/v1/countries """
     if not request.get_json():
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
-    if 'iso' not in request.get_json():
-        return make_response(jsonify({"error": "Missing iso"}), 400)
-    if 'name' not in request.get_json():
-        return make_response(jsonify({"error": "Missing name"}), 400)
-    if 'phone_code' not in request.get_json():
-        return make_response(jsonify({"error": "Missing phone code"}), 400)
-
+        return {
+            "failed": True,
+            "message": "not a json"
+        }, 400
     data = request.get_json()
     instance = Country(**data)
     try:
         instance.save()
-        return make_response(jsonify(instance.to_dict()), 201)
+        country = country_schema.dump(instance)
+        return {
+            "success": True,
+            "message": "created successfully",
+            "country": country
+        }, 201
     except (IntegrityError, OperationalError) as error:
         instance.rollback()
-        return make_response(jsonify({"error": error.orig.args[1]}), 400)
+        return {
+           "failed": True,
+           "message": error.orig.args[1]
+        }, 400
 
 
 @app_views.route(
@@ -69,15 +82,18 @@ def create_country():
 )
 def delete_country(country_id):
     """ DELETE /api/v1/countries/:country_id """
-    country = storage.get(Country, country_id)
-
-    if not country:
-        abort(404)
-
-    storage.delete(country)
+    the_country = storage.get(Country, country_id)
+    if not the_country:
+        return {
+           "failed": True,
+           "message": "data not found"
+        }, 400
+    storage.delete(the_country)
     storage.save()
-
-    return make_response(jsonify({}), 200)
+    return {
+        "success": True,
+        "message": "deleted successfully"
+    }, 200
 
 
 @app_views.route(
@@ -86,20 +102,27 @@ def delete_country(country_id):
     strict_slashes=False
 )
 def update_country(country_id):
-    """ PUT /api/v1/countries/:country_id """
-    country = storage.get(Country, country_id)
-
-    if not country:
-        abort(404)
-
+    """ PUT /api/v1/:country_id """
+    the_country = storage.get(Country, country_id)
+    if not the_country:
+        return {
+           "failed": True,
+           "message": "data not found"
+        }, 400
     if not request.get_json():
-        abort(400, description="Not a JSON")
-
+        return {
+            "failed": True,
+            "message": "not a json"
+        }, 400
     ignore = ['id', 'created_at', 'updated_at']
-
     data = request.get_json()
     for key, value in data.items():
         if key not in ignore:
-            setattr(country, key, value)
+            setattr(the_country, key, value)
     storage.save()
-    return make_response(jsonify(country.to_dict()), 200)
+    country = country_schema.dump(the_country)
+    return {
+        "success": True,
+        "message": "updated successfully",
+        "country": country
+    }, 200

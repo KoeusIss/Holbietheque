@@ -3,7 +3,7 @@
 from web_flask.models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from marshmallow import Schema, fields, ValidationError, pre_load
+from marshmallow import Schema, fields
 
 
 class Country(BaseModel, Base):
@@ -35,6 +35,7 @@ class Country(BaseModel, Base):
         backref="country",
         cascade="all, delete"
     )
+
 
 class CountrySchema(Schema):
     """ Country Schema """

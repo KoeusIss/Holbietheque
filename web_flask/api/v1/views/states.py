@@ -1,10 +1,10 @@
 """ States Views-API endpoint """
-from web_flask.models.state import State
 from web_flask.models.country import Country, CountrySchema
 from web_flask.models.state import State, StateSchema
 from web_flask.models import storage
 from web_flask.api.v1.views import app_views
-from flask import abort, make_response, request, jsonify
+from flask import request
+from sqlalchemy.exc import *
 
 country_schema = CountrySchema(only=["name"])
 states_schema = StateSchema(many=True, only=["id", "name"])
@@ -20,8 +20,13 @@ def get_states(country_id):
     """ GET /api/v1/:country_id/states """
     the_country = storage.get(Country, country_id)
     country = country_schema.dump(the_country)
-    states = state_schema.dump(the_country.states)
-    return {"country": country, "states": states}
+    states = states_schema.dump(the_country.states)
+    return {
+        "success": True,
+        "message": "data found",
+        "country": country,
+        "states": states
+    }
 
 
 @app_views.route(
@@ -33,8 +38,16 @@ def get_state(state_id):
     """ GET /api/v1/states/:state_id """
     the_state = storage.get(State, state_id)
     if not the_state:
-        abort(404)
-    return {"state": state_schema.dump(the_state)}
+        return {
+            "failed": True,
+            "message": "data not found"
+        }, 400
+    state = state_schema.dump(the_state)
+    return {
+        "success": True,
+        "message": "data found",
+        "state": state
+    }
 
 
 @app_views.route(
@@ -46,17 +59,32 @@ def create_state(country_id):
     """ POST /api/v1/countries/:country_id/states """
     the_country = storage.get(Country, country_id)
     if not the_country:
-        abort(404)
+        return {
+            "failed": True,
+            "message": "data not found"
+        }, 400
     if not request.get_json():
-        abort(400, description="Not a JSON")
-    if 'name' not in request.get_json():
-        abort(400, description="Missing name")
-
+        return {
+            "failed": True,
+            "message": "not a json"
+        }, 400
     data = request.get_json()
-    instance = State(**data)
-    instance.country_id = the_country.id
-    instance.save()
-    return make_response(jsonify(instance.to_dict()), 201)
+    the_state = State(**data)
+    try:
+        the_state.country_id = the_country.id
+        the_state.save()
+        state = state_schema.dump(the_state)
+        return {
+            "success": True,
+            "message": "created successfully",
+            "state": state
+        }, 201
+    except (IntegrityError, OperationalError) as error:
+        the_state.rollback()
+        return {
+            "failed": True,
+            "message": error.orig.args[1]
+        }, 400
 
 
 @app_views.route(
@@ -67,13 +95,17 @@ def create_state(country_id):
 def delete_state(state_id):
     """ DELETE /api/v1/states/:state_id"""
     the_state = storage.get(State, state_id)
-
     if not the_state:
-        abort(404)
+        return {
+            "failed": True,
+            "message": "data not found"
+        }, 400
     storage.delete(the_state)
     storage.save()
-
-    return make_response(jsonify({}), 200)
+    return {
+        "success": True,
+        "message": "deleted successfully"
+    }, 200
 
 
 @app_views.route(
@@ -82,19 +114,27 @@ def delete_state(state_id):
     strict_slashes=False
 )
 def update_state(state_id):
-    """ PUT /api/v1/:stateId """
+    """ PUT /api/v1/:state_id """
     the_state = storage.get(State, state_id)
     if not the_state:
-        abort(404)
-
+        return {
+            "failed": True,
+            "message": "data not found"
+        }, 400
     if not request.get_json():
-        abort(400, description="Not a JSON")
-
+        return {
+            "failed": True,
+            "message": "not a json"
+        }, 400
     ignore = ['id', 'country_id', 'created_at', 'updated_at']
-
     data = request.get_json()
     for key, value in data.items():
         if key not in ignore:
             setattr(the_state, key, value)
     storage.save()
-    return make_response(jsonify(the_state.to_dict()), 200)
+    state = state_schema.dump(the_state)
+    return {
+        "success": True,
+        "message": "updated successfully",
+        "state": state
+    }, 200

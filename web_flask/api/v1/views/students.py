@@ -63,17 +63,17 @@ def create_student():
             "message": "not a json"
         }, 400
     data = request.get_json()
-    instance = Student(**data)
+    the_student = Student(**data)
     try:
-        instance.save()
-        student = student_schema.dump(instance)
+        the_student.save()
+        student = student_schema.dump(the_student)
         return {
             "success": True,
             "message": "created successfully",
             "student": student
         }, 201
     except (IntegrityError, OperationalError) as error:
-        instance.rollback()
+        the_student.rollback()
         return {
            "failed": True,
            "message": error.orig.args[1]

@@ -11,12 +11,12 @@ address_schema = AddressSchema()
 
 
 @app_views.route(
-    '/students/<student_id>/address',
+    '/<student_id>/address',
     methods=['POST'],
     strict_slashes=False
 )
 def create_address(student_id):
-    """ POST /api/v1/students/:student_id/address """
+    """ POST /api/v1/:student_id/address """
     the_student = storage.get(Student, student_id)
     if not request.get_json():
         return {
@@ -29,18 +29,18 @@ def create_address(student_id):
             "message": "unrecognized student"
         }, 400
     data = request.get_json()
-    data["student_id"] = student_id
-    instance = Address(**data)
+    the_address = Address(**data)
     try:
-        instance.save()
-        address = address_schema.dump(instance)
+        the_address.student_id = the_student.id
+        the_address.save()
+        address = address_schema.dump(the_address)
         return {
             "success": True,
             "message": "created successfully",
             "address": address
         }, 201
     except (IntegrityError, OperationalError) as error:
-        instance.rollback()
+        the_address.rollback()
         return {
            "failed": True,
            "message": error.orig.args[1]

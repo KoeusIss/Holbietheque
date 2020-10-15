@@ -3,8 +3,8 @@
 from web_flask.models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
-from marshmallow import Schema, fields, ValidationError, pre_load
-from web_flask.models.state import StateSchema
+from marshmallow import Schema, fields
+
 
 class Address(BaseModel, Base):
     """
@@ -53,4 +53,3 @@ class AddressSchema(Schema):
     second_line = fields.Str()
     city = fields.Str()
     zip_code = fields.Str()
-    state = fields.Nested(StateSchema)

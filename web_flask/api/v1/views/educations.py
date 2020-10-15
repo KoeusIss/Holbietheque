@@ -1,22 +1,22 @@
-""" Certificates Views-API endpoints """
+""" Educations Views-API endpoints """
 
 from web_flask.models.student import Student
-from web_flask.models.certificate import Certificate, CertificateSchema
+from web_flask.models.education import Education, EducationSchema
 from web_flask.models import storage
 from web_flask.api.v1.views import app_views
 from flask import request
 from sqlalchemy.exc import *
 
-certificate_schema = CertificateSchema()
+education_schema = EducationSchema()
 
 
 @app_views.route(
-    '/<student_id>/certificates',
+    '/<student_id>/educations',
     methods=['POST'],
     strict_slashes=False
 )
 def create_certificate(student_id):
-    """ POST /api/v1/students/:student_id/certificates """
+    """ POST /api/v1/students/:student_id/educations """
     the_student = storage.get(Student, student_id)
     if not request.get_json():
         return {
@@ -29,18 +29,18 @@ def create_certificate(student_id):
             "message": "unrecognized student"
         }, 400
     data = request.get_json()
-    the_certificate = Certificate(**data)
+    the_education = Education(**data)
     try:
-        the_certificate.student_id = the_student.id
-        the_certificate.save()
-        certificate = certificate_schema.dump(the_certificate)
+        the_education.student_id = the_student.id
+        the_education.save()
+        education = education_schema.dump(the_education)
         return {
             "success": True,
             "message": "created successfully",
-            "certificate": certificate
+            "education": education
         }, 201
     except (IntegrityError, OperationalError) as error:
-        the_certificate.rollback()
+        the_education.rollback()
         return {
            "failed": True,
            "message": error.orig.args[1]
@@ -48,14 +48,14 @@ def create_certificate(student_id):
 
 
 @app_views.route(
-    '/certificates/<certificate_id>',
+    '/educations/<education_id>',
     methods=['PUT'],
     strict_slashes=False
 )
-def update_certificate(certificate_id):
-    """ PUT /api/v1/certificates/:certificate_id """
-    the_certificate = storage.get(Certificate, certificate_id)
-    if not the_certificate:
+def update_certificate(education_id):
+    """ PUT /api/v1/educations/:education_id """
+    the_education = storage.get(Education, education_id)
+    if not the_education:
         return {
            "failed": True,
            "message": "data not found"
@@ -69,11 +69,11 @@ def update_certificate(certificate_id):
     data = request.get_json()
     for key, value in data.items():
         if key not in ignore:
-            setattr(the_certificate, key, value)
+            setattr(the_education, key, value)
     storage.save()
-    certificate = certificate_schema.dump(the_certificate)
+    education = education_schema.dump(the_education)
     return {
         "success": True,
         "message": "updated successfully",
-        "certificate": certificate
+        "education": education
     }, 200

@@ -6,7 +6,7 @@ from flask_cors import CORS
 from flasgger import Swagger
 
 app = Flask(__name__)
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+app.config.from_object('web_flask.config.Config')
 app.register_blueprint(app_views)
 cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 

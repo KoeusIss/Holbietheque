@@ -12,6 +12,7 @@ from web_flask.models.education import Education
 from web_flask.models.experience import Experience
 from web_flask.models.project import Project
 from web_flask.models.social import Social
+from web_flask.models.user import User
 
 from os import environ, path
 from dotenv import load_dotenv
@@ -24,7 +25,8 @@ load_dotenv(path.join(base_dir, '.env'))
 classes = {"Country": Country, "State": State,
            "Address": Address, "Student": Student,
            "Certificate": Certificate, "Education": Education,
-           "Experience": Experience, "Project": Project, "Social": Social}
+           "Experience": Experience, "Project": Project, "Social": Social,
+           "User": User}
 
 
 class DBStorage:
@@ -96,4 +98,14 @@ class DBStorage:
             if value.id == id:
                 return value
 
+        return None
+
+    def get_user_by_email(self, email):
+        """ Filter a class records by attribute """
+        if not email:
+            return None
+        all_users = self.all(User)
+        for user in all_users.values():
+            if user.email == email:
+                return user
         return None

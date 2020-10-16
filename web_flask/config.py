@@ -11,3 +11,4 @@ class Config:
     DEBUG = True
     FLASK_ENV = environ.get("FLASK_ENV")
     JSONIFY_PRETTYPRINT_REGULAR = True
+    JWT_SECRET_KEY = 'dev_secret_key'

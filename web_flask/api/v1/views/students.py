@@ -10,6 +10,7 @@ from web_flask.models import storage
 from web_flask.api.v1.views import app_views
 from flask import request
 from sqlalchemy.exc import *
+from flask_jwt_extended import jwt_required
 
 students_schema = StudentSchema(many=True)
 student_schema = StudentSchema()
@@ -26,6 +27,7 @@ social_schema = SocialSchema()
     methods=['GET'],
     strict_slashes=False
 )
+@jwt_required
 def get_students():
     """ GET /api/v1/students """
     all_students = storage.all(Student).values()

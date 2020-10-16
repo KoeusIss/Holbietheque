@@ -8,11 +8,28 @@ from flask import request
 from sqlalchemy.exc import (IntegrityError, OperationalError)
 from flask_jwt_extended import (
     jwt_required, create_access_token,
-    get_jwt_identity, get_jwt_claims
+    get_jwt_identity, get_jwt_claims, verify_jwt_in_request
 )
+from functools import wraps
+from hashlib import md5
 
 users_schema = UserSchema(many=True)
 user_schema = UserSchema()
+
+
+def admin_required(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        verify_jwt_in_request()
+        claims = get_jwt_claims()
+        if claims['role'] != 'admin':
+            return {
+                "failed": True,
+                "message": "admin only"
+            }, 403
+        else:
+            return fn(*args, **kwargs)
+    return wrapper
 
 
 @app_views.route(
@@ -20,7 +37,7 @@ user_schema = UserSchema()
     methods=['GET'],
     strict_slashes=False
 )
-@jwt_required
+@admin_required
 def get_users():
     """ GET /api/v1/users """
     all_users = storage.all(User).values()
@@ -108,8 +125,14 @@ def login_user():
             "message": "not a json"
         }, 400
     data = request.get_json()
+    if data.get("password") != data.get("password_confirmation"):
+        return {
+            "failed": True,
+            "message": "login failed"
+        }, 401
+    hashed = md5(data.get("password").encode()).hexdigest()
     the_user = storage.get_user_by_email(data.get("email", None))
-    if the_user and the_user.password == data.get("password"):
+    if the_user and the_user.password == hashed:
         user = {"id": the_user.id, "role": the_user.role}
         return {
             "success": True,

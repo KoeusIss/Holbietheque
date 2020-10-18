@@ -6,7 +6,6 @@ function Signup() {
     email: "",
     password: "",
     password_confirmation: "",
-    role: "",
   });
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -14,8 +13,6 @@ function Signup() {
       .post("http://localhost:5000/api/v1/signup", {
         email: user.email,
         password: user.password,
-        password_confirmation: user.password_confirmation,
-        role: user.role,
       })
       .then((response) => {
         console.log(response.data);
@@ -45,12 +42,6 @@ function Signup() {
           type="password"
           placeholder="confirm your password"
           name="password_confirmation"
-          onChange={handlechange}
-        ></input>
-        <input
-          type="text"
-          placeholder="who are you ?"
-          name="role"
           onChange={handlechange}
         ></input>
         <button type="submit">SIGNUP</button>

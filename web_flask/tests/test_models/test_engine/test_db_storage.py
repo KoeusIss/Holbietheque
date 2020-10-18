@@ -18,8 +18,6 @@ class TestDBStorage(unittest.TestCase):
         os.environ['MYSQL_DB'] = 'holbietheque_test_db'
         os.environ['HOLBIETHEQUE_ENV'] = 'test'
 
-    def setUp(self):
-
 
     def test_should_return_dictionary_by_calling_all(self):
         """ """

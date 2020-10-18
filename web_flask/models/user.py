@@ -22,13 +22,9 @@ class User(BaseModel, Base):
         String(128),
         nullable=False
     )
-    password_confirmation = Column(
-        String(128),
-        nullable=False
-    )
     role = Column(
         String(128),
-        nullable=False
+        default="guest"
     )
 
     def __init__(self, *args, **kwargs):

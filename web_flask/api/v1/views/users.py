@@ -125,11 +125,6 @@ def login_user():
             "message": "not a json"
         }, 400
     data = request.get_json()
-    if data.get("password") != data.get("password_confirmation"):
-        return {
-            "failed": True,
-            "message": "login failed"
-        }, 401
     hashed = md5(data.get("password").encode()).hexdigest()
     the_user = storage.get_user_by_email(data.get("email", None))
     if the_user and the_user.password == hashed:

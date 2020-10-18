@@ -16,6 +16,8 @@ function Signup() {
       })
       .then((response) => {
         console.log(response.data);
+      }).catch((error) => {
+        alert(error.response.data.message);
       });
   };
   const handlechange = (event) => {

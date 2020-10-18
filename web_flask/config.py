@@ -12,3 +12,4 @@ class Config:
     FLASK_ENV = environ.get("FLASK_ENV")
     JSONIFY_PRETTYPRINT_REGULAR = True
     JWT_SECRET_KEY = environ.get("JWT_SECRET_KEY")
+    JWT_ACCESS_TOKEN_EXPIRES = 86400

@@ -1,11 +1,8 @@
 """ Student model """
 from web_flask.models.base_model import BaseModel, Base
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from marshmallow import Schema, fields, ValidationError, pre_load
-from web_flask.models.address import AddressSchema
-from web_flask.models.certificate import CertificateSchema
-from web_flask.models.education import EducationSchema
+from marshmallow import Schema, fields
 
 
 class Student(BaseModel, Base):
@@ -40,9 +37,12 @@ class Student(BaseModel, Base):
         String(128),
         default=None
     )
-    marital_status = Column(
-        String(60),
-        default=""
+    school_number = Column(
+        String(16),
+        nullable=False
+    )
+    born_at = Column(
+        DateTime()
     )
     address = relationship(
         "Address",
@@ -76,13 +76,30 @@ class Student(BaseModel, Base):
         back_populates="student",
         cascade="all, delete"
     )
-       
+    user_id = Column(
+        String(60),
+        ForeignKey('users.id')
+    )
+    user = relationship(
+        'User',
+        back_populates='student'
+    )
+    cohort_id = Column(
+        String(60),
+        ForeignKey('cohorts.id')
+    )
+    specialization_id = Column(
+        String(60),
+        ForeignKey('specializations.id')
+    )
+
  
 class StudentSchema(Schema):
     """ Student Schema """
     id = fields.Str()
     first_name = fields.Str()
     last_name = fields.Str()
+    born_at = fields.DateTime()
     middle_name = fields.Str()
     id_number = fields.Str()
     passport_number = fields.Str()

@@ -14,3 +14,5 @@ from web_flask.api.v1.views.experiences import *
 from web_flask.api.v1.views.projects import *
 from web_flask.api.v1.views.socials import *
 from web_flask.api.v1.views.users import *
+from web_flask.api.v1.views.cohorts import *
+from web_flask.api.v1.views.specializations import *

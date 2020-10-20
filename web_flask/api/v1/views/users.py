@@ -98,7 +98,7 @@ def signup_user():
         msg.body = str(otp)
         mail.send(msg)
         the_user.save()
-        return {"message": "signup successfully", "id": the_user.id}, 201
+        return {"message": "Signup Successful", "id": the_user.id}, 201
     except (IntegrityError, OperationalError) as error:
         the_user.rollback()
         return {"message": error.orig.args[1]}, 400
@@ -114,15 +114,17 @@ def verify_mail():
     if not request.get_json():
         return {"message": "not a json"}, 400
     data = request.get_json()
+    if not data['id']:
+        return {"message": "Account verification failed"}, 400
     the_user = storage.get(User, data['id'])
     if not the_user:
-        return {"message": "unrecognized user id"}, 400
+        return {"message": "Unrecognized user id"}, 400
     if the_user.otp == data['otp'] and the_user.otp_expired_at > datetime.datetime.utcnow():
         setattr(the_user, 'active', True)
         storage.save()
-        return {"message": "account activated successfully"}, 200
+        return {"message": "Account activated successfully"}, 200
     else:
-        return {"message": "code has expired"}, 400
+        return {"message": "Code has expired"}, 400
 
 
 @jwt.user_claims_loader
@@ -156,11 +158,11 @@ def login_user():
         user = {"id": the_user.id, "role": the_user.role}
         return {
                    "success": True,
-                   "message": "login successfully",
+                   "message": "Login Successful",
                    "access_token": create_access_token(identity=user)
                }, 200
     else:
         return {
                    "failed": True,
-                   "message": "login failed"
+                   "message": "Login Failed"
                }, 401

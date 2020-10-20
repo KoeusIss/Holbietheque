@@ -27,7 +27,6 @@ social_schema = SocialSchema()
     methods=['GET'],
     strict_slashes=False
 )
-@jwt_required
 def get_students():
     """ GET /api/v1/students """
     all_students = storage.all(Student).values()

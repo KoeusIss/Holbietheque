@@ -1,13 +1,22 @@
 import React, { useState } from "react";
-import AuthService from '../../services/auth_service'
-import {Button, Form, Grid, Header, Image, Message, Segment} from "semantic-ui-react";
-import {Link, useHistory} from "react-router-dom";
+import AuthService from "../../services/auth_service";
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Message,
+  Segment,
+} from "semantic-ui-react";
+import { Link, useHistory } from "react-router-dom";
+import { toaster } from "evergreen-ui";
 
 function Verify() {
   const [otp, setOtp] = useState({
-    otp: ""
+    otp: "",
   });
-  const history = useHistory()
+  const history = useHistory();
   const [loginError, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -19,26 +28,27 @@ function Verify() {
 
   // handle form submit
   const onSubmit = (event) => {
-    setLoading(true)
-    setError('')
-    AuthService.verify(otp)
-        .then(
-            () => {
-              localStorage.removeItem('id')
-              history.push('/login')
-            },
-            (error) => {
-              const returnError =
-                (error.response &&
-                  error.response.data &&
-                  error.response.data.message) ||
-                error.message ||
-                error.toString();
-              setLoading(false)
-              setError(returnError)
-            }
-        )
-  }
+    setLoading(true);
+    setError("");
+    AuthService.verify(otp).then(
+      () => {
+        localStorage.removeItem("id");
+        toaster.success("E-Mail verified, Login Now!", { duration: 3 });
+        history.push("/login");
+      },
+      (error) => {
+        const returnError =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        toaster.danger(error.response.data.message, { duration: 7 });
+        setLoading(false);
+        setError(returnError);
+      }
+    );
+  };
   return (
     <Grid textAlign="center" verticalAlign="middle" style={{ height: "80vh" }}>
       <Grid.Column style={{ maxWidth: 450 }}>
@@ -64,7 +74,7 @@ function Verify() {
               color="pink"
               fluid
               size="large"
-              type='submit'
+              type="submit"
               loading={loading}
             >
               Send
@@ -75,8 +85,7 @@ function Verify() {
           Already have an account? - <Link to="/login">Login</Link>
         </Message>
         <Message>
-          Back to signup -{" "}
-          <Link to="/signup">Signup</Link>
+          Back to signup - <Link to="/signup">Signup</Link>
         </Message>
       </Grid.Column>
     </Grid>

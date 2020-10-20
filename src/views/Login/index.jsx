@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, NavLink } from "react-router-dom";
 import axios from "axios";
+import { toaster } from "evergreen-ui";
 import {
   Grid,
   Segment,
@@ -10,7 +11,7 @@ import {
   Image,
   Header,
 } from "semantic-ui-react";
-function Login({ setStatus }) {
+function Login() {
   const [loginError, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -29,14 +30,14 @@ function Login({ setStatus }) {
       .then((response) => {
         localStorage.setItem("access_token", response.data.access_token);
         console.log(localStorage.getItem("access_token"));
-        setStatus(true);
         setLoading(true);
+        toaster.success(response.data.message, { duration: 3 });
       })
       .then(() => {
         history.push("/");
       })
       .catch((error) => {
-        console.log(error);
+        toaster.danger(error.response.data.message, { duration: 7 });
         setError(true);
         setLoading(false);
       });
@@ -50,6 +51,8 @@ function Login({ setStatus }) {
         <Image
           circular
           src="https://www.holbertonschool.com/holberton-logo.png"
+          as={NavLink}
+          to="/"
         />
         <Form size="large" onSubmit={handleSubmit}>
           <Segment stacked>

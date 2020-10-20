@@ -7,7 +7,11 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.20.0",
+<<<<<<< HEAD
     "evergreen-ui": "^5.1.2",
+=======
+    "faker": "^5.1.0",
+>>>>>>> design-students
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.9.5",

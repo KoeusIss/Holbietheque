@@ -1,6 +1,6 @@
 """ User model """
 from web_flask.models.base_model import BaseModel, Base
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, Boolean, DateTime
 from marshmallow import Schema, fields, ValidationError, pre_load
 from hashlib import md5
 
@@ -26,6 +26,16 @@ class User(BaseModel, Base):
     role = Column(
         String(128),
         default="guest"
+    )
+    active = Column(
+        Boolean(),
+        default=False
+    )
+    otp = Column(
+        String(16)
+    )
+    otp_expired_at = Column(
+        DateTime()
     )
 
     def __init__(self, *args, **kwargs):

@@ -5,10 +5,12 @@ from flask import Flask, make_response, jsonify
 from flask_cors import CORS
 from flasgger import Swagger
 from flask_jwt_extended import JWTManager
+from flask_mail import Mail
 
 app = Flask(__name__)
 app.config.from_object('web_flask.config.Config')
 jwt = JWTManager(app)
+mail = Mail(app)
 from web_flask.api.v1.views import app_views
 
 app.register_blueprint(app_views)

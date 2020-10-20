@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import Signup from "./views/Signup";
 import Login from "./views/Login";
 import {Container} from "semantic-ui-react";
+import Verify from "./views/Verify";
 
 const Main = withRouter(({ location }, loggedin, setLoggedin) => {
   return (
@@ -15,6 +16,7 @@ const Main = withRouter(({ location }, loggedin, setLoggedin) => {
         {
           location.pathname !== '/login' &&
             location.pathname !== '/signup' &&
+              location.pathname !== '/verification' &&
             <Navbar status={loggedin} changeStatus={setLoggedin} />
         }
         <Switch>
@@ -29,6 +31,9 @@ const Main = withRouter(({ location }, loggedin, setLoggedin) => {
             </Route>
             <Route path="/signup">
               <Signup />
+            </Route>
+            <Route path="/verification">
+              <Verify />
             </Route>
             <Route path="/login">
               <Login setStatus={setLoggedin} />

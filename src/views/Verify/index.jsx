@@ -3,12 +3,9 @@ import AuthService from '../../services/auth_service'
 import {Button, Form, Grid, Header, Image, Message, Segment} from "semantic-ui-react";
 import {Link, useHistory} from "react-router-dom";
 
-function Signup() {
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-    password_confirmation: "",
-    role: "recruiter"
+function Verify() {
+  const [otp, setOtp] = useState({
+    otp: ""
   });
   const history = useHistory()
   const [loginError, setError] = useState("");
@@ -17,18 +14,18 @@ function Signup() {
   // handle input change and fill user state
   const handleChange = (event) => {
     event.preventDefault();
-    setUser({ ...user, [event.target.name]: event.target.value });
+    setOtp({ ...otp, [event.target.name]: event.target.value });
   };
 
   // handle form submit
   const onSubmit = (event) => {
-    console.log(user)
     setLoading(true)
     setError('')
-    AuthService.signup(user)
+    AuthService.verify(otp)
         .then(
             () => {
-              history.push('/verification')
+              localStorage.removeItem('id')
+              history.push('/login')
             },
             (error) => {
               const returnError =
@@ -54,40 +51,12 @@ function Signup() {
         />
         <Form size="large" onSubmit={onSubmit}>
           <Segment stacked>
-            <Header>Signup</Header>
-            <Segment>
-              <Button.Group>
-                <Button onClick={handleChange} name='role' value='recruiter' color='teal'>Recruiter</Button>
-                <Button.Or text='or' />
-                <Button onClick={handleChange} name='role' value='student' color='pink'>Student</Button>
-              </Button.Group>
-            </Segment>
-            <Segment>
-              <Header as='h4'>Hello {user.role}</Header>
-            </Segment>
+            <Header>Code Verification</Header>
             <Form.Input
-              name="email"
-              placeholder="E-mail address"
-              icon="user"
-              iconPosition="left"
-              onChange={handleChange}
-              error={!!loginError}
-            />
-            <Form.Input
-              name="password"
-              placeholder="Password"
+              name="otp"
+              placeholder="Insert your code here"
               icon="lock"
               iconPosition="left"
-              type="password"
-              onChange={handleChange}
-              error={!!loginError}
-            />
-            <Form.Input
-              name="password_confirmation"
-              placeholder="Password confirmation"
-              icon="lock"
-              iconPosition="left"
-              type="password"
               onChange={handleChange}
               error={!!loginError}
             />
@@ -98,7 +67,7 @@ function Signup() {
               type='submit'
               loading={loading}
             >
-              Signup
+              Send
             </Button>
           </Segment>
         </Form>
@@ -106,11 +75,11 @@ function Signup() {
           Already have an account? - <Link to="/login">Login</Link>
         </Message>
         <Message>
-          Forget your password? -{" "}
-          <Link to="/recover">Recover your password</Link>
+          Back to signup -{" "}
+          <Link to="/signup">Signup</Link>
         </Message>
       </Grid.Column>
     </Grid>
   );
 }
-export default Signup;
+export default Verify;

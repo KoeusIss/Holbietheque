@@ -23,6 +23,21 @@ class AuthService {
                 email: user.email,
                 password: user.password,
                 role: user.role
+            }).then((res) => {
+                if (res.data.id) {
+                    localStorage.setItem('id', res.data.id)
+                }
+                return res.data
+            })
+    }
+
+    // verify otp
+    verify(value) {
+        let id = localStorage.getItem("id")
+        return axios
+            .post(API_URL + '/verification', {
+                otp: value.otp,
+                id: id
             })
     }
 }

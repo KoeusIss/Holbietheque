@@ -1,31 +1,53 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {useState} from "react";
+import {NavLink} from "react-router-dom";
+import { Menu } from 'semantic-ui-react'
 
 function Navbar({ status, changeStatus }) {
+    const [activeItem, setActiveItem] = useState('')
   const handleLogout = (event) => {
     localStorage.removeItem("access_token");
     changeStatus(false);
   };
+
+  const handleItemClick = (e, { name }) => setActiveItem(name)
+
   return (
-    <div>
-      <h3>Holbietheque</h3>
-      <ul>
-        <li>
-          <Link to="/students">Students</Link>
-        </li>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/signup">Signup</Link>
-        </li>
-        {!status ? (
-          <Link to="/login">Login</Link>
-        ) : (
-          <button onClick={handleLogout}>Logout</button>
-        )}
-      </ul>
-    </div>
+      <Menu secondary>
+        <Menu.Item
+          name='home'
+          active={activeItem === 'home'}
+          onClick={handleItemClick}
+          as={NavLink} to='/'
+        />
+        <Menu.Item
+          name='students'
+          active={activeItem === 'students'}
+          onClick={handleItemClick}
+          as={NavLink} to='/students'
+        />
+        <Menu.Item
+          name='about'
+          active={activeItem === 'about'}
+          onClick={handleItemClick}
+          as={NavLink} to='/about'
+        />
+        <Menu.Menu position='right'>
+            { !status ?
+          <Menu.Item
+            name='login'
+            active={activeItem === 'login'}
+            onClick={handleItemClick}
+            as={NavLink} to='/login'
+          />
+          :
+            <Menu.Item
+            name='logout'
+            active={activeItem === 'logout'}
+            onClick={handleLogout}
+          />
+            }
+        </Menu.Menu>
+      </Menu>
   );
 }
 export default Navbar;

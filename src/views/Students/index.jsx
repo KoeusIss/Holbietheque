@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {NavLink} from 'react-router-dom'
+import { Button, Card, Image, Header } from 'semantic-ui-react'
 
 const Students = () => {
   const [students, setStudents] = useState([]);
@@ -14,20 +16,42 @@ const Students = () => {
       });
   });
   return (
-    <div>
-      <h1>Students List:</h1>
-      <ul>
-        {students.map((item) => {
+      <div>
+      <Header as='h2' icon='student' content='Student list' />
+    <Card.Group>
+      {
+        students.map((student) => {
           return (
-            <li key={item.id}>
-              <div>
-                {item.first_name} {item.last_name}
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+              <Card>
+      <Card.Content>
+        <Image
+          floated='right'
+          size='mini'
+          src='/images/avatar/large/steve.jpg'
+        />
+        <Card.Header>{student.first_name} {student.last_name}</Card.Header>
+        <Card.Meta>Friends of Elliot</Card.Meta>
+        <Card.Description>
+          Steve wants to add you to the group <strong>best friends</strong>
+        </Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+        <div className='ui two buttons'>
+          <Button basic color='green' as={NavLink} to={'/students/' + student.id}>
+            View
+          </Button>
+          <Button basic color='red'>
+            Contact
+          </Button>
+        </div>
+      </Card.Content>
+    </Card>
+          )
+        })
+      }
+
+    </Card.Group>
+      </div>
   );
 };
 

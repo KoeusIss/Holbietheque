@@ -1,7 +1,15 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
-
+import {
+  Grid,
+  Segment,
+  Form,
+  Button,
+  Message,
+  Image,
+  Header,
+} from "semantic-ui-react";
 function Login({ setStatus }) {
   const [loginError, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,29 +42,55 @@ function Login({ setStatus }) {
       });
   };
   return (
-    <div>
-      <h1>LOGIN</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Insert your Email"
-          onChange={handleChange}
+    <Grid textAlign="center" verticalAlign="middle" style={{ height: "80vh" }}>
+      <Grid.Column style={{ maxWidth: 450 }}>
+        {loginError ? (
+          <Header textAlign="left" intent="danger" title={loginError} />
+        ) : null}
+        <Image
+          circular
+          src="https://www.holbertonschool.com/holberton-logo.png"
         />
-        <input
-          type="password"
-          name="password"
-          placeholder="Insert your Password"
-          onChange={handleChange}
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? "Loading" : "Submit"}
-        </button>
-      </form>
-      {loginError ? (
-        <h2 style={{ color: "red" }}>An error has occured</h2>
-      ) : null}
-    </div>
+        <Form size="large" onSubmit={handleSubmit}>
+          <Segment stacked>
+            <Header>Login</Header>
+            <Form.Input
+              name="email"
+              placeholder="E-mail address"
+              icon="user"
+              iconPosition="left"
+              onChange={handleChange}
+              error={!!loginError}
+            />
+            <Form.Input
+              name="password"
+              placeholder="Password"
+              icon="lock"
+              iconPosition="left"
+              type="password"
+              onChange={handleChange}
+              error={!!loginError}
+            />
+            <Button
+              color="pink"
+              fluid
+              size="large"
+              onClick={handleChange}
+              loading={loading}
+            >
+              Login
+            </Button>
+          </Segment>
+        </Form>
+        <Message>
+          New here? - <Link to="/signup">Sign Up</Link>
+        </Message>
+        <Message>
+          Forget your password? -{" "}
+          <Link to="/recover">Recover your password</Link>
+        </Message>
+      </Grid.Column>
+    </Grid>
   );
 }
 

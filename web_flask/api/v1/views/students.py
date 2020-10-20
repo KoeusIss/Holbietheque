@@ -1,6 +1,7 @@
 """ Students Views-API endpoints """
 
-from web_flask.models.student import Student, StudentSchema, AddressSchema
+from web_flask.models.student import Student, StudentSchema
+from web_flask.models.address import Address, AddressSchema
 from web_flask.models.certificate import CertificateSchema
 from web_flask.models.education import EducationSchema
 from web_flask.models.experience import ExperienceSchema
@@ -27,7 +28,6 @@ social_schema = SocialSchema()
     methods=['GET'],
     strict_slashes=False
 )
-@jwt_required
 def get_students():
     """ GET /api/v1/students """
     all_students = storage.all(Student).values()
@@ -48,7 +48,7 @@ def get_student(student_id):
     """ GET /api/v1/students/:student_id """
     the_student = storage.get(Student, student_id)
     address = address_schema.dump(the_student.address)
-    certicates = certificates_schema.dump(the_student.certificates)
+    certificates = certificates_schema.dump(the_student.certificates)
     educations = educations_schema.dump(the_student.educations)
     experiences = experiences_schema.dump(the_student.experiences)
     projects = projects_schema.dump(the_student.projects)
@@ -64,7 +64,7 @@ def get_student(student_id):
         "message": "data found",
         "student": student,
         "address": address,
-        "certificates": certicates,
+        "certificates": certificates,
         "education": educations,
         "experiences": experiences,
         "projects": projects,

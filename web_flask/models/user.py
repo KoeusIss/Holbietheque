@@ -1,6 +1,7 @@
 """ User model """
 from web_flask.models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Boolean, DateTime
+from sqlalchemy.orm import relationship
 from marshmallow import Schema, fields, ValidationError, pre_load
 from hashlib import md5
 
@@ -37,6 +38,13 @@ class User(BaseModel, Base):
     otp_expired_at = Column(
         DateTime()
     )
+    student = relationship(
+        "Student",
+        uselist=False,
+        back_populates="user",
+        cascade="all, delete"
+    )
+
 
     def __init__(self, *args, **kwargs):
         """initializes user"""

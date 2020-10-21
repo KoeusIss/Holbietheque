@@ -1,9 +1,11 @@
 """ Addresses model """
 
+from web_flask.models.state import StateSchema
 from web_flask.models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from marshmallow import Schema, fields
+
 
 
 class Address(BaseModel, Base):
@@ -37,13 +39,17 @@ class Address(BaseModel, Base):
         String(60),
         nullable=False
     )
-    student_id = Column(
-        String(60),
-        ForeignKey('students.id')
-    )
     student = relationship(
-        'Student',
-        back_populates='address'
+        "Student",
+        uselist=False,
+        back_populates="address",
+        cascade="all, delete"
+    )
+    recruiter = relationship(
+        "Recruiter",
+        uselist=False,
+        back_populates="address",
+        cascade="all, delete"
     )
 
 
@@ -53,3 +59,4 @@ class AddressSchema(Schema):
     second_line = fields.Str()
     city = fields.Str()
     zip_code = fields.Str()
+    state = fields.Nested(StateSchema(only=['name', 'country']))

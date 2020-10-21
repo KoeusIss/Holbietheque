@@ -19,9 +19,8 @@ class Config:
     # Mail configuration
     MAIL_SERVER = 'smtp.holbie.tech'
     MAIL_PORT = 587
-    MAIL_USERNAME = 'no_reply@holbie.tech'
-    MAIL_PASSWORD = 'xE*bNEr2'
-    DEFAULT_MAIL_SENDER = 'no_reply@holbie.tech'
+    MAIL_USERNAME = 'support@holbie.tech'
+    MAIL_PASSWORD = 'eSECERA4'
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
     MAIL_DEBUG = True

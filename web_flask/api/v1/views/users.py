@@ -92,7 +92,7 @@ def signup_user():
     try:
         msg = Message(
             'Mail confirmation from holbie.tech',
-            sender='no_reply@holbie.tech',
+            sender='support@holbie.tech',
             recipients=the_user.email.split()
         )
         msg.body = str(otp)

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
 import { toaster } from "evergreen-ui";
+import './navbar.css'
 
 function Navbar() {
   const history = useHistory();
@@ -15,6 +16,7 @@ function Navbar() {
   const handleItemClick = (e, { name }) => setActiveItem(name);
 
   return (
+      <div className='navigation'>
     <Menu secondary>
       <Menu.Item
         name="home"
@@ -55,6 +57,7 @@ function Navbar() {
         )}
       </Menu.Menu>
     </Menu>
+    </div>
   );
 }
 export default Navbar;

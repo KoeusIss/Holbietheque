@@ -44,7 +44,12 @@ class User(BaseModel, Base):
         back_populates="user",
         cascade="all, delete"
     )
-
+    recruiter = relationship(
+        "Recruiter",
+        uselist=False,
+        back_populates="user",
+        cascade="all, delete"
+    )
 
     def __init__(self, *args, **kwargs):
         """initializes user"""

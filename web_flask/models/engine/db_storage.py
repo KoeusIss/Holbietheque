@@ -14,6 +14,7 @@ from web_flask.models.project import Project
 from web_flask.models.social import Social
 from web_flask.models.user import User
 from web_flask.models.cohort import Cohort
+from web_flask.models.recruiter import Recruiter
 from web_flask.models.specialization import Specialization
 
 from os import environ, path
@@ -28,7 +29,8 @@ classes = {"Country": Country, "State": State,
            "Address": Address, "Student": Student,
            "Certificate": Certificate, "Education": Education,
            "Experience": Experience, "Project": Project, "Social": Social,
-           "User": User, "Cohort": Cohort, "Specialization": Specialization}
+           "User": User, "Cohort": Cohort, "Specialization": Specialization,
+           "Recruiter": Recruiter}
 
 
 class DBStorage:

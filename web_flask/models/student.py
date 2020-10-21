@@ -44,11 +44,13 @@ class Student(BaseModel, Base):
     born_at = Column(
         DateTime()
     )
+    address_id = Column(
+        String(60),
+        ForeignKey('addresses.id')
+    )
     address = relationship(
-        "Address",
-        uselist=False,
-        back_populates="student",
-        cascade="all, delete"
+        'Address',
+        back_populates='student'
     )
     certificates = relationship(
         "Certificate",
@@ -99,8 +101,12 @@ class StudentSchema(Schema):
     id = fields.Str()
     first_name = fields.Str()
     last_name = fields.Str()
+    full_name = fields.Method('format_name', dump_only=True)
     born_at = fields.DateTime()
     middle_name = fields.Str()
     id_number = fields.Str()
     passport_number = fields.Str()
     marital_status = fields.Str()
+
+    def format_name(self, student):
+        return '{} {}'.format(student.first_name, student.last_name)

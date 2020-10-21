@@ -1,6 +1,7 @@
 """ State model """
 
 from web_flask.models.base_model import BaseModel, Base
+from web_flask.models.country import CountrySchema
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from marshmallow import Schema, fields
@@ -33,3 +34,4 @@ class StateSchema(Schema):
     """ State Schema """
     id = fields.Str()
     name = fields.Str()
+    country = fields.Nested(CountrySchema(only=['name']))

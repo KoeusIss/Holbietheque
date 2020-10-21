@@ -11,6 +11,7 @@ import {
   Segment,
   Icon,
   Pagination,
+  GridColumn,
 } from "semantic-ui-react";
 import SearchExampleStandard from "../../components/search";
 
@@ -79,18 +80,31 @@ const Students = () => {
             })}
           </Card.Group>
         </Grid.Row>
-        <Pagination
-          defaultActivePage={5}
-          ellipsisItem={{
-            content: <Icon name="ellipsis horizontal" />,
-            icon: true,
-          }}
-          firstItem={{ content: <Icon name="angle double left" />, icon: true }}
-          lastItem={{ content: <Icon name="angle double right" />, icon: true }}
-          prevItem={{ content: <Icon name="angle left" />, icon: true }}
-          nextItem={{ content: <Icon name="angle right" />, icon: true }}
-          totalPages={10}
-        />
+        <Grid.Row>
+          <Grid.Column></Grid.Column>
+
+          <Grid.Column>
+            <Pagination
+              defaultActivePage={5}
+              ellipsisItem={{
+                content: <Icon name="ellipsis horizontal" />,
+                icon: true,
+              }}
+              firstItem={{
+                content: <Icon name="angle double left" />,
+                icon: true,
+              }}
+              lastItem={{
+                content: <Icon name="angle double right" />,
+                icon: true,
+              }}
+              prevItem={{ content: <Icon name="angle left" />, icon: true }}
+              nextItem={{ content: <Icon name="angle right" />, icon: true }}
+              totalPages={10}
+            />
+          </Grid.Column>
+          <Grid.Column></Grid.Column>
+        </Grid.Row>
       </Grid>
     </div>
   );

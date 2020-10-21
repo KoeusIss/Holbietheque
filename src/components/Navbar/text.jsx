@@ -3,7 +3,6 @@
 import { createMedia } from "@artsy/fresnel";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { Link, NavLink } from "react-router-dom";
 import {
   Button,
   Container,
@@ -35,7 +34,7 @@ const HomepageHeading = ({ mobile }) => (
   <Container text>
     <Header
       as="h1"
-      content="Hire The Profile You Desire"
+      content="Imagine-a-Company"
       inverted
       style={{
         fontSize: mobile ? "2em" : "4em",
@@ -44,13 +43,19 @@ const HomepageHeading = ({ mobile }) => (
         marginTop: mobile ? "1.5em" : "3em",
       }}
     />
-
+    <Header
+      as="h2"
+      content="Do whatever you want when you want to."
+      inverted
+      style={{
+        fontSize: mobile ? "1.5em" : "1.7em",
+        fontWeight: "normal",
+        marginTop: mobile ? "0.5em" : "1.5em",
+      }}
+    />
     <Button
-      as={NavLink}
-      to="/students"
       style={{
         color: "white",
-        marginTop: mobile ? "0.5em" : "1.5em",
         backgroundColor: "#eb0045",
       }}
       size="huge"
@@ -90,7 +95,7 @@ class DesktopContainer extends Component {
             inverted
             textAlign="center"
             style={{
-              backgroundColor: "#000",
+              backgroundColor: "#9BC1BC",
               minHeight: 700,
               padding: "1em 0em",
             }}
@@ -104,25 +109,18 @@ class DesktopContainer extends Component {
               size="large"
             >
               <Container>
-                <Menu.Item as={NavLink} to="/" active>
+                <Menu.Item as="a" active>
                   Home
                 </Menu.Item>
-                <Menu.Item as={NavLink} to="/students">
-                  Students
-                </Menu.Item>
-                <Menu.Item as={NavLink} to="/about">
-                  About
-                </Menu.Item>
-                <Menu.Item as={NavLink} to="/contact">
-                  Contact
-                </Menu.Item>
+                <Menu.Item as="a">Students</Menu.Item>
+                <Menu.Item as="a">About</Menu.Item>
+                <Menu.Item as="a">Contact</Menu.Item>
                 <Menu.Item position="right">
-                  <Button as={NavLink} to="/login" inverted={!fixed}>
+                  <Button as="a" inverted={!fixed}>
                     Log in
                   </Button>
                   <Button
-                    as={NavLink}
-                    to="/signup"
+                    as="a"
                     inverted={!fixed}
                     primary={fixed}
                     style={{ marginLeft: "0.5em" }}
@@ -237,12 +235,19 @@ const HomepageLayout = () => (
         <Grid.Row>
           <Grid.Column width={8}>
             <Header as="h3" style={{ fontSize: "2em" }}>
-              We Help Recruters
+              We Help Companies and Companions
             </Header>
             <p style={{ fontSize: "1.33em" }}>
-              We can give your company the best profiles you are looking for. We
-              provide you with required informations about every student in the
-              form of a pdf cv.
+              We can give your company superpowers to do things that they never
+              thought possible. Let us delight your customers and empower your
+              needs... through pure data analytics.
+            </p>
+            <Header as="h3" style={{ fontSize: "2em" }}>
+              We Make Bananas That Can Dance
+            </Header>
+            <p style={{ fontSize: "1.33em" }}>
+              Yes that's right, you thought it was the stuff of dreams, but even
+              bananas can be bioengineered.
             </p>
           </Grid.Column>
           <Grid.Column floated="right" width={6}>
@@ -256,9 +261,7 @@ const HomepageLayout = () => (
         </Grid.Row>
         <Grid.Row>
           <Grid.Column textAlign="center">
-            <Button as={NavLink} to="/students" size="huge">
-              Check Them Out
-            </Button>
+            <Button size="huge">Check Them Out</Button>
           </Grid.Column>
         </Grid.Row>
       </Grid>

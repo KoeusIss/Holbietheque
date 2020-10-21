@@ -1,6 +1,8 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable react/no-multi-comp */
 import { createMedia } from "@artsy/fresnel";
+import { Link, NavLink } from "react-router-dom";
+
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import {
@@ -47,38 +49,53 @@ class DesktopContainer extends Component {
           onBottomPassed={this.showFixedMenu}
           onBottomPassedReverse={this.hideFixedMenu}
         >
-          <Menu
+          <Segment
+            inverted
+            textAlign="center"
             style={{
               backgroundColor: "#000",
+              minHeight: 30,
+              padding: "1em 0em",
             }}
-            fixed={fixed ? "top" : null}
-            inverted={!fixed}
-            pointing={!fixed}
-            secondary={!fixed}
-            size="large"
+            vertical
           >
-            <Container>
-              <Menu.Item as="a" active>
-                Home
-              </Menu.Item>
-              <Menu.Item as="a">hello</Menu.Item>
-              <Menu.Item as="a">About</Menu.Item>
-              <Menu.Item as="a">Contact</Menu.Item>
-              <Menu.Item position="right">
-                <Button as="a" inverted={!fixed}>
-                  Log in
-                </Button>
-                <Button
-                  as="a"
-                  inverted={!fixed}
-                  primary={fixed}
-                  style={{ marginLeft: "0.5em" }}
-                >
-                  Sign Up
-                </Button>
-              </Menu.Item>
-            </Container>
-          </Menu>
+            <Menu
+              fixed={fixed ? "top" : null}
+              inverted={!fixed}
+              pointing={!fixed}
+              secondary={!fixed}
+              size="large"
+            >
+              <Container>
+                <Menu.Item as={NavLink} to="/" active>
+                  Home
+                </Menu.Item>
+                <Menu.Item as={NavLink} to="/students">
+                  Students
+                </Menu.Item>
+                <Menu.Item as={NavLink} to="/about">
+                  About
+                </Menu.Item>
+                <Menu.Item as={NavLink} to="/contact">
+                  Contact
+                </Menu.Item>
+                <Menu.Item position="right">
+                  <Button as={NavLink} to="/login" inverted={!fixed}>
+                    Log in
+                  </Button>
+                  <Button
+                    as={NavLink}
+                    to="/signup"
+                    inverted={!fixed}
+                    primary={fixed}
+                    style={{ marginLeft: "0.5em" }}
+                  >
+                    Sign Up
+                  </Button>
+                </Menu.Item>
+              </Container>
+            </Menu>
+          </Segment>
         </Visibility>
 
         {children}

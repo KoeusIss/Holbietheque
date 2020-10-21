@@ -96,42 +96,6 @@ class DesktopContainer extends Component {
             }}
             vertical
           >
-            <Menu
-              fixed={fixed ? "top" : null}
-              inverted={!fixed}
-              pointing={!fixed}
-              secondary={!fixed}
-              size="large"
-            >
-              <Container>
-                <Menu.Item as={NavLink} to="/" active>
-                  Home
-                </Menu.Item>
-                <Menu.Item as={NavLink} to="/students">
-                  Students
-                </Menu.Item>
-                <Menu.Item as={NavLink} to="/about">
-                  About
-                </Menu.Item>
-                <Menu.Item as={NavLink} to="/contact">
-                  Contact
-                </Menu.Item>
-                <Menu.Item position="right">
-                  <Button as={NavLink} to="/login" inverted={!fixed}>
-                    Log in
-                  </Button>
-                  <Button
-                    as={NavLink}
-                    to="/signup"
-                    inverted={!fixed}
-                    primary={fixed}
-                    style={{ marginLeft: "0.5em" }}
-                  >
-                    Sign Up
-                  </Button>
-                </Menu.Item>
-              </Container>
-            </Menu>
             <HomepageHeading />
           </Segment>
         </Visibility>

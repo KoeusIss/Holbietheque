@@ -20,7 +20,6 @@ const Main = withRouter(({ location }, loggedin, setLoggedin) => {
     <div>
       {location.pathname !== "/login" &&
         location.pathname !== "/signup" &&
-        location.pathname !== "/" &&
         location.pathname !== "/verification" && (
           <DesktopContainer status={loggedin} changeStatus={setLoggedin} />
         )}

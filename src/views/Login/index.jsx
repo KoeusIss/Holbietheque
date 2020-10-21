@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, NavLink } from "react-router-dom";
 import axios from "axios";
 import {
   Grid,
@@ -50,6 +50,7 @@ function Login({ setStatus }) {
         <Image
           circular
           src="https://www.holbertonschool.com/holberton-logo.png"
+          as={NavLink}
         />
         <Form size="large" onSubmit={handleSubmit}>
           <Segment stacked>

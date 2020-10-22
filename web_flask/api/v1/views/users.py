@@ -2,6 +2,7 @@
 
 import datetime
 from web_flask.models.user import User, UserSchema
+from web_flask.models.student import StudentSchema
 from web_flask.api.v1.app import jwt
 from web_flask.api.v1.app import mail
 from web_flask.models import storage
@@ -16,7 +17,7 @@ from flask_jwt_extended import (
 )
 from functools import wraps
 from hashlib import md5
-
+student_schema = StudentSchema()
 users_schema = UserSchema(many=True)
 user_schema = UserSchema()
 
@@ -166,3 +167,25 @@ def login_user():
                    "failed": True,
                    "message": "Login Failed"
                }, 401
+
+
+@app_views.route(
+    '/users/<user_id>/student',
+    methods=['GET'],
+    strict_slashes=False
+)
+def get_user_student(user_id):
+    """ GET /api/v1/students/:student_id """
+    the_user = storage.get(User, user_id)
+    if not the_user:
+        return {
+            "success": False,
+            "message": "data not found"
+        }, 400
+    the_student = the_user.student
+    student = student_schema.dump(the_student)
+    return {
+        "success": True,
+        "message": "data found",
+        "student": student,
+    }

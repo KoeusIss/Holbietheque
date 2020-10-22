@@ -48,13 +48,13 @@ def get_students():
 def get_student(student_id):
     """ GET /api/v1/students/:student_id """
     the_student = storage.get(Student, student_id)
-    address = address_schema.dump(the_student.address)
-    certificates = certificates_schema.dump(the_student.certificates)
-    educations = educations_schema.dump(the_student.educations)
-    experiences = experiences_schema.dump(the_student.experiences)
-    projects = projects_schema.dump(the_student.projects)
-    social = social_schema.dump(the_student.social)
-    user = user_schema.dump(the_student.user)
+    # address = address_schema.dump(the_student.address)
+    # certificates = certificates_schema.dump(the_student.certificates)
+    # educations = educations_schema.dump(the_student.educations)
+    # experiences = experiences_schema.dump(the_student.experiences)
+    # projects = projects_schema.dump(the_student.projects)
+    # social = social_schema.dump(the_student.social)
+    # user = user_schema.dump(the_student.user)
     if not the_student:
         return {
             "failed": True,
@@ -65,13 +65,13 @@ def get_student(student_id):
         "success": True,
         "message": "data found",
         "student": student,
-        "address": address,
-        "certificates": certificates,
-        "education": educations,
-        "experiences": experiences,
-        "projects": projects,
-        "social": social,
-        "user": user
+        # "address": address,
+        # "certificates": certificates,
+        # "education": educations,
+        # "experiences": experiences,
+        # "projects": projects,
+        # "social": social,
+        # "user": user
     }
 
 

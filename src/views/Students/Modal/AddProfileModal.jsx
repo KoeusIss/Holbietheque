@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {Button, Header, Icon, Modal, Form, Input, TextArea, Select} from 'semantic-ui-react'
-
+import UserService from '../../../services/user_service'
+import {toaster} from "evergreen-ui";
 
 const AddProfileModal = ({theTrigger}) => {
     const [profile, setProfile] = useState({
@@ -10,11 +11,12 @@ const AddProfileModal = ({theTrigger}) => {
         school_id: '',
         date_of_birth: '',
         gender: '',
-        marital_status: '',
         cin_number: '',
         passport_number: '',
         about_me: ''
     })
+    const [loginError, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const [open, setOpen] = React.useState(false)
     const genderOptions = [
         {key: 'm', text: 'Male', value: 'male'},
@@ -26,6 +28,35 @@ const AddProfileModal = ({theTrigger}) => {
         {key: 's', text: 'Single', value: 'single'},
         {key: 'o', text: 'Other', value: 'other'},
     ]
+    const current_id = UserService.currentUser().id
+
+    const handleChange = (event) => {
+        event.preventDefault();
+        setProfile({...profile, [event.target.name]: event.target.value});
+    };
+
+    const handleSubmit = () => {
+        setLoading(true);
+        UserService.postStudentProfile(profile, current_id).then(
+            () => {
+                setLoading(false);
+                setOpen(false)
+                toaster.notify("Added successfully", {duration: 5})
+            },
+            (error) => {
+                const returnError =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+                setLoading(false);
+                setError(returnError);
+                setOpen(false)
+                toaster.notify(returnError, {duration: 5})
+            }
+        )
+    }
 
     return (
         <Modal
@@ -40,30 +71,34 @@ const AddProfileModal = ({theTrigger}) => {
                 <Form>
                     <Form.Group widths='equal'>
                         <Form.Field
-                            id='form-input-control-first-name'
+                            name='first_name'
                             control={Input}
                             label='First name'
                             placeholder='First name'
+                            onChange={handleChange}
                         />
                         <Form.Field
-                            id='form-input-control-last-name'
+                            name='last_name'
                             control={Input}
                             label='Last name'
                             placeholder='Last name'
+                            onChange={handleChange}
                         />
                         <Form.Field
-                            id='form-input-control-middle-name'
+                            name='middle_name'
                             control={Input}
                             label='Middle name'
                             placeholder='Middle name'
+                            onChange={handleChange}
                         />
                     </Form.Group>
                     <Form.Group widths='equal'>
                         <Form.Field
-                            id='form-input-control-first-name'
+                            name='school_id'
                             control={Input}
                             label='School ID'
                             placeholder='School ID'
+                            onChange={handleChange}
                         />
 
                         <Form.Field
@@ -73,42 +108,40 @@ const AddProfileModal = ({theTrigger}) => {
                             placeholder='Gender'
                             search
                             searchInput={{id: 'form-select-control-gender'}}
-                        />
-                        <Form.Field
-                            control={Select}
-                            options={maritalStatus}
-                            label={{children: 'Marital status', htmlFor: 'form-select-control-status'}}
-                            placeholder='Marital status'
-                            search
-                            searchInput={{id: 'form-select-control-status'}}
+                            name='gender'
+                            onChange={handleChange}
                         />
                     </Form.Group>
                     <Form.Group widths='equal'>
                         <Form.Field
-                            id='form-input-control-first-name'
+                            name='date_of_birth'
                             control={Input}
                             label='Date of birth'
                             placeholder='Date of birth'
+                            onChange={handleChange}
                         />
 
                         <Form.Field
-                            id='form-input-control-first-name'
+                            name='cin_number'
                             control={Input}
                             label='CIN number'
                             placeholder='National identity number'
+                            onChange={handleChange}
                         />
                         <Form.Field
-                            id='form-input-control-first-name'
+                            name='passport_number'
                             control={Input}
                             label='Passport number'
                             placeholder='Passport number'
+                            onChange={handleChange}
                         />
                     </Form.Group>
                     <Form.Field
-                        id='form-textarea-control-opinion'
+                        name='about_me'
                         control={TextArea}
                         label='About me'
                         placeholder='Write something about you'
+                        onChange={handleChange}
                     />
                 </Form>
             </Modal.Content>
@@ -116,7 +149,7 @@ const AddProfileModal = ({theTrigger}) => {
                 <Button color='red' onClick={() => setOpen(false)}>
                     <Icon name='remove'/> Cancel
                 </Button>
-                <Button color='green' onClick={() => setOpen(false)}>
+                <Button color='green' onClick={handleSubmit}>
                     <Icon name='checkmark'/> Add
                 </Button>
             </Modal.Actions>

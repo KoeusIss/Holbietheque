@@ -8,9 +8,9 @@ const API_URL =
         : "http://localhost:5000/api/v1"
 
 class UserService {
-    getStudent(student_id) {
+    getStudentByUser(user_id) {
         return axios
-            .get(API_URL + '/students/' + student_id, {headers: authHeader()})
+            .get(API_URL + '/users/' + user_id + '/student', {headers: authHeader()})
     }
 
     postStudentProfile(student, user_id) {

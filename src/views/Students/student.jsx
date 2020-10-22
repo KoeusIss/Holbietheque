@@ -30,21 +30,12 @@ const Student = ({match}) => {
     const [loginError, setError] = useState("");
     const [loading, setLoading] = useState(false);
     let {id} = useParams();
-    const [studentt, setStudentt] = useState(null)
+    const [student, setStudent] = useState(null)
 
-    const student = ({
-        first_name: faker.name.firstName(),
-        last_name: faker.name.lastName(),
-        phone_number: faker.phone.phoneNumber(),
-        about: faker.lorem.paragraph(),
-        image: faker.internet.avatar(),
-        cohort: 'Cohort 11',
-        spec: 'Foundation'
-    })
     useEffect(() => {
-        UserService.getStudent(id).then(
-            (data) => {
-                setStudentt(data.student)
+        UserService.getStudentByUser(id).then(
+            (res) => {
+                setStudent(res.data.student)
             },
             (error) => {
                 const returnError =
@@ -57,20 +48,20 @@ const Student = ({match}) => {
                 setError(returnError);
             }
         )
-    })
+    }, [])
 
     return (
         <div>
             {
-                !studentt ?
+                student ?
                     <Grid stackable>
                         <Grid.Column width={5}>
                             <Card fluid>
                                 <Image src={student.image} wrapped ui={false}/>
                                 <Card.Content>
-                                    <Card.Header>{student.first_name} {student.last_name}</Card.Header>
+                                    <Card.Header>{student.full_name}</Card.Header>
                                     <Card.Meta>
-                                        <span className='date'>{student.spec}</span>
+                                        <span className='date'>{student.last_name}</span>
                                     </Card.Meta>
                                     <Card.Description>
                                         <Card.Content>

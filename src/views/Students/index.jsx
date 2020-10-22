@@ -31,7 +31,10 @@ const Students = () => {
       <Grid columns={2}>
         <Grid.Row>
           <Grid.Column>
-            <Header as="h2" icon="student" content="Student list" />
+            <Header as="h2">
+              <Image src={require("../../images/students_list.png")} />
+              Students list
+            </Header>
           </Grid.Column>
           <Grid.Column floated="right">
             <SearchExampleStandard source={students} />
@@ -46,30 +49,25 @@ const Students = () => {
                     <Card.Content>
                       <Image
                         floated="right"
-                        size="mini"
-                        src="/images/avatar/large/steve.jpg"
+                        size="tiny"
+                        rounded="true"
+                        wrapped
+                        src={student.image}
                       />
-                      <Card.Header>
-                        {student.first_name} {student.last_name}
-                      </Card.Header>
-                      <Card.Meta>Friends of Elliot</Card.Meta>
-                      <Card.Description>
-                        Steve wants to add you to the group{" "}
-                        <strong>best friends</strong>
-                      </Card.Description>
+                      <Card.Header>{student.full_name}</Card.Header>
+                      <Card.Meta>Cohort #{student.cohort.name}</Card.Meta>
+                      <Card.Meta>{student.specialization.name}</Card.Meta>
+                      <Card.Description>{student.about_me}</Card.Description>
                     </Card.Content>
                     <Card.Content extra>
                       <div className="ui two buttons">
                         <Button
                           basic
-                          color="green"
+                          color="blue"
                           as={NavLink}
                           to={"/students/" + student.id}
                         >
                           View
-                        </Button>
-                        <Button basic color="red">
-                          Contact
                         </Button>
                       </div>
                     </Card.Content>
@@ -79,7 +77,7 @@ const Students = () => {
             })}
           </Card.Group>
         </Grid.Row>
-        <Pagination
+        {/* <Pagination
           defaultActivePage={5}
           ellipsisItem={{
             content: <Icon name="ellipsis horizontal" />,
@@ -90,7 +88,7 @@ const Students = () => {
           prevItem={{ content: <Icon name="angle left" />, icon: true }}
           nextItem={{ content: <Icon name="angle right" />, icon: true }}
           totalPages={10}
-        />
+        /> */}
       </Grid>
     </div>
   );

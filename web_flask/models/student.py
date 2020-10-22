@@ -3,6 +3,10 @@ from web_flask.models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from marshmallow import Schema, fields
+from web_flask.models.specialization import SpecializationSchema
+from web_flask.models.cohort import CohortSchema
+from hashlib import md5
+from web_flask.models.user import UserSchema
 
 
 class Student(BaseModel, Base):
@@ -101,6 +105,7 @@ class Student(BaseModel, Base):
         ForeignKey('specializations.id')
     )
 
+
  
 class StudentSchema(Schema):
     """ Student Schema """
@@ -113,6 +118,17 @@ class StudentSchema(Schema):
     id_number = fields.Str()
     passport_number = fields.Str()
     marital_status = fields.Str()
+    school_id = fields.Str()
+    about_me = fields.Str()
+    specialization = fields.Nested(SpecializationSchema(only=["name"]))
+    cohort = fields.Nested(CohortSchema(only=["name"]))
+    image = fields.Method('avatar', dump_only=True)
+    user = fields.Nested(UserSchema(only=["email"]))
 
     def format_name(self, student):
         return '{} {}'.format(student.first_name, student.last_name)
+
+    def avatar(self, student):
+        digest = md5(student.user.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=mp'.format(digest)
+

@@ -29,7 +29,7 @@ class Student(BaseModel, Base):
     middle_name = Column(
         String(128)
     )
-    id_number = Column(
+    cin_number = Column(
         String(128),
         nullable=False
     )
@@ -37,12 +37,18 @@ class Student(BaseModel, Base):
         String(128),
         default=None
     )
-    school_number = Column(
+    school_id = Column(
         String(16),
         nullable=False
     )
-    born_at = Column(
+    date_of_birth = Column(
         DateTime()
+    )
+    gender = Column(
+        String(128)
+    )
+    about_me = Column(
+        String(512)
     )
     address_id = Column(
         String(60),

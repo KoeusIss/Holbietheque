@@ -9,6 +9,7 @@
     "axios": "^0.20.0",
     "evergreen-ui": "^5.1.2",
     "faker": "^5.1.0",
+    "jwt-decode": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.9.5",

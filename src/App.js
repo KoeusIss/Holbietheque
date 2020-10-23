@@ -16,6 +16,7 @@ import Login from "./views/Login";
 import { Container } from "semantic-ui-react";
 import Verify from "./views/Verify";
 import About from "./views/About";
+import FooterLayout from "./components/Footer";
 
 const Main = withRouter(({ location }, loggedin, setLoggedin) => {
   return (
@@ -51,6 +52,7 @@ const Main = withRouter(({ location }, loggedin, setLoggedin) => {
           <Login setStatus={setLoggedin} />
         </Route>
       </Switch>
+      <FooterLayout />
     </div>
   );
 });

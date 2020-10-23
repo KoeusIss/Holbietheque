@@ -104,6 +104,18 @@ class DBStorage:
 
         return None
 
+    def count(self, cls=None):
+        """ Gets class count """
+        all_class = classes.values()
+        if not cls:
+            count = 0
+            for kls in all_class:
+                count += len(self.all(kls).values())
+        else:
+            count = len(self.all(cls).values())
+
+        return count
+
     def get_user_by_email(self, email):
         """ Filter a class records by attribute """
         if not email:

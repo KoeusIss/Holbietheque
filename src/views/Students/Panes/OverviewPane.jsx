@@ -3,7 +3,7 @@ import AddProfileModal from "../Modal/AddProfileModal";
 import React, {useEffect} from "react";
 
 
-const OverviewPane = () => {
+const OverviewPane = ({student}) => {
     return (
         <div>
             <Menu text fluid>
@@ -17,19 +17,23 @@ const OverviewPane = () => {
                     />
                 </Menu.Item>
             </Menu>
-            <Segment placeholder>
-                <Header icon>
-                    <Icon name='user'/>
-                    No education are listed.
-                </Header>
-                <AddProfileModal
-                    theTrigger={
-                        <Button primary>
-                            Add Profile
-                        </Button>
-                    }
-                />
-            </Segment>
+            { !student ?
+                <Segment placeholder>
+                    <Header icon>
+                        <Icon name='user'/>
+                        No education are listed.
+                    </Header>
+                    <AddProfileModal
+                        theTrigger={
+                            <Button primary>
+                                Add Profile
+                            </Button>
+                        }
+                    />
+                </Segment>
+                :
+                null
+            }
         </div>
     )
 }

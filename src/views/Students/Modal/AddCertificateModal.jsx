@@ -3,16 +3,15 @@ import {Button, Header, Icon, Modal, Form, Input, TextArea, Select, Checkbox} fr
 import UserService from '../../../services/user_service'
 import {toaster} from "evergreen-ui";
 
-const AddEducationModal = ({theTrigger, student_id}) => {
-  const [finshed, setFinished] = useState(false)
-  const [education, setEducation] = useState({
-    degree: '',
-    school: '',
-    major: '',
-    is_finished: finshed,
-    start_at: '',
-    end_at: '',
-    grade: '',
+const AddCertificateModal = ({theTrigger, student_id}) => {
+  const [expire, setExpire] = useState(false)
+  const [certifiacte, setCertificate] = useState({
+    name: '',
+    authority: '',
+    is_expire: expire,
+    issued_at: '',
+    expired_at: '',
+    certificate_id: '',
     description: ''
   })
   const [loginError, setError] = useState("");
@@ -22,12 +21,12 @@ const AddEducationModal = ({theTrigger, student_id}) => {
 
   const handleChange = (event) => {
     event.preventDefault();
-    setEducation({...education, [event.target.name]: event.target.value});
+    setCertificate({...certifiacte, [event.target.name]: event.target.value});
   };
 
   const handleSubmit = () => {
     setLoading(true);
-    UserService.postStudentEducation(education, student_id).then(
+    UserService.postStudentCertificate(certifiacte, student_id).then(
       () => {
         setLoading(false);
         setOpen(false)
@@ -56,64 +55,56 @@ const AddEducationModal = ({theTrigger, student_id}) => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
     >
-      <Header icon='book' content='Add education'/>
+      <Header icon='certificate' content='Add certificate'/>
       <Modal.Content>
         <Form>
-
+          <Form.Group widths='equal'>
             <Form.Field
-              name='degree'
+              name='name'
               control={Input}
-              label='Degree name'
-              placeholder='Degree name'
+              label='Certificate name'
+              placeholder='Certificate name'
               onChange={handleChange}
             />
             <Form.Field
-              name='major'
+              name='authority'
               control={Input}
-              label='Education major'
-              placeholder='Education major'
+              label='Authority'
+              placeholder='Issued by ..'
               onChange={handleChange}
             />
-            <Form.Field
-              name='school'
-              control={Input}
-              label='School'
-              placeholder='School name'
-              onChange={handleChange}
-            />
-            <Form.Group widths='equal'>
           </Form.Group>
           <Form.Group widths='equal'>
             <Form.Field
-              name='start_at'
+              name='issued_at'
               control={Input}
-              label='Start'
-              placeholder='Started date'
+              label='Issue date'
+              placeholder='Issue date'
               onChange={handleChange}
             />
 
             <Form.Field
-              name='end_at'
+              name='expired_at'
               control={Input}
-              label='Finish'
-              placeholder='Finish date'
+              label='Expire date'
+              placeholder='Expire date'
               onChange={handleChange}
-              disabled={finshed}
+              disabled={expire}
             />
 
           </Form.Group>
           <Form.Field
-            name='is_finished'
-            label='Still at school?'
+            name='is_expire'
+            label='Never expire'
             control={Checkbox}
-            onClick={() => setFinished(!finshed)}
+            onClick={() => setExpire(!expire)}
             onChange={handleChange}
           />
           <Form.Field
             name='description'
             control={TextArea}
             label='Description'
-            placeholder='What about the education..'
+            placeholder='What about the certificate..'
             onChange={handleChange}
           />
         </Form>
@@ -130,4 +121,4 @@ const AddEducationModal = ({theTrigger, student_id}) => {
   )
 }
 
-export default AddEducationModal
+export default AddCertificateModal

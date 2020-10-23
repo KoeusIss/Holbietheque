@@ -8,6 +8,28 @@ from flask import request
 from sqlalchemy.exc import *
 
 education_schema = EducationSchema()
+educations_schema = EducationSchema(many=True)
+
+
+@app_views.route(
+    '/<student_id>/educations',
+    methods=['GET'],
+    strict_slashes=False
+)
+def get_user_education(student_id):
+    """ POST /api/v1/:student_id/educations """
+    the_student = storage.get(Student, student_id)
+    if not the_student:
+        return {
+            "failed": True,
+            "message": "Unrecognized student"
+        }, 400
+    educations = educations_schema.dump(the_student.educations)
+    return {
+        "success": True,
+        "count": len(the_student.educations),
+        "educations": educations
+    }, 201
 
 
 @app_views.route(

@@ -5,6 +5,7 @@ import {
   Route,
   withRouter,
 } from "react-router-dom";
+import Contact from "./views/Contact";
 import Home from "./views/Home";
 import Students from "./views/Students";
 import Student from "./views/Students/student";
@@ -14,13 +15,13 @@ import Signup from "./views/Signup";
 import Login from "./views/Login";
 import { Container } from "semantic-ui-react";
 import Verify from "./views/Verify";
+import About from "./views/About";
 
 const Main = withRouter(({ location }, loggedin, setLoggedin) => {
   return (
     <div>
       {location.pathname !== "/login" &&
         location.pathname !== "/signup" &&
-        location.pathname !== "/" &&
         location.pathname !== "/verification" && (
           <DesktopContainer status={loggedin} changeStatus={setLoggedin} />
         )}
@@ -33,6 +34,12 @@ const Main = withRouter(({ location }, loggedin, setLoggedin) => {
         </Route>
         <Route path="/students/:id" exact>
           <Student />
+        </Route>
+        <Route path="/about">
+          <About />
+        </Route>
+        <Route path="/contact" exact>
+          <Contact />
         </Route>
         <Route path="/signup">
           <Signup />

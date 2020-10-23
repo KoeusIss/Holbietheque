@@ -1,5 +1,3 @@
-/* eslint-disable max-classes-per-file */
-/* eslint-disable react/no-multi-comp */
 import { createMedia } from "@artsy/fresnel";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
@@ -17,6 +15,8 @@ import {
   Segment,
   Sidebar,
   Visibility,
+  Popup,
+  Form,
 } from "semantic-ui-react";
 
 const { MediaContextProvider, Media } = createMedia({
@@ -32,33 +32,36 @@ const { MediaContextProvider, Media } = createMedia({
  * components for such things.
  */
 const HomepageHeading = ({ mobile }) => (
-  <Container text>
-    <Header
-      as="h1"
-      content="Hire The Profile You Desire"
-      inverted
-      style={{
-        fontSize: mobile ? "2em" : "4em",
-        fontWeight: "normal",
-        marginBottom: 0,
-        marginTop: mobile ? "1.5em" : "3em",
-      }}
-    />
-
-    <Button
-      as={NavLink}
-      to="/students"
-      style={{
-        color: "white",
-        marginTop: mobile ? "0.5em" : "1.5em",
-        backgroundColor: "#eb0045",
-      }}
-      size="huge"
-    >
-      Get Started
-      <Icon name="right arrow" />
-    </Button>
-  </Container>
+  <Segment style={{ padding: "8em 0em" }} vertical>
+    <Grid container stackable verticalAlign="middle">
+      <Grid.Row>
+        <Grid.Column width={8}>
+          <Header as="h3" style={{ fontSize: "2em", color: "white" }}>
+            Who is Holberton?
+          </Header>
+          <p style={{ fontSize: "1.33em", color: "white" }}>
+            Frances Elizabeth Snyder Holberton (1917-2001), nicknamed Betty, was
+            one of six programmers at ENIAC, the first fully electronic computer
+            created by the US military in 1943. Betty Holberton played a major
+            role in what has become today's computing. She also participated in
+            the creation and design of the FORTRAN and COBOL programming
+            languages. His daughters, Priscilla Holberton and Pamela Holberton,
+            are thrilled that their mother's work is recognized and that it
+            inspires a new generation of men and women in the IT field.
+          </p>
+        </Grid.Column>
+        <Grid.Column floated="right" width={6}>
+          <Image
+            bordered
+            rounded
+            size="large"
+            src={require("../../images/holberton.jpeg")}
+          />
+        </Grid.Column>
+      </Grid.Row>
+      <Grid.Row></Grid.Row>
+    </Grid>
+  </Segment>
 );
 
 HomepageHeading.propTypes = {
@@ -91,7 +94,7 @@ class DesktopContainer extends Component {
             inverted
             textAlign="center"
             style={{
-              backgroundColor: "black",
+              backgroundColor: "#000",
               minHeight: 700,
               padding: "1em 0em",
             }}
@@ -194,20 +197,70 @@ const ResponsiveContainer = ({ children }) => (
 ResponsiveContainer.propTypes = {
   children: PropTypes.node,
 };
-
 const HomepageLayout = () => (
   <ResponsiveContainer>
+    <Segment style={{ padding: "8em 0em" }}>
+      <Grid container stackable verticalAlign="middle">
+        <Grid.Row>
+          <Grid.Column floated="left" width={6}>
+            <Image
+              bordered
+              rounded
+              size="large"
+              src={require("../../images/founders.jpeg")}
+            />
+          </Grid.Column>
+          <Grid.Column width={8}>
+            <Header as="h3" style={{ fontSize: "2em", color: "#000" }}>
+              Founders of Holberton School
+            </Header>
+            <p style={{ fontSize: "1.33em" }}>
+              Sylvain Kalache and Julien Barbier created Holberton School in San
+              Francisco to respond to a problem observed in the tech world: to
+              become computer engineers, some students spent many years
+              studying, sometimes going so far as to get into debt. , and still
+              lacked the skills to find their dream job. Sylvain and Julien have
+              thus decided to create a school which teaches students to think
+              like the best developers, which helps them develop human skills to
+              stand out during interviews and throughout their career, and which
+              offers a curriculum focused on practical experience through a
+              full-stack development program. Since its opening in 2016,
+              Holberton School has been able to get noticed by the most
+              innovative companies on the planet. Our graduates have been
+              offered exciting jobs at LinkedIn, Google, Tesla, Docker, Apple,
+              Dropbox, Facebook, Pinterest, Genentech, Cisco, IBM, etc. In
+              addition, Holberton School has opened several campuses around the
+              world, and our unique, proven and scalable approach has caught the
+              attention of major investors in Silicon Valley.
+            </p>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row></Grid.Row>
+      </Grid>
+    </Segment>
+
     <Segment style={{ padding: "8em 0em" }} vertical>
       <Grid container stackable verticalAlign="middle">
         <Grid.Row>
           <Grid.Column width={8}>
-            <Header as="h3" style={{ fontSize: "2em" }}>
-              We Help Recruters
+            <Header as="h3" style={{ fontSize: "2em", color: "#000" }}>
+              Our mission
             </Header>
-            <p style={{ fontSize: "1.33em" }}>
-              We can give your company the best profiles you are looking for. We
-              provide you with required informations about every student in the
-              form of a pdf cv.
+            <p style={{ fontSize: "1.33em", color: "#000" }}>
+              The tech industry is the fastest growing in history. At Holberton
+              School, our mission is to empower motivated and talented people to
+              lead the careers they dream of, regardless of their background,
+              age, background or financial capacity. We also believe that
+              diversity and inclusion are essential for innovation. More
+              perspectives, life experiences and cultures promote problem
+              solving and idea generation by being more community oriented. We
+              believe that IT can only create solutions for everyone if all
+              points of view are heard and respected. In our view, tuition fees
+              should not be a barrier for those who wish to benefit from a
+              quality education. We are ready to invest in your studies,
+              allowing you to pay tuition fees through a revenue sharing
+              agreement: you pay no upfront tuition fees and pay back the school
+              once you get a job.
             </p>
           </Grid.Column>
           <Grid.Column floated="right" width={6}>
@@ -215,78 +268,12 @@ const HomepageLayout = () => (
               bordered
               rounded
               size="large"
-              src={require("../../images/resume.png")}
+              src={require("../../images/holbertonimg.png")}
             />
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row>
-          <Grid.Column textAlign="center">
-            <Button as={NavLink} to="/students" size="huge">
-              Check Them Out
-            </Button>
-          </Grid.Column>
-        </Grid.Row>
+        <Grid.Row></Grid.Row>
       </Grid>
-    </Segment>
-
-    <Segment style={{ padding: "0em" }} vertical>
-      <Grid celled="internally" columns="equal" stackable>
-        <Grid.Row textAlign="center">
-          <Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
-            <Header as="h3" style={{ fontSize: "2em" }}></Header>
-            <p style={{ fontSize: "1.33em" }}>
-              That is what they all say about us
-            </p>
-          </Grid.Column>
-          <Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
-            <Header as="h3" style={{ fontSize: "2em" }}>
-              "I shouldn't have gone with their competitor."
-            </Header>
-            <p style={{ fontSize: "1.33em" }}>
-              <Image avatar src={require("../../images/hiring.png")} />
-              <b>Nan</b> Chief Fun Officer Acme Toys
-            </p>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Segment>
-
-    <Segment style={{ padding: "8em 0em" }} vertical>
-      <Container text>
-        <Header as="h3" style={{ fontSize: "2em" }}>
-          Breaking The Grid, Grabs Your Attention
-        </Header>
-        <p style={{ fontSize: "1.33em" }}>
-          Instead of focusing on content creation and hard work, we have learned
-          how to master the art of doing nothing by providing massive amounts of
-          whitespace and generic content that can seem massive, monolithic and
-          worth your attention.
-        </p>
-        <Button as="a" size="large">
-          Read More
-        </Button>
-
-        <Divider
-          as="h4"
-          className="header"
-          horizontal
-          style={{ margin: "3em 0em", textTransform: "uppercase" }}
-        >
-          <a href="#">Case Studies</a>
-        </Divider>
-
-        <Header as="h3" style={{ fontSize: "2em" }}>
-          Did We Tell You About Our Bananas?
-        </Header>
-        <p style={{ fontSize: "1.33em" }}>
-          Yes I know you probably disregarded the earlier boasts as non-sequitur
-          filler content, but it's really true. It took years of gene splicing
-          and combinatory DNA research, but our bananas can really dance.
-        </p>
-        <Button as="a" size="large">
-          I'm Still Quite Interested
-        </Button>
-      </Container>
     </Segment>
 
     <Segment inverted vertical style={{ padding: "5em 0em" }}>

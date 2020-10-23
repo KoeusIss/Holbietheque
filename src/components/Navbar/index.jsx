@@ -2,6 +2,7 @@
 /* eslint-disable react/no-multi-comp */
 import { createMedia } from "@artsy/fresnel";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 import React, { Component } from "react";
 import {
   Button,
@@ -57,21 +58,26 @@ class DesktopContainer extends Component {
             secondary={!fixed}
             size="large"
           >
-            <Container>
-              <Menu.Item as="a" active>
+            <Container class="container">
+              <Menu.Item style={{ color: "white" }} as={NavLink} to="/" active>
                 Home
               </Menu.Item>
-              <Menu.Item as="a">hello</Menu.Item>
-              <Menu.Item as="a">About</Menu.Item>
-              <Menu.Item as="a">Contact</Menu.Item>
-              <Menu.Item position="right">
-                <Button as="a" inverted={!fixed}>
+              <Menu.Item style={{ color: "white" }} as={NavLink} to="/students">
+                Students
+              </Menu.Item>
+              <Menu.Item style={{ color: "white" }} as={NavLink} to="/about">
+                About
+              </Menu.Item>
+              <Menu.Item style={{ color: "white" }} as={NavLink} to="/contact">
+                Contact
+              </Menu.Item>
+              <Menu.Item style={{ color: "white" }} position="right">
+                <Button as={NavLink} to="/login">
                   Log in
                 </Button>
                 <Button
-                  as="a"
-                  inverted={!fixed}
-                  primary={fixed}
+                  as={NavLink}
+                  to="/signup"
                   style={{ marginLeft: "0.5em" }}
                 >
                   Sign Up

@@ -8,6 +8,28 @@ from flask import request
 from sqlalchemy.exc import *
 
 experience_schema = ExperienceSchema()
+experiences_schema = ExperienceSchema(many=True)
+
+
+@app_views.route(
+    '/<student_id>/experiences',
+    methods=['GET'],
+    strict_slashes=False
+)
+def get_user_experience(student_id):
+    """ POST /api/v1/:student_id/experiences """
+    the_student = storage.get(Student, student_id)
+    if not the_student:
+        return {
+            "failed": True,
+            "message": "Unrecognized student"
+        }, 400
+    experiences = experiences_schema.dump(the_student.experiences)
+    return {
+        "success": True,
+        "count": len(the_student.experiences),
+        "experiences": experiences
+    }, 201
 
 
 @app_views.route(

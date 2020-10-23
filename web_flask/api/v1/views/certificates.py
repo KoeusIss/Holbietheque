@@ -8,6 +8,28 @@ from flask import request
 from sqlalchemy.exc import *
 
 certificate_schema = CertificateSchema()
+certificates_schema = CertificateSchema(many=True)
+
+
+@app_views.route(
+    '/<student_id>/certificates',
+    methods=['GET'],
+    strict_slashes=False
+)
+def get_user_certificates(student_id):
+    """ POST /api/v1/:student_id/certificates """
+    the_student = storage.get(Student, student_id)
+    if not the_student:
+        return {
+            "failed": True,
+            "message": "Unrecognized student"
+        }, 400
+    certificates = certificates_schema.dump(the_student.certificates)
+    return {
+        "success": True,
+        "count": len(the_student.certificates),
+        "certificates": certificates
+    }, 201
 
 
 @app_views.route(

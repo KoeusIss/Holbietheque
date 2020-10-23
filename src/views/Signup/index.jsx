@@ -1,16 +1,25 @@
 import React, { useState } from "react";
-import AuthService from '../../services/auth_service'
-import {Button, Form, Grid, Header, Image, Message, Segment} from "semantic-ui-react";
-import {Link, useHistory} from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import AuthService from "../../services/auth_service";
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Message,
+  Segment,
+} from "semantic-ui-react";
+import { Link, useHistory } from "react-router-dom";
 
 function Signup() {
   const [user, setUser] = useState({
     email: "",
     password: "",
     password_confirmation: "",
-    role: "recruiter"
+    role: "recruiter",
   });
-  const history = useHistory()
+  const history = useHistory();
   const [loginError, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -22,26 +31,25 @@ function Signup() {
 
   // handle form submit
   const onSubmit = (event) => {
-    console.log(user)
-    setLoading(true)
-    setError('')
-    AuthService.signup(user)
-        .then(
-            () => {
-              history.push('/verification')
-            },
-            (error) => {
-              const returnError =
-                (error.response &&
-                  error.response.data &&
-                  error.response.data.message) ||
-                error.message ||
-                error.toString();
-              setLoading(false)
-              setError(returnError)
-            }
-        )
-  }
+    console.log(user);
+    setLoading(true);
+    setError("");
+    AuthService.signup(user).then(
+      () => {
+        history.push("/verification");
+      },
+      (error) => {
+        const returnError =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        setLoading(false);
+        setError(returnError);
+      }
+    );
+  };
   return (
     <Grid textAlign="center" verticalAlign="middle" style={{ height: "80vh" }}>
       <Grid.Column style={{ maxWidth: 450 }}>
@@ -51,19 +59,35 @@ function Signup() {
         <Image
           circular
           src="https://www.holbertonschool.com/holberton-logo.png"
+          as={NavLink}
+          to="/"
         />
         <Form size="large" onSubmit={onSubmit}>
           <Segment stacked>
             <Header>Signup</Header>
             <Segment>
               <Button.Group>
-                <Button onClick={handleChange} name='role' value='recruiter' color='teal'>Recruiter</Button>
-                <Button.Or text='or' />
-                <Button onClick={handleChange} name='role' value='student' color='pink'>Student</Button>
+                <Button
+                  onClick={handleChange}
+                  name="role"
+                  value="recruiter"
+                  color="teal"
+                >
+                  Recruiter
+                </Button>
+                <Button.Or text="or" />
+                <Button
+                  onClick={handleChange}
+                  name="role"
+                  value="student"
+                  color="pink"
+                >
+                  Student
+                </Button>
               </Button.Group>
             </Segment>
             <Segment>
-              <Header as='h4'>Hello {user.role}</Header>
+              <Header as="h4">Hello {user.role}</Header>
             </Segment>
             <Form.Input
               name="email"
@@ -95,7 +119,7 @@ function Signup() {
               color="pink"
               fluid
               size="large"
-              type='submit'
+              type="submit"
               loading={loading}
             >
               Signup

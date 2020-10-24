@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import AuthService from "../../services/auth_service";
 import {
   Button,
@@ -9,8 +10,7 @@ import {
   Message,
   Segment,
 } from "semantic-ui-react";
-import { Link, NavLink, useHistory } from "react-router-dom";
-import { toaster } from "evergreen-ui";
+import { Link, useHistory } from "react-router-dom";
 
 function Signup() {
   const [user, setUser] = useState({
@@ -36,7 +36,6 @@ function Signup() {
     setError("");
     AuthService.signup(user).then(
       () => {
-        toaster.notify("Check your E-Mail Inbox for verification code");
         history.push("/verification");
       },
       (error) => {

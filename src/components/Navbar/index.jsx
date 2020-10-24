@@ -1,86 +1,198 @@
-import React, { useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
-import { Menu, Dropdown, Image } from "semantic-ui-react";
-import { toaster } from "evergreen-ui";
-import "./navbar.css";
-import faker from "faker";
+/* eslint-disable max-classes-per-file */
+/* eslint-disable react/no-multi-comp */
+import { createMedia } from "@artsy/fresnel";
+import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 import UserService from "../../services/user_service";
+import React, { Component } from "react";
+import { toaster } from "evergreen-ui";
+import {
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Header,
+  Icon,
+  Image,
+  List,
+  Menu,
+  Segment,
+  Sidebar,
+  Visibility,
+} from "semantic-ui-react";
+import user_service from "../../services/user_service";
 
-function Navbar() {
-  const history = useHistory();
-  const [activeItem, setActiveItem] = useState("");
-  const handleLogout = (event) => {
+const { MediaContextProvider, Media } = createMedia({
+  breakpoints: {
+    mobile: 0,
+    tablet: 768,
+    computer: 1024,
+  },
+});
+
+/* Heads up!
+ * Neither Semantic UI nor Semantic UI React offer a responsive navbar, however, it can be implemented easily.
+ * It can be more complicated, but you can create really flexible markup.
+ */
+class DesktopContainer extends Component {
+  state = {};
+
+  hideFixedMenu = () => this.setState({ fixed: false });
+  showFixedMenu = () => this.setState({ fixed: true });
+  current_user = UserService.currentUser();
+
+  handleLogout = () => {
     localStorage.removeItem("access_token");
     toaster.success("Logout Successful, See you soon!", { duration: 3 });
-    history.push("/login");
   };
-  const current_user = UserService.currentUser();
-  const handleItemClick = (e, { name }) => setActiveItem(name);
+  render() {
+    const { children } = this.props;
+    const { fixed } = this.state;
 
-  const trigger = (
-    <span>
-      <Image avatar src={faker.internet.avatar()} /> {faker.name.findName()}
-    </span>
-  );
+    return (
+      <Media greaterThan="mobile">
+        <Visibility
+          once={false}
+          onBottomPassed={this.showFixedMenu}
+          onBottomPassedReverse={this.hideFixedMenu}
+        >
+          <Menu
+            style={{
+              backgroundColor: "#000",
+            }}
+            fixed={fixed ? "top" : null}
+            inverted={!fixed}
+            pointing={!fixed}
+            secondary={!fixed}
+            size="large"
+          >
+            <Container class="container">
+              <Menu.Item style={{ color: "white" }} as={NavLink} to="/" active>
+                Home
+              </Menu.Item>
+              <Menu.Item style={{ color: "white" }} as={NavLink} to="/students">
+                Students
+              </Menu.Item>
+              <Menu.Item style={{ color: "white" }} as={NavLink} to="/about">
+                About
+              </Menu.Item>
+              <Menu.Item style={{ color: "white" }} as={NavLink} to="/contact">
+                Contact
+              </Menu.Item>
+              <Menu.Item style={{ color: "white" }} position="right">
+                {this.current_user ? (
+                  <Button as={NavLink} to="/login" onClick={this.handleLogout}>
+                    Logout
+                  </Button>
+                ) : (
+                  <Button as={NavLink} to="/login">
+                    Login
+                  </Button>
+                )}
+                {!this.current_user ? (
+                  <Button
+                    as={NavLink}
+                    to="/signup"
+                    style={{ marginLeft: "0.5em" }}
+                  >
+                    Sign Up
+                  </Button>
+                ) : null}
+              </Menu.Item>
+            </Container>
+          </Menu>
+        </Visibility>
 
-  const options = [
-    { key: "user", text: "Account", icon: "user" },
-    { key: "sign-out", text: "Sign Out", icon: "sign out" },
-  ];
-
-  return (
-    <div className="navigation">
-      <Menu secondary>
-        <Menu.Item
-          name="home"
-          active={activeItem === "home"}
-          onClick={handleItemClick}
-          as={NavLink}
-          to="/"
-        />
-        <Menu.Item
-          name="students"
-          active={activeItem === "students"}
-          onClick={handleItemClick}
-          as={NavLink}
-          to="/students"
-        />
-        <Menu.Item
-          name="about"
-          active={activeItem === "about"}
-          onClick={handleItemClick}
-          as={NavLink}
-          to={"/students/" + current_user.id}
-        />
-        {current_user ? (
-          <Menu.Menu position="right">
-            <Menu.Item
-              name="profile"
-              active={activeItem === "profile"}
-              onClick={handleItemClick}
-              as={NavLink}
-              to={"/students/" + current_user.id}
-            />
-            <Menu.Item
-              name="logout"
-              active={activeItem === "logout"}
-              onClick={handleLogout}
-            />
-          </Menu.Menu>
-        ) : (
-          <Menu.Menu position="right">
-            <Menu.Item
-              name="login"
-              active={activeItem === "login"}
-              onClick={handleItemClick}
-              as={NavLink}
-              to="/login"
-            />
-          </Menu.Menu>
-        )}
-      </Menu>
-    </div>
-  );
+        {children}
+      </Media>
+    );
+  }
 }
 
-export default Navbar;
+DesktopContainer.propTypes = {
+  children: PropTypes.node,
+};
+
+class MobileContainer extends Component {
+  state = {};
+
+  handleSidebarHide = () => this.setState({ sidebarOpened: false });
+
+  handleToggle = () => this.setState({ sidebarOpened: true });
+
+  render() {
+    const { children } = this.props;
+    const { sidebarOpened } = this.state;
+
+    return (
+      <Media as={Sidebar.Pushable} at="mobile">
+        <Sidebar.Pushable>
+          <Sidebar
+            as={Menu}
+            animation="overlay"
+            inverted
+            onHide={this.handleSidebarHide}
+            vertical
+            visible={sidebarOpened}
+          >
+            <Menu.Item as="a" active>
+              Home
+            </Menu.Item>
+            <Menu.Item as="a">Work</Menu.Item>
+            <Menu.Item as="a">Company</Menu.Item>
+            <Menu.Item as="a">Careers</Menu.Item>
+            <Menu.Item as="a">Log in</Menu.Item>
+            <Menu.Item as="a">Sign Up</Menu.Item>
+          </Sidebar>
+
+          <Sidebar.Pusher dimmed={sidebarOpened}>
+            <Segment
+              inverted
+              textAlign="center"
+              style={{ minHeight: 350, padding: "1em 0em" }}
+              vertical
+            >
+              <Container>
+                <Menu inverted pointing secondary size="large">
+                  <Menu.Item onClick={this.handleToggle}>
+                    <Icon name="sidebar" />
+                  </Menu.Item>
+                  <Menu.Item position="right">
+                    <Button as="a" inverted>
+                      Log in
+                    </Button>
+                    <Button as="a" inverted style={{ marginLeft: "0.5em" }}>
+                      Sign Up
+                    </Button>
+                  </Menu.Item>
+                </Menu>
+              </Container>
+            </Segment>
+
+            {children}
+          </Sidebar.Pusher>
+        </Sidebar.Pushable>
+      </Media>
+    );
+  }
+}
+
+MobileContainer.propTypes = {
+  children: PropTypes.node,
+};
+
+const ResponsiveContainer = ({ children }) => (
+  /* Heads up!
+   * For large applications it may not be best option to put all page into these containers at
+   * they will be rendered twice for SSR.
+   */
+  <MediaContextProvider>
+    <DesktopContainer>{children}</DesktopContainer>
+    <MobileContainer>{children}</MobileContainer>
+  </MediaContextProvider>
+);
+
+ResponsiveContainer.propTypes = {
+  children: PropTypes.node,
+};
+export default DesktopContainer;

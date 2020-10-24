@@ -11,6 +11,7 @@ import {
   Segment,
 } from "semantic-ui-react";
 import { Link, useHistory } from "react-router-dom";
+import { toaster } from "evergreen-ui";
 
 function Signup() {
   const [user, setUser] = useState({
@@ -29,26 +30,37 @@ function Signup() {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
+  const handlePw = (e) => {
+    if (user.password.length <= 8) {
+      return true;
+    }
+  };
+
   // handle form submit
   const onSubmit = (event) => {
     console.log(user);
     setLoading(true);
     setError("");
-    AuthService.signup(user).then(
-      () => {
-        history.push("/verification");
-      },
-      (error) => {
-        const returnError =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        setLoading(false);
-        setError(returnError);
-      }
-    );
+    if (user.password !== user.password_confirmation) {
+      toaster.warning("Password and Password Confirmation don't match");
+      setLoading(false);
+    } else {
+      AuthService.signup(user).then(
+        () => {
+          history.push("/verification");
+        },
+        (error) => {
+          const returnError =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+          setLoading(false);
+          setError(returnError);
+        }
+      );
+    }
   };
   return (
     <Grid textAlign="center" verticalAlign="middle" style={{ height: "80vh" }}>
@@ -90,30 +102,38 @@ function Signup() {
               <Header as="h4">Hello {user.role}</Header>
             </Segment>
             <Form.Input
+              required
               name="email"
               placeholder="E-mail address"
               icon="user"
               iconPosition="left"
               onChange={handleChange}
-              error={!!loginError}
+              error={
+                loginError
+                  ? {
+                      content: "Please enter a valid email address",
+                      pointing: "below",
+                    }
+                  : null
+              }
             />
             <Form.Input
+              required
               name="password"
               placeholder="Password"
               icon="lock"
               iconPosition="left"
               type="password"
               onChange={handleChange}
-              error={!!loginError}
             />
             <Form.Input
+              required
               name="password_confirmation"
               placeholder="Password confirmation"
               icon="lock"
               iconPosition="left"
               type="password"
               onChange={handleChange}
-              error={!!loginError}
             />
             <Button
               color="pink"

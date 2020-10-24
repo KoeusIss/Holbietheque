@@ -29,11 +29,14 @@ const Students = () => {
       });
   });
   return (
-    <div>
+    <div style={{ top: "2rem" }}>
       <Grid columns={2}>
         <Grid.Row>
           <Grid.Column>
-            <Header as="h2" style={{ margin: "auto 10% auto 5%" }}>
+            <Header
+              as="h2"
+              style={{ margin: "auto 10% auto 5%", position: "absolute" }}
+            >
               <Image src={require("../../images/students_list.png")} />
               Students list
             </Header>
@@ -42,7 +45,7 @@ const Students = () => {
             <SearchExampleStandard source={students} />
           </Grid.Column> */}
         </Grid.Row>
-        <Grid.Row style={{ margin: "auto 10% auto 15%" }}>
+        <Grid.Row style={{ margin: "auto 5% auto 15%" }}>
           <Container>
             <Card.Group doubling>
               {students.map((student) => {

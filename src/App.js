@@ -13,7 +13,6 @@ import "./App.css";
 import DesktopContainer from "./components/Navbar";
 import Signup from "./views/Signup";
 import Login from "./views/Login";
-import { Container } from "semantic-ui-react";
 import Verify from "./views/Verify";
 import About from "./views/About";
 import FooterLayout from "./components/Footer";

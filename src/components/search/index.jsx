@@ -1,5 +1,4 @@
 import _ from "lodash";
-import faker from "faker";
 import React, { Component } from "react";
 import { Search, Grid, Header, Segment } from "semantic-ui-react";
 
@@ -10,7 +9,6 @@ export default class SearchExampleStandard extends Component {
 
   handleResultSelect = (e, { result }) =>
     this.setState({ value: result.first_name });
-
   handleSearchChange = (e, { value }) => {
     this.setState({ isLoading: true, value });
 

@@ -34,6 +34,7 @@ function Login() {
           AuthService.login(values).then(
             (response) => {
               setLoading(false)
+              history.push('/')
               toaster.success(response.data.message, { duration: 5 });
             },
             (error) => {

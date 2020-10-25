@@ -3,7 +3,7 @@ import axios from 'axios'
 const API_URL = 'http://localhost:5000/api/v1'
 class AuthService {
     // login function (user) -> res.data
-    login (user) {
+    login(user) {
         return axios
             .post(API_URL + '/login', {
                 email: user.email,
@@ -13,7 +13,7 @@ class AuthService {
                 if (res.data.access_token) {
                     localStorage.setItem('access_token', res.data.access_token)
                 }
-                return res.data
+                return res
             })
     }
     // signup function (user) -> res.data
@@ -27,7 +27,7 @@ class AuthService {
                 if (res.data.id) {
                     localStorage.setItem('id', res.data.id)
                 }
-                return res.data
+                return res
             })
     }
 

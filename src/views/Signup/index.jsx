@@ -32,6 +32,7 @@ function Signup() {
           AuthService.signup(values).then(
             (response) => {
               setLoading(false)
+              history.push('/verification')
               toaster.success(response.data.message, { duration: 5 });
             },
             (error) => {

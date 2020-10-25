@@ -1,36 +1,38 @@
 import React, {useState} from 'react'
-import {Button, Header, Icon, Modal, Form, Input, TextArea, Select, Checkbox} from 'semantic-ui-react'
-import UserService from '../../../services/user_service'
+import StudentService from "../../../services/student_service";
+import {
+  Button,
+  Header,
+  Icon,
+  Modal,
+  Form,
+  Input,
+  TextArea,
+  Checkbox
+} from 'semantic-ui-react'
 import {toaster} from "evergreen-ui";
 
-const AddCertificateModal = ({theTrigger, student_id}) => {
+
+const EditCertificate = ({theTrigger, data}) => {
   const [expire, setExpire] = useState(false)
-  const [certifiacte, setCertificate] = useState({
-    name: '',
-    authority: '',
-    is_expire: expire,
-    issued_at: '',
-    expired_at: '',
-    certificate_id: '',
-    description: ''
-  })
-  const [loginError, setError] = useState("");
+  const [certificate, setCertificate] = useState(data)
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false)
-  const current_id = UserService.currentUser().id
+  const certificateService = new StudentService("certificates")
 
   const handleChange = (event) => {
     event.preventDefault();
-    setCertificate({...certifiacte, [event.target.name]: event.target.value});
+    setCertificate({...certificate, [event.target.name]: event.target.value});
   };
 
   const handleSubmit = () => {
     setLoading(true);
-    UserService.postStudentCertificate(certifiacte, student_id).then(
-      () => {
+    certificateService.update(certificate).then(
+      (response) => {
         setLoading(false);
         setOpen(false)
-        toaster.notify("Added successfully", {duration: 5})
+        toaster.notify(response.data.message, {duration: 5})
       },
       (error) => {
         const returnError =
@@ -65,6 +67,7 @@ const AddCertificateModal = ({theTrigger, student_id}) => {
               label='Certificate name'
               placeholder='Certificate name'
               onChange={handleChange}
+              value={certificate.name}
             />
             <Form.Field
               name='authority'
@@ -72,6 +75,7 @@ const AddCertificateModal = ({theTrigger, student_id}) => {
               label='Authority'
               placeholder='Issued by ..'
               onChange={handleChange}
+              value={certificate.authority}
             />
           </Form.Group>
           <Form.Group widths='equal'>
@@ -81,6 +85,7 @@ const AddCertificateModal = ({theTrigger, student_id}) => {
               label='Issue date'
               placeholder='Issue date'
               onChange={handleChange}
+              value={certificate.issued_at}
             />
 
             <Form.Field
@@ -90,6 +95,7 @@ const AddCertificateModal = ({theTrigger, student_id}) => {
               placeholder='Expire date'
               onChange={handleChange}
               disabled={expire}
+              value={certificate.expired_at}
             />
 
           </Form.Group>
@@ -99,6 +105,7 @@ const AddCertificateModal = ({theTrigger, student_id}) => {
             control={Checkbox}
             onClick={() => setExpire(!expire)}
             onChange={handleChange}
+            value={certificate.is_expire}
           />
           <Form.Field
             name='description'
@@ -106,6 +113,7 @@ const AddCertificateModal = ({theTrigger, student_id}) => {
             label='Description'
             placeholder='What about the certificate..'
             onChange={handleChange}
+            value={certificate.description}
           />
         </Form>
       </Modal.Content>
@@ -113,7 +121,7 @@ const AddCertificateModal = ({theTrigger, student_id}) => {
         <Button color='red' onClick={() => setOpen(false)}>
           <Icon name='remove'/> Cancel
         </Button>
-        <Button color='green' onClick={handleSubmit}>
+        <Button color='green' onClick={handleSubmit} loading={loading}>
           <Icon name='checkmark'/> Add
         </Button>
       </Modal.Actions>
@@ -121,4 +129,4 @@ const AddCertificateModal = ({theTrigger, student_id}) => {
   )
 }
 
-export default AddCertificateModal
+export default EditCertificate

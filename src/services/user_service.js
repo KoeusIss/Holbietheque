@@ -9,8 +9,9 @@ const API_URL =
 
 class UserService {
   getStudentByUser(user_id) {
+    const api = [API_URL, user_id, "student"].join('/')
     return axios
-      .get(API_URL + '/users/' + user_id + '/student', {headers: authHeader()})
+      .get(api, {headers: authHeader()})
   }
 
   postStudentProfile(student, user_id) {

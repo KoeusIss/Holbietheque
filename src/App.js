@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,48 +12,49 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Signup from "./views/Signup";
 import Login from "./views/Login";
-import { Container } from "semantic-ui-react";
+import {Container} from "semantic-ui-react";
 import Verify from "./views/Verify";
 
-const Main = withRouter(({ location }, loggedin, setLoggedin) => {
+const Main = withRouter(({location}, loggedin, setLoggedin) => {
   return (
     <div>
       {location.pathname !== "/login" &&
-        location.pathname !== "/signup" &&
-        location.pathname !== "/verification" && (
-          <Navbar status={loggedin} setStatus={setLoggedin} />
-        )}
+      location.pathname !== "/signup" &&
+      location.pathname !== "/verification" && (
+        <Navbar status={loggedin} setStatus={setLoggedin}/>
+      )}
       <Switch>
         <Route path="/" exact={true}>
-          <Home />
+          <Home/>
         </Route>
         <Route path="/students" exact>
-          <Students />
+          <Students/>
         </Route>
         <Route path="/students/:id" exact>
-          <Student />
+          <Student/>
         </Route>
         <Route path="/signup">
-          <Signup />
+          <Signup/>
         </Route>
         <Route path="/verification">
-          <Verify />
+          <Verify/>
         </Route>
         <Route path="/login">
-          <Login setStatus={setLoggedin} />
+          <Login setStatus={setLoggedin}/>
         </Route>
       </Switch>
     </div>
   );
 });
+
 function App() {
   const [loggedin, setLoggedin] = useState(false);
   return (
-    <Container>
-      <Router>
-        <Main loggedin={loggedin} setLoggedin={setLoggedin} />
-      </Router>
-    </Container>
+      <Container>
+        <Router>
+          <Main loggedin={loggedin} setLoggedin={setLoggedin}/>
+        </Router>
+      </Container>
   );
 }
 

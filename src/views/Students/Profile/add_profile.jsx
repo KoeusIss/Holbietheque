@@ -3,7 +3,7 @@ import {Button, Header, Icon, Modal, Form, Input, TextArea, Select} from 'semant
 import UserService from '../../../services/user_service'
 import {toaster} from "evergreen-ui";
 
-const AddProfileModal = ({theTrigger}) => {
+const Add_profile = ({theTrigger}) => {
     const [profile, setProfile] = useState({
         first_name: '',
         last_name: '',
@@ -157,4 +157,4 @@ const AddProfileModal = ({theTrigger}) => {
     )
 }
 
-export default AddProfileModal
+export default Add_profile

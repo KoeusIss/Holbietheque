@@ -50,7 +50,7 @@ function Navbar() {
           active={activeItem === "about"}
           onClick={handleItemClick}
           as={NavLink}
-          to={"/students/" + current_user.id}
+          to={"/"}
         />
         {current_user ? (
           <Menu.Menu position="right">

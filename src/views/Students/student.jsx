@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
+import ProfilePane from "./Profile/profile_pane";
+import EducationPane from "./Education/EducationPane";
+import ExperiencePane from "./Experiences/experience_pane";
+import ProjectPane from "./Projects/project_pane";
+import CertificatePane from "./Certificates/certificate_pane";
+import UserService from '../../services/user_service'
+import AddEducationModal from "./Projects/add_project";
+import AStudent from "../../models/student";
 import {
   Grid,
   Image,
@@ -8,151 +16,155 @@ import {
   Card,
   Icon,
   List,
-  Label,
   Tab
 } from "semantic-ui-react";
 import './student.css'
-import OverviewPane from "./Panes/OverviewPane";
-import EducationPane from "./Panes/EducationPane";
-import ExperiencePane from "./Panes/ExperiencePane";
-import ProjectsPane from "./Panes/ProjectsPane";
-import CertificatesPane from "./Panes/CertificatesPane";
-import UserService from '../../services/user_service'
-import AddEducationModal from "./Modal/AddProjectModal";
+import {toaster} from "evergreen-ui";
 
-const Student = ({match}) => {
-  const [loginError, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  let {id} = useParams();
-  const [student, setStudent] = useState(null)
+const Student = () => {
+    const [loading, setLoading] = useState(false);
+    const [location, setLocation] = useState({})
+    const [socialLinks, setSocialLinks] = useState({})
+    let {id} = useParams();
+    const [student, setStudent] = useState(new AStudent())
 
-  useEffect(() => {
-    UserService.getStudentByUser(id).then(
-      (res) => {
-        setStudent(res.data.student)
-      },
-      (error) => {
-        const returnError =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        setLoading(false);
-        setError(returnError);
-      }
-    )
-  }, [])
+    // useEffect(() => {
+    //   setLoading(true)
+    //   UserService.getStudentByUser(id).then(
+    //     (res) => {
+    //       setStudent(res.data.student)
+    //       setLocation(res.data.address)
+    //       setSocialLinks(res.data.social_links)
+    //       setLoading(false)
+    //     },
+    //     (error) => {
+    //       const returnError ={
+    //                 menuItem: 'Overview',
+    //                 render: () => <ProfilePane profileId={student.id}/>
+    //               },
+    //         (error.response &&
+    //           error.response.data &&
+    //           error.response.data.message) ||
+    //         error.message ||
+    //         error.toString();
+    //       setLoading(false);
+    //       toaster.notify(returnError, {duration: 5})
+    //     }
+    //   )
+    // }, [location, socialLinks, student])
 
-  return (
-    <div>
-      {
-        student ?
-          <Grid stackable>
-            <Grid.Column width={5}>
-              <Card fluid>
-                <Image src={student.image} wrapped ui={false}/>
-                <Card.Content>
-                  <Card.Header>{student.full_name}</Card.Header>
-                  <Card.Meta>
-                    <span className='date'>{student.last_name}</span>
-                  </Card.Meta>
-                  <Card.Description>
-                    <Card.Content>
-                      <List>
-                        <List.Item>
-                          <List.Icon name='marker'/>
-                          <List.Content>New York, NY</List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Icon name='github'/>
-                          <List.Content>@KoeusIss</List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Icon name='linkedin'/>
-                          <List.Content>/in/issam-sebri</List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Icon name='mail'/>
-                          <List.Content>
-                            <a href='mailto:jack@semantic-ui.com'>jack@semantic-ui.com</a>
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Icon name='linkify'/>
-                          <List.Content>
-                            <a href='http://www.semantic-ui.com'>semantic-ui.com</a>
-                          </List.Content>
-                        </List.Item>
-                      </List>
-                    </Card.Content>
-                  </Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a>
-                    <Icon name='user'/>
-                    {student.cohort}
-                  </a>
-                </Card.Content>
-              </Card>
-              <Card fluid>
-                <Card.Content header='Skills'/>
-                <Card.Content>
-                  <Label as='a'>
-                    Restful API
-                    <Icon name='delete'/>
-                  </Label>
-                  <Label as='a'>
-                    Web development
-                    <Icon name='delete'/>
-                  </Label>
-                  <Label as='a'>
-                    Devops and SRE
-                    <Icon name='delete'/>
-                  </Label>
-                </Card.Content>
-              </Card>
-            </Grid.Column>
-            <Grid.Column width={11}>
-              <Tab menu={{attached: false}} panes={[
-                {
-                  menuItem: 'Overview',
-                  render: () => <OverviewPane student={student}/>
-                },
-                {
-                  menuItem: 'Education',
-                  render: () => <EducationPane profileId={student.id}/>
-                },
-                {
-                  menuItem: 'Experience',
-                  render: () => <ExperiencePane profileId={student.id}/>
-                },
-                {
-                  menuItem: 'Certificates',
-                  render: () => <CertificatesPane profileId={student.id}/>
-                },
-                {
-                  menuItem: 'Projects',
-                  render: () => <ProjectsPane/>
+    return (
+      <div>
+        {
+          student ?
+            <Grid stackable>
+              {/*<Grid.Column width={5}>*/}
+              {/*  <Card fluid>*/}
+              {/*    <Image src={student.image} wrapped ui={false}/>*/}
+              {/*    <Card.Content>*/}
+              {/*      <Card.Header>{student.full_name}</Card.Header>*/}
+              {/*      {student.specialization &&*/}
+              {/*      <Card.Meta>*/}
+              {/*        <span>{student.specialization}</span>*/}
+              {/*      </Card.Meta>}*/}
+              {/*      <Card.Description>*/}
+              {/*        <Card.Content>*/}
+              {/*          <List>*/}
+              {/*            {location.state &&*/}
+              {/*            <List.Item>*/}
+              {/*              <List.Icon name='marker'/>*/}
+              {/*              <List.Content>{location.state} {location.country}</List.Content>*/}
+              {/*            </List.Item>}*/}
+              {/*            {socialLinks.github &&*/}
+              {/*            <List.Item>*/}
+              {/*              <List.Icon name='github'/>*/}
+              {/*              <List.Content>{socialLinks.github}</List.Content>*/}
+              {/*            </List.Item>}*/}
+              {/*            {socialLinks.linkedin &&*/}
+              {/*            <List.Item>*/}
+              {/*              <List.Icon name='linkedin'/>*/}
+              {/*              <List.Content>{socialLinks.linkedin}</List.Content>*/}
+              {/*            </List.Item>}*/}
+              {/*            {socialLinks.medium &&*/}
+              {/*            <List.Item>*/}
+              {/*              <List.Icon name='medium m'/>*/}
+              {/*              <List.Content>{socialLinks.medium}</List.Content>*/}
+              {/*            </List.Item>}*/}
+              {/*            {socialLinks.twitter &&*/}
+              {/*            <List.Item>*/}
+              {/*              <List.Icon name='medium m'/>*/}
+              {/*              <List.Content>{socialLinks.twitter}</List.Content>*/}
+              {/*            </List.Item>}*/}
+              {/*            {socialLinks.stackoverflow &&*/}
+              {/*            <List.Item>*/}
+              {/*              <List.Icon name='stack overflow'/>*/}
+              {/*              <List.Content>{socialLinks.stackoverflow}</List.Content>*/}
+              {/*            </List.Item>}*/}
+              {/*            {student.user.email &&*/}
+              {/*            <List.Item>*/}
+              {/*              <List.Icon name='mail'/>*/}
+              {/*              <List.Content>*/}
+              {/*                <a href={"mailto:" + student.user.email}>{student.user.email}</a>*/}
+              {/*              </List.Content>*/}
+              {/*            </List.Item>}*/}
+              {/*            {student.website &&*/}
+              {/*            <List.Item>*/}
+              {/*              <List.Icon name='linkify'/>*/}
+              {/*              <List.Content>*/}
+              {/*                <a href={student.website}>{student.website}</a>*/}
+              {/*              </List.Content>*/}
+              {/*            </List.Item>}*/}
+              {/*          </List>*/}
+              {/*        </Card.Content>*/}
+              {/*      </Card.Description>*/}
+              {/*    </Card.Content>*/}
+              {/*    {student.cohort &&*/}
+              {/*    <Card.Content extra>*/}
+              {/*      <Icon name='user'/>*/}
+              {/*      {student.cohort}*/}
+              {/*    </Card.Content>}*/}
+              {/*  </Card>*/}
+              {/*</Grid.Column>*/}
+              <Grid.Column width={11}>
+                <Tab menu={{attached: false}} panes={[
+                  // {
+                  //   menuItem: 'Overview',
+                  //   render: () => <ProfilePane profileId={student.id}/>
+                  // },
+                  {
+                    menuItem: 'Education',
+                    render: () => <EducationPane profileId={student.id}/>
+                  },
+                  {
+                    menuItem: 'Experience',
+                    render: () => <ExperiencePane profileId={student.id}/>
+                  },
+                  {
+                    menuItem: 'Certificates',
+                    render: () => <CertificatePane profileId={student.id}/>
+                  },
+                  {
+                    menuItem: 'Projects',
+                    render: () => <ProjectPane profileId={student.id}/>
+                  }
+                ]}/>
+              </Grid.Column>
+            </Grid>
+            :
+            <Segment vertical textAlign="center">
+              <Image src={require('../../images/empty_img.png')} size="large" style={{margin: "auto"}}/>
+              <AddEducationModal
+                theTrigger={
+                  <Button primary>
+                    Add profile
+                  </Button>
                 }
-              ]}/>
-            </Grid.Column>
-          </Grid>
-          :
-          <Segment vertical textAlign="center">
-            <Image src={require('../../images/empty_img.png')} size="large" style={{margin: "auto"}}/>
-            <AddEducationModal
-              theTrigger={
-                <Button primary>
-                  Add profile
-                </Button>
-              }
-            />
-          </Segment>
-      }
-    </div>
-  )
-
-};
+              />
+            </Segment>
+        }
+      </div>
+    )
+  }
+;
 
 export default Student;

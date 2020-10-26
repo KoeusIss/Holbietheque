@@ -1,43 +1,44 @@
-import React, {useState} from 'react'
-import {Button, Header, Icon, Modal, Form, Input, TextArea, Select, Checkbox} from 'semantic-ui-react'
+import React, { useState } from 'react'
+import { Button, Header, Icon, Modal, Form, Input, TextArea, Select, Checkbox } from 'semantic-ui-react'
 import UserService from '../../../services/user_service'
-import {toaster} from "evergreen-ui";
+import { toaster } from "evergreen-ui";
 import StudentService from "../../../services/student_service";
-import {Formik} from "formik";
+import { Formik } from "formik";
 import Certificate from "../../../models/certificate";
 import * as yup from "yup";
 
-const AddEducation = ({theTrigger, student_id}) => {
+const AddEducation = ({ theTrigger, student_id }) => {
   const [finshed, setFinshed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false);
   const educationService = new StudentService("certificates");
 
   const months = [
-    {key: '1', text: 'January', value: '01'},
-    {key: '2', text: 'February', value: '02'},
-    {key: '3', text: 'March', value: '03'},
-    {key: '4', text: 'April', value: '04'},
-    {key: '5', text: 'May', value: '05'},
-    {key: '6', text: 'June', value: '06'},
-    {key: '7', text: 'July', value: '07'},
-    {key: '8', text: 'August', value: '08'},
-    {key: '9', text: 'September', value: '09'},
-    {key: '10', text: 'October', value: '10'},
-    {key: '11', text: 'November', value: '11'},
-    {key: '12', text: 'December', value: '12'}
+    { key: '1', text: 'January', value: '01' },
+    { key: '2', text: 'February', value: '02' },
+    { key: '3', text: 'March', value: '03' },
+    { key: '4', text: 'April', value: '04' },
+    { key: '5', text: 'May', value: '05' },
+    { key: '6', text: 'June', value: '06' },
+    { key: '7', text: 'July', value: '07' },
+    { key: '8', text: 'August', value: '08' },
+    { key: '9', text: 'September', value: '09' },
+    { key: '10', text: 'October', value: '10' },
+    { key: '11', text: 'November', value: '11' },
+    { key: '12', text: 'December', value: '12' }
   ]
 
   let years = []
   let i = 0
   while (i < 100) {
-    years.push({key: i, text: (1990 + i).toString(), value: (1990 + i).toString()})
+    years.push({ key: i, text: (1990 + i).toString(), value: (1990 + i).toString() });
+    i++;
   }
 
   return (
     <>
       <Formik
-        initialValues={new Certificate()}
+        initialValues={new Education()}
         onSubmit={(values) => {
           console.log(values)
           setLoading(true);
@@ -45,7 +46,7 @@ const AddEducation = ({theTrigger, student_id}) => {
             (response) => {
               setLoading(false);
               setOpen(false);
-              toaster.notify(response.data.message, {duration: 5});
+              toaster.notify(response.data.message, { duration: 5 });
             },
             (error) => {
               const returnError =
@@ -56,7 +57,7 @@ const AddEducation = ({theTrigger, student_id}) => {
                 error.toString();
               setLoading(false);
               setOpen(false);
-              toaster.notify(returnError, {duration: 5});
+              toaster.notify(returnError, { duration: 5 });
             }
           );
         }}
@@ -67,13 +68,13 @@ const AddEducation = ({theTrigger, student_id}) => {
           start_at_year: yup.string().required("Starting year is required"),
         })}
         render={({
-                   values,
-                   errors,
-                   touched,
-                   handleChange,
-                   handleBlur,
-                   handleSubmit,
-                 }) => {
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+        }) => {
           return (
             <Modal
               closeIcon
@@ -82,7 +83,7 @@ const AddEducation = ({theTrigger, student_id}) => {
               onClose={() => setOpen(false)}
               onOpen={() => setOpen(true)}
             >
-              <Header icon='book' content='Add education'/>
+              <Header icon='book' content='Add education' />
               <Modal.Content>
                 <Form>
 
@@ -118,10 +119,10 @@ const AddEducation = ({theTrigger, student_id}) => {
                       control={Select}
                       options={months}
                       required
-                      label={{children: 'Starting month', htmlFor: 'form-select-control-job-type'}}
+                      label={{ children: 'Starting month', htmlFor: 'form-select-control-job-type' }}
                       placeholder='Month'
                       search
-                      searchInput={{id: 'form-select-month'}}
+                      searchInput={{ id: 'form-select-month' }}
                       name='job_type'
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -170,10 +171,10 @@ const AddEducation = ({theTrigger, student_id}) => {
               </Modal.Content>
               <Modal.Actions>
                 <Button color='red' onClick={() => setOpen(false)}>
-                  <Icon name='remove'/> Cancel
+                  <Icon name='remove' /> Cancel
                 </Button>
                 <Button color='green' onClick={handleSubmit}>
-                  <Icon name='checkmark'/> Add
+                  <Icon name='checkmark' /> Add
                 </Button>
               </Modal.Actions>
             </Modal>

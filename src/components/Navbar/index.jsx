@@ -1,20 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { Menu, Dropdown, Image } from "semantic-ui-react";
 import { toaster } from "evergreen-ui";
 import "./navbar.css";
 import faker from "faker";
 import UserService from "../../services/user_service";
+import AddProfile from '../../views/Students/Profile/add_profile'
 
 function Navbar() {
   const history = useHistory();
+  const current_user = UserService.currentUser();
+  const [student, setStudent] = useState([])
   const [activeItem, setActiveItem] = useState("");
+  const [loading, setLoading] = useState(false);
   const handleLogout = (event) => {
     localStorage.removeItem("access_token");
     toaster.success("Logout Successful, See you soon!", { duration: 3 });
     history.push("/login");
   };
-  const current_user = UserService.currentUser();
+
+  useEffect(() => {
+    setLoading(true)
+    UserService.student(current_user.id).then(
+      (res) => {
+        setStudent(res.data.student)
+        setLoading(true)
+      },
+      (error) => {
+        const returnError =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        toaster.notify(returnError, { duration: 5 })
+        setLoading(true)
+      }
+    )
+  }, [])
+
+
   const handleItemClick = (e, { name }) => setActiveItem(name);
 
   const trigger = (
@@ -54,13 +79,23 @@ function Navbar() {
         />
         {current_user ? (
           <Menu.Menu position="right">
-            <Menu.Item
-              name="profile"
-              active={activeItem === "profile"}
-              onClick={handleItemClick}
-              as={NavLink}
-              to={"/students/" + current_user.id}
-            />
+            {student.length === 0 ?
+              <AddProfile
+                theTrigger={<Menu.Item
+                  name="create profile"
+                  text="create profile"
+                />}
+                user_id={current_user.id}
+              />
+              :
+              <Menu.Item
+                name="profile"
+                active={activeItem === "profile"}
+                onClick={handleItemClick}
+                as={NavLink}
+                to={"/students/" + current_user.id}
+              />
+            }
             <Menu.Item
               name="logout"
               active={activeItem === "logout"}
@@ -68,16 +103,16 @@ function Navbar() {
             />
           </Menu.Menu>
         ) : (
-          <Menu.Menu position="right">
-            <Menu.Item
-              name="login"
-              active={activeItem === "login"}
-              onClick={handleItemClick}
-              as={NavLink}
-              to="/login"
-            />
-          </Menu.Menu>
-        )}
+            <Menu.Menu position="right">
+              <Menu.Item
+                name="login"
+                active={activeItem === "login"}
+                onClick={handleItemClick}
+                as={NavLink}
+                to="/login"
+              />
+            </Menu.Menu>
+          )}
       </Menu>
     </div>
   );

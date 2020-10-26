@@ -135,7 +135,8 @@ def verify_mail():
 @jwt.user_claims_loader
 def add_claims_to_access_token(user):
     return {
-        'role': user['role']
+        'role': user['role'],
+        'first_login': user['first_login']
     }
 
 
@@ -160,7 +161,7 @@ def login_user():
     hashed = md5(data.get("password").encode()).hexdigest()
     the_user = storage.get_user_by_email(data.get("email", None))
     if the_user and the_user.password == hashed:
-        user = {"id": the_user.id, "role": the_user.role}
+        user = {"id": the_user.id, "role": the_user.role, "first_login": the_user.first_login}
         return {
                    "success": True,
                    "message": "Login Successful",
@@ -197,3 +198,32 @@ def get_user_student(user_id):
         "address": address,
         "social_links": social
     }
+
+@app_views.route(
+    '/users/<user_id>',
+    methods=['PUT'],
+    strict_slashes=False
+)
+def update_user(user_id):
+    """ PUT /api/v1/students/:student_id/address """
+    the_user = storage.get(User, user_id)
+    if not the_user:
+        return {
+           "success": False,
+           "message": "User not found"
+        }, 400
+    if not request.get_json():
+        return {
+            "success": False,
+            "message": "Not a json request"
+        }, 400
+    ignore = ['id', 'created_at', 'updated_at']
+    data = request.get_json()
+    for key, value in data.items():
+        if key not in ignore:
+            setattr(the_user, key, value)
+    storage.save()
+    return {
+        "success": True,
+        "message": "User updated successfully"
+    }, 200

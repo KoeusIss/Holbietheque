@@ -38,6 +38,10 @@ class User(BaseModel, Base):
     otp_expired_at = Column(
         DateTime()
     )
+    first_login = Column(
+        Boolean(),
+        default=False
+    )
     student = relationship(
         "Student",
         uselist=False,
@@ -67,3 +71,4 @@ class UserSchema(Schema):
     id = fields.Str()
     email = fields.Str()
     role = fields.Str()
+    first_login = fields.Boolean()

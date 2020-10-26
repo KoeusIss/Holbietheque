@@ -8,27 +8,28 @@ const API_URL =
     : "http://localhost:5000/api/v1"
 
 class UserService {
-  getStudentByUser(user_id) {
+  student(user_id) {
     const api = [API_URL, user_id, "student"].join('/')
     return axios
-      .get(api, {headers: authHeader()})
+      .get(api, { headers: authHeader() })
   }
 
-  postStudentProfile(student, user_id) {
+  create(data, user_id) {
+    const api = [API_URL, 'students'].join('/')
+    data.user_id = user_id
+    data.date_of_birth = [data.birth_year, data.birth_month, data.birth_day].join('-')
     return axios
-      .post(API_URL + '/students',
+      .post(api, data, { headers: authHeader() })
+  }
+
+  update_first_login(user_id) {
+    const api = [API_URL, 'users', user_id].join('/')
+    return axios
+      .put(api,
         {
-          first_name: student.first_name,
-          last_name: student.last_name,
-          middle_name: student.middle_name,
-          gender: student.gender,
-          school_id: student.school_id,
-          cin_number: student.cin_number,
-          passport_number: student.passport_number,
-          about_me: student.about_me,
-          user_id: user_id
+          first_login: true
         },
-        {headers: authHeader()})
+        { headers: authHeader() })
   }
 
   postStudentCertificate(cert, id) {
@@ -43,19 +44,19 @@ class UserService {
           certificate_id: cert.certificate_id,
           description: cert.description
         },
-        {headers: authHeader()})
+        { headers: authHeader() })
   }
 
   getStudentCertificates(student_id) {
     const api = API_URL + '/' + student_id + '/certificates'
     return axios
-      .get(api, {headers: authHeader()})
+      .get(api, { headers: authHeader() })
   }
 
   getStudentEducation(student_id) {
     const api = API_URL + '/' + student_id + '/educations'
     return axios
-      .get(api, {headers: authHeader()})
+      .get(api, { headers: authHeader() })
   }
 
   postStudentEducation(education, id) {
@@ -71,7 +72,7 @@ class UserService {
           grade: education.grade,
           description: education.description
         },
-        {headers: authHeader()})
+        { headers: authHeader() })
   }
   postStudentExperience(experience, id) {
     return axios
@@ -85,19 +86,23 @@ class UserService {
           is_actual: experience.is_actual,
           description: experience.description
         },
-        {headers: authHeader()})
+        { headers: authHeader() })
   }
   getStudentExperience(student_id) {
     const api = API_URL + '/' + student_id + '/experiences'
     return axios
-      .get(api, {headers: authHeader()})
+      .get(api, { headers: authHeader() })
   }
   currentUser() {
     const token = localStorage.getItem('access_token')
     if (token) {
       const decoded = jwt_decode(token)
       if (decoded.identity) {
-        return {id: decoded.identity, role: decoded.user_claims.role}
+        return {
+          id: decoded.identity,
+          role: decoded.user_claims.role,
+          first_login: decoded.user_claims.first_login
+        }
       } else {
         return null
       }

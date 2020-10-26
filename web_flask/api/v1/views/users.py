@@ -185,9 +185,15 @@ def get_user_student(user_id):
     if not the_user:
         return {
             "success": False,
-            "message": "data not found"
+            "message": "User not found"
         }, 400
     the_student = the_user.student
+    if not the_student:
+        return {
+            "success": False,
+            "message": "Student not found",
+            "student": []
+        }, 200
     student = student_schema.dump(the_student)
     address = address_schema.dump(the_student.address)
     social = social_schema.dump(the_student.social)

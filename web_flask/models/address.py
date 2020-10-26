@@ -55,6 +55,7 @@ class Address(BaseModel, Base):
 
 class AddressSchema(Schema):
     """ Address Schema """
+    id = fields.Str()
     first_line = fields.Str()
     second_line = fields.Str()
     city = fields.Str()

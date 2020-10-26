@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Certificate from "../../../models/certificate";
 import StudentService from "../../../services/student_service";
-import {Formik, Field} from "formik";
+import { Formik, Field } from "formik";
 import * as yup from "yup";
 import {
   Button,
@@ -12,13 +12,12 @@ import {
   Input,
   TextArea,
   Checkbox,
-} from "semantic-ui-react"
-import {toaster} from "evergreen-ui";
-import SemanticDatepicker from 'react-semantic-ui-datepickers';
-import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
+} from "semantic-ui-react";
+import { toaster } from "evergreen-ui";
+import SemanticDatepicker from "react-semantic-ui-datepickers";
+import "react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css";
 
-
-const AddCertificate = ({theTrigger, student_id}) => {
+const AddCertificate = ({ theTrigger, student_id }) => {
   const [expire, setExpire] = useState(false);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -29,13 +28,13 @@ const AddCertificate = ({theTrigger, student_id}) => {
       <Formik
         initialValues={new Certificate()}
         onSubmit={(values) => {
-          console.log(values)
+          console.log(values);
           setLoading(true);
           certificateService.create(values, student_id).then(
             (response) => {
               setLoading(false);
               setOpen(false);
-              toaster.notify(response.data.message, {duration: 5});
+              toaster.notify(response.data.message, { duration: 5 });
             },
             (error) => {
               const returnError =
@@ -46,7 +45,7 @@ const AddCertificate = ({theTrigger, student_id}) => {
                 error.toString();
               setLoading(false);
               setOpen(false);
-              toaster.notify(returnError, {duration: 5});
+              toaster.notify(returnError, { duration: 5 });
             }
           );
         }}
@@ -55,13 +54,13 @@ const AddCertificate = ({theTrigger, student_id}) => {
           authority: yup.string().required("Authority issued is required"),
         })}
         render={({
-                   values,
-                   errors,
-                   touched,
-                   handleChange,
-                   handleBlur,
-                   handleSubmit,
-                 }) => {
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+        }) => {
           return (
             <Modal
               closeIcon
@@ -70,7 +69,7 @@ const AddCertificate = ({theTrigger, student_id}) => {
               onClose={() => setOpen(false)}
               onOpen={() => setOpen(true)}
             >
-              <Header icon="certificate" content="Add certificate"/>
+              <Header icon="certificate" content="Add certificate" />
               <Modal.Content>
                 <Form onSubmit={handleSubmit}>
                   <Form.Group widths="equal">
@@ -134,10 +133,10 @@ const AddCertificate = ({theTrigger, student_id}) => {
               </Modal.Content>
               <Modal.Actions>
                 <Button color="red" onClick={() => setOpen(false)}>
-                  <Icon name="remove"/> Cancel
+                  <Icon name="remove" /> Cancel
                 </Button>
                 <Button color="green" onClick={handleSubmit} loading={loading}>
-                  <Icon name="checkmark"/> Add
+                  <Icon name="checkmark" /> Add
                 </Button>
               </Modal.Actions>
             </Modal>

@@ -73,7 +73,7 @@ const Student = () => {
                         <List.Item>
                           <List.Icon name="marker" />
                           <List.Content>
-                            {location.state} {location.country}
+                            {location.state.name}, {location.state.country.name}
                           </List.Content>
                         </List.Item>
                       )}
@@ -143,6 +143,12 @@ const Student = () => {
                   {student.cohort}
                 </Card.Content>
               )}
+              <Card.Content extra>
+                <AddProfile
+                  theTrigger={<Button basic>Edit profile</Button>}
+                  user_id={id}
+                />
+              </Card.Content>
             </Card>
           </Grid.Column>
           <Grid.Column width={11}>
@@ -151,12 +157,10 @@ const Student = () => {
               panes={[
                 {
                   menuItem: "Overview",
-                  render: () => <ProfilePane profileId={student.id} />,
+                  render: () => (
+                    <ProfilePane student={student} socialLink={socialLinks} />
+                  ),
                 },
-                // {
-                //   menuItem: 'Education',
-                //   render: () => <EducationPane profileId={student.id} />
-                // },
                 {
                   menuItem: "Experience",
                   render: () => <ExperiencePane profileId={student.id} />,

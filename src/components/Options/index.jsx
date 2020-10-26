@@ -62,7 +62,7 @@ const countries = [
 ];
 
 const states = [
-  { key: "bz", text: "Bizerte", value: "863e4057-f55a-4331-8121-5a82a497b86a" },
+  { key: "bz", text: "Bizerte", value: "0129e227-a82e-4836-b152-5ea8adba6669" },
   { key: "ga", text: "Gabes", value: "9f7f1da7-d5c9-4439-b90e-3e7905ff94f4" },
   {
     key: "ka",

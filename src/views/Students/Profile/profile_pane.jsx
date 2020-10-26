@@ -1,4 +1,12 @@
-import { Button, Header, Icon, Menu, Segment, Dropdown, Card } from "semantic-ui-react";
+import {
+  Button,
+  Header,
+  Icon,
+  Menu,
+  Segment,
+  Dropdown,
+  Card,
+} from "semantic-ui-react";
 import Add_profile from "./add_profile";
 import React, { useEffect } from "react";
 import AddSocialLinks from "./add_social_links";
@@ -7,35 +15,34 @@ import AddAddress from "./add_address_modal";
 import AddAboutMe from "./add_about_me";
 
 const handleClick = () => {
-  console.log('item clicked')
-}
+  console.log("item clicked");
+};
 
-const ProfilePane = ({ profileId }) => {
+const ProfilePane = ({ student, socialLink }) => {
   return (
     <div>
       <Menu text fluid>
-        <Menu.Item position='right'>
+        <Menu.Item position="right">
           <Dropdown
-            button basic link
-            className='icon'
+            button
+            basic
+            link
+            className="icon"
             floating
             labeled
-            icon='plus'
-            text='Add to profile'
+            icon="plus"
+            text="Add to profile"
             onClick={handleClick}
           >
             <Dropdown.Menu>
-              <AddAboutMe
-                theTrigger={<Dropdown.Item text="Overview" />}
-                student_id={profileId}
-              />
               <AddAddress
                 theTrigger={<Dropdown.Item text="Location" />}
-                student_id={profileId}
+                student_id={student.id}
               />
               <AddSocialLinks
                 theTrigger={<Dropdown.Item text="Social links" />}
-                student_id={profileId}
+                student_id={student.id}
+                socialLink={socialLink}
               />
               <Dropdown.Item text="Skills" />
               <Dropdown.Item text="Language" />
@@ -47,25 +54,12 @@ const ProfilePane = ({ profileId }) => {
         <Card.Content>
           <Card.Header>About me</Card.Header>
           <Card.Description>
-            <p>
-              One morning, when Gregor Samsa woke from troubled dreams,
-              he found himself transformed in his bed into a horrible vermin.
-              He lay on his armour-like back, and if he lifted his head a
-              little he could see his brown belly, slightly domed and
-              divided by arches into stiff sections. The bedding was
-              hardly able to cover it and seemed ready to slide off any
-              moment. His many legs, pitifully thin compared with the
-              size of the rest of him, waved about helplessly as
-              he looked. "What's happened to me?" he thoe
-              </p>
+            <p>{student.about_me}</p>
           </Card.Description>
-          <Button.Group basic size='small' floated='right'>
-            <Button icon='trash' />
-          </Button.Group>
         </Card.Content>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default ProfilePane
+export default ProfilePane;

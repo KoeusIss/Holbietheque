@@ -38,10 +38,6 @@ class User(BaseModel, Base):
     otp_expired_at = Column(
         DateTime()
     )
-    first_login = Column(
-        Boolean(),
-        default=False
-    )
     student = relationship(
         "Student",
         uselist=False,

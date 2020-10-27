@@ -76,7 +76,12 @@ class DesktopContainer extends Component {
               </Menu.Item>
               <Menu.Item style={{ color: "white" }} position="right">
                 {this.current_user ? (
-                  <Button as={NavLink} to="/login" onClick={this.handleLogout}>
+                  <Button
+                    as={NavLink}
+                    to="/login"
+                    onClick={this.handleLogout}
+                    style={{ color: "#eb0045" }}
+                  >
                     Logout
                   </Button>
                 ) : (

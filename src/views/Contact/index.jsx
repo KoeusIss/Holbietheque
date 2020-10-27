@@ -40,7 +40,7 @@ const Contact = () => (
             on="click"
             hideOnScroll
           />
-          <Button as={NavLink} to="./">
+          <Button as={NavLink} to="./" style={{ color: "red" }}>
             Cancel
           </Button>
         </Form>

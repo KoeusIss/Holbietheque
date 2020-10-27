@@ -1,23 +1,23 @@
-// Experience pane
+// Education pane
 
 import React, { useEffect, useState } from "react";
-import AddExperience from "./add_experience";
-import EditExperience from "./edit_experience";
+import AddEducation from "./add_education";
+import EditEducation from "./edit_education";
 import StudentService from "../../../services/student_service";
 import { Button, Header, Icon, Menu, Segment, Card } from "semantic-ui-react";
 import { toaster } from "evergreen-ui";
 
-const ExperiencePane = ({ profileId }) => {
+const EducationPane = ({ profileId }) => {
   const [loading, setLoading] = useState(false);
-  const [experiences, setExperiences] = useState([]);
+  const [education, setEducation] = useState([]);
   const [count, setCount] = useState(0);
-  const experienceService = new StudentService("experiences");
+  const educationService = new StudentService("educations");
 
   useEffect(() => {
     setLoading(true);
-    experienceService.all(profileId).then(
+    educationService.all(profileId).then(
       (res) => {
-        setExperiences(res.data.experiences);
+        setEducation(res.data.experiences);
         setCount(res.data.count);
         setLoading(false);
       },
@@ -32,12 +32,12 @@ const ExperiencePane = ({ profileId }) => {
         toaster.notify(returnError, { duration: 5 });
       }
     );
-  }, [experiences]);
+  }, [education]);
 
   const handleDelete = (e) => {
     console.log(e.target.id);
     setLoading(true);
-    experienceService.delete(e.target.id).then(
+    educationService.delete(e.target.id).then(
       (response) => {
         setLoading(false);
         toaster.notify(response.data.message, { duration: 5 });
@@ -59,10 +59,10 @@ const ExperiencePane = ({ profileId }) => {
     <div>
       <Menu text fluid>
         <Menu.Item position="right">
-          {/* Experience create form modal trigger */}
-          <AddExperience
+          {/* Education create form modal trigger */}
+          <AddEducation
             theTrigger={
-              <Button icon basic loading={loading}>
+              <Button icon basic>
                 <Icon name="plus" />
               </Button>
             }
@@ -70,18 +70,18 @@ const ExperiencePane = ({ profileId }) => {
           />
         </Menu.Item>
       </Menu>
-      {/* Placeholder if there's no expereinces */}
+      {/* Placeholder of there's no education */}
       {count === 0 ? (
         <Segment placeholder>
           <Header icon>
-            <Icon name="briefcase" />
-            No experiences are listed.
+            <Icon name="book" />
+            No education are listed.
           </Header>
-          {/* Experience create form modal trigger */}
-          <AddExperience
+          {/* Education create form modal trigger */}
+          <AddEducation
             theTrigger={
               <Button primary loading={loading}>
-                Add new experience
+                Add new education
               </Button>
             }
             student_id={profileId}
@@ -89,22 +89,21 @@ const ExperiencePane = ({ profileId }) => {
         </Segment>
       ) : (
         <div>
-          {experiences.map((exp) => {
+          {education.map((edu) => {
             return (
-              <Card fluid key={exp.title}>
+              <Card fluid>
                 <Card.Content>
-                  <Card.Header>{exp.company}</Card.Header>
+                  <Card.Header>{edu.school}</Card.Header>
                   <Card.Meta>
-                    From {exp.start_at} to {exp.end_at}
+                    {edu.degree}, {edu.major}
                   </Card.Meta>
-                  <Card.Description>{exp.description}</Card.Description>
+                  <Card.Meta>
+                    From {edu.start_at} to {edu.end_at}
+                  </Card.Meta>
+                  <Card.Description>{edu.description}</Card.Description>
                   <Button.Group basic size="small" floated="right">
-                    {/* Experience edit form trigger */}
-                    <EditExperience
-                      theTrigger={<Button icon="pencil" />}
-                      data={exp}
-                    />
-                    <Button icon="trash" onClick={handleDelete} id={exp.id} />
+                    <Button icon="pencil" />
+                    <Button icon="trash" />
                   </Button.Group>
                 </Card.Content>
               </Card>
@@ -116,4 +115,4 @@ const ExperiencePane = ({ profileId }) => {
   );
 };
 
-export default ExperiencePane;
+export default EducationPane;

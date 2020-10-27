@@ -1,8 +1,8 @@
-// Add education pane
+// Add education modal
 
 import React, { useState } from "react";
 import StudentService from "../../../services/student_service";
-import Experience from "../../../models/experience";
+import Education from "../../../models/education";
 import { Formik, Field } from "formik";
 import * as yup from "yup";
 import {
@@ -18,28 +18,46 @@ import {
 } from "semantic-ui-react";
 import { toaster } from "evergreen-ui";
 
-const AddExperience = ({ theTrigger, student_id }) => {
-  const [actual, setActual] = useState(false);
+const AddEducation = ({ theTrigger, student_id }) => {
+  const [finshed, setFinshed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const [experience, setExperience] = useState(new Experience());
-  const experienceService = new StudentService("experiences");
+  const [education, setEducation] = useState(new Education());
+  const educationService = new StudentService("education");
 
-  const jobTypeOptions = [
-    { key: "f", text: "Full time", value: "Full time" },
-    { key: "p", text: "Part time", value: "Part time" },
-    { key: "l", text: "Freelance", value: "Freelance" },
-    { key: "a", text: "Apprenticeship", value: "Apprenticeship" },
-    { key: "i", text: "Internship", value: "Internship" },
+  const months = [
+    { key: "1", text: "January", value: "01" },
+    { key: "2", text: "February", value: "02" },
+    { key: "3", text: "March", value: "03" },
+    { key: "4", text: "April", value: "04" },
+    { key: "5", text: "May", value: "05" },
+    { key: "6", text: "June", value: "06" },
+    { key: "7", text: "July", value: "07" },
+    { key: "8", text: "August", value: "08" },
+    { key: "9", text: "September", value: "09" },
+    { key: "10", text: "October", value: "10" },
+    { key: "11", text: "November", value: "11" },
+    { key: "12", text: "December", value: "12" },
   ];
+
+  let years = [];
+  let i = 0;
+  while (i < 100) {
+    years.push({
+      key: i,
+      text: (1990 + i).toString(),
+      value: (1990 + i).toString(),
+    });
+    i++;
+  }
 
   return (
     <>
       <Formik
-        initialValues={new Experience()}
+        initialValues={new Education()}
         onSubmit={(values) => {
           setLoading(true);
-          experienceService.create(values, student_id).then(
+          educationService.create(values, student_id).then(
             (response) => {
               setLoading(false);
               setOpen(false);
@@ -59,8 +77,10 @@ const AddExperience = ({ theTrigger, student_id }) => {
           );
         }}
         validationSchema={yup.object().shape({
-          title: yup.string().required("Job title is required"),
-          company: yup.string().required("Company name is required"),
+          degree: yup.string().required("Degree name is required"),
+          school: yup.string().required("School name is required"),
+          start_at_month: yup.string().required("Starting month is required"),
+          start_at_year: yup.string().required("Starting year is required"),
         })}
         render={({
           values,
@@ -81,80 +101,86 @@ const AddExperience = ({ theTrigger, student_id }) => {
               <Header icon="book" content="Add education" />
               <Modal.Content>
                 <Form>
+                  <Form.Field
+                    name="degree"
+                    required
+                    control={Input}
+                    label="Degree name"
+                    placeholder="Degree name"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <Form.Field
+                    name="major"
+                    control={Input}
+                    label="Education major"
+                    placeholder="Education major"
+                    onChange={handleChange}
+                  />
+                  <Form.Field
+                    name="school"
+                    required
+                    control={Input}
+                    label="School"
+                    placeholder="School name"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <Form.Group widths="equal"></Form.Group>
                   <Form.Group widths="equal">
-                    <Form.Field
-                      name="title"
-                      required
-                      control={Input}
-                      label="Job title"
-                      placeholder="Job title"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.title && errors.title}
-                    />
                     <Form.Field
                       control={Select}
-                      options={jobTypeOptions}
+                      options={months}
+                      required
                       label={{
-                        children: "Job Type",
+                        children: "Starting month",
                         htmlFor: "form-select-control-job-type",
                       }}
-                      placeholder="Job Type"
+                      placeholder="Month"
                       search
-                      searchInput={{ id: "form-select-control-job-type" }}
+                      searchInput={{ id: "form-select-month" }}
                       name="job_type"
                       onChange={handleChange}
+                      onBlur={handleBlur}
                     />
-                  </Form.Group>
-                  <Form.Group widths="equal">
+
                     <Form.Field
-                      name="company"
+                      name="start_at_year"
                       required
                       control={Input}
-                      label="Company name"
-                      placeholder="Company name"
+                      label="Starting year"
+                      placeholder="Started date"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.company && errors.company}
                     />
                     <Form.Field
-                      name="location"
+                      name="end_at_month"
                       control={Input}
-                      label="Location"
-                      placeholder="Tunisia, France, Germany ..."
-                      onChange={handleChange}
-                    />
-                  </Form.Group>
-                  <Form.Group widths="equal">
-                    <Form.Field
-                      name="start_at"
-                      control={Input}
-                      label="Start"
+                      label="Starting month"
                       placeholder="Started date"
                       onChange={handleChange}
                     />
 
                     <Form.Field
-                      name="end_at"
+                      name="end_at_year"
                       control={Input}
-                      label="Finish"
-                      placeholder="Finish date"
+                      label="Starting month"
+                      placeholder="Started date"
                       onChange={handleChange}
-                      disabled={actual}
                     />
                   </Form.Group>
                   <Form.Field
                     name="is_finished"
                     label="Still at school?"
                     control={Checkbox}
-                    onClick={() => setActual(!actual)}
+                    onClick={() => setFinshed(!finshed)}
                     onChange={handleChange}
                   />
                   <Form.Field
                     name="description"
                     control={TextArea}
                     label="Description"
-                    placeholder="What about the your experience.."
+                    placeholder="What about the education.."
                     onChange={handleChange}
                   />
                 </Form>
@@ -163,7 +189,7 @@ const AddExperience = ({ theTrigger, student_id }) => {
                 <Button color="red" onClick={() => setOpen(false)}>
                   <Icon name="remove" /> Cancel
                 </Button>
-                <Button color="green" onClick={handleSubmit} loading={loading}>
+                <Button color="green" onClick={handleSubmit}>
                   <Icon name="checkmark" /> Add
                 </Button>
               </Modal.Actions>
@@ -174,5 +200,4 @@ const AddExperience = ({ theTrigger, student_id }) => {
     </>
   );
 };
-
-export default AddExperience;
+export default AddEducation;

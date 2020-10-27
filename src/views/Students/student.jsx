@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProfilePane from "./Profile/profile_pane";
-// import EducationPane from "./Education/EducationPane";
+import EducationPane from "./Education/education_pane";
 import ExperiencePane from "./Experiences/experience_pane";
 import ProjectPane from "./Projects/project_pane";
 import CertificatePane from "./Certificates/certificate_pane";
@@ -160,6 +160,10 @@ const Student = () => {
                   render: () => (
                     <ProfilePane student={student} socialLink={socialLinks} />
                   ),
+                },
+                {
+                  menuItem: "Education",
+                  render: () => <EducationPane profileId={student.id} />,
                 },
                 {
                   menuItem: "Experience",

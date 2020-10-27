@@ -80,8 +80,8 @@ const FooterLayout = () => (
       vertical
       style={{
         padding: "3em 0em",
-        bottom: "-18rem",
-        postion: "relative",
+        bottom: "0",
+        postion: "fixed",
         width: "100%",
         backgroundColor: "#000",
       }}

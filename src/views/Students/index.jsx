@@ -29,7 +29,14 @@ const Students = () => {
       });
   });
   return (
-    <div style={{ top: "2rem" }}>
+    <div
+      style={{
+        top: "2rem",
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "80vh",
+      }}
+    >
       <Grid columns={2}>
         <Grid.Row>
           <Grid.Column>
@@ -39,16 +46,19 @@ const Students = () => {
             >
               <Image src={require("../../images/students_list.png")} />
               Students list
+              <Divider inverted />
             </Header>
           </Grid.Column>
+          <Divider inverted style={{ backgroundColor: "red" }} />
           {/* <Grid.Column width="1">
             <SearchExampleStandard source={students} />
           </Grid.Column> */}
         </Grid.Row>
         <Grid.Row style={{ margin: "auto 5% auto 15%" }}>
           <Container>
-            <Card.Group doubling>
+            <Card.Group doubling textAlign="center" items>
               {students.map((student) => {
+                console.log(student);
                 return (
                   <div>
                     <Card centered>
@@ -78,7 +88,6 @@ const Students = () => {
                         </div>
                       </Card.Content>
                     </Card>
-                    <Divider inverted />
                   </div>
                 );
               })}

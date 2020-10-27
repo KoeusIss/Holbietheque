@@ -4,10 +4,8 @@ export default class Education {
     school = "",
     major = "",
     grade = "",
-    start_at_month = "",
-    start_at_year = "",
-    end_at_month = "",
-    end_at_year = "",
+    start_at = "",
+    end_at = "",
     is_finished = false,
     description = ""
   ) {
@@ -15,10 +13,8 @@ export default class Education {
     this.school = school;
     this.major = major;
     this.grade = grade;
-    this.start_at_month = start_at_month;
-    this.start_at_year = start_at_month;
-    this.end_at_month = end_at_month;
-    this.end_at_year = end_at_year;
+    this.start_at = start_at;
+    this.end_at = end_at;
     this.is_finished = is_finished;
     this.description = description;
   }

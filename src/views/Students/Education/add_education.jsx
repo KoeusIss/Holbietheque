@@ -79,8 +79,7 @@ const AddEducation = ({ theTrigger, student_id }) => {
         validationSchema={yup.object().shape({
           degree: yup.string().required("Degree name is required"),
           school: yup.string().required("School name is required"),
-          start_at_month: yup.string().required("Starting month is required"),
-          start_at_year: yup.string().required("Starting year is required"),
+          start_at: yup.string().required("Starting date is required"),
         })}
         render={({
           values,
@@ -129,43 +128,19 @@ const AddEducation = ({ theTrigger, student_id }) => {
                   <Form.Group widths="equal"></Form.Group>
                   <Form.Group widths="equal">
                     <Form.Field
-                      control={Select}
-                      options={months}
-                      required
-                      label={{
-                        children: "Starting month",
-                        htmlFor: "form-select-control-job-type",
-                      }}
-                      placeholder="Month"
-                      search
-                      searchInput={{ id: "form-select-month" }}
-                      name="job_type"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-
-                    <Form.Field
-                      name="start_at_year"
+                      name="start_at"
                       required
                       control={Input}
-                      label="Starting year"
-                      placeholder="Started date"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <Form.Field
-                      name="end_at_month"
-                      control={Input}
-                      label="Starting month"
-                      placeholder="Started date"
+                      label="Start date"
+                      placeholder="YYYY-MM-DD"
                       onChange={handleChange}
                     />
-
                     <Form.Field
-                      name="end_at_year"
+                      name="end_at"
+                      required
                       control={Input}
-                      label="Starting month"
-                      placeholder="Started date"
+                      label="End date"
+                      placeholder="YYYY-MM-DD"
                       onChange={handleChange}
                     />
                   </Form.Group>

@@ -128,19 +128,20 @@ const AddExperience = ({ theTrigger, student_id }) => {
                   <Form.Group widths="equal">
                     <Form.Field
                       name="start_at"
+                      required
                       control={Input}
-                      label="Start"
-                      placeholder="Started date"
+                      label="Start date"
+                      placeholder="YYYY-MM-DD"
                       onChange={handleChange}
                     />
 
                     <Form.Field
                       name="end_at"
+                      required
                       control={Input}
-                      label="Finish"
-                      placeholder="Finish date"
+                      label="End date"
+                      placeholder="YYYY-MM-DD"
                       onChange={handleChange}
-                      disabled={actual}
                     />
                   </Form.Group>
                   <Form.Field

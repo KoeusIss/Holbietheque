@@ -14,8 +14,6 @@ import {
   Checkbox,
 } from "semantic-ui-react";
 import { toaster } from "evergreen-ui";
-import SemanticDatepicker from "react-semantic-ui-datepickers";
-import "react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css";
 
 const AddCertificate = ({ theTrigger, student_id }) => {
   const [expire, setExpire] = useState(false);
@@ -96,22 +94,22 @@ const AddCertificate = ({ theTrigger, student_id }) => {
                   </Form.Group>
                   <Form.Group widths="equal">
                     <Form.Field
-                      control={SemanticDatepicker}
-                      label="Issued date"
                       name="issued_at"
-                      placeholder="Date"
-                      value={values.value}
-                      iconPosition="left"
+                      required
+                      control={Input}
+                      label="Expired date"
+                      placeholder="YYYY-MM-DD"
                       onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.name && errors.name}
                     />
 
                     <Form.Field
-                      control={SemanticDatepicker}
-                      label="Expired date"
                       name="expired_at"
-                      placeholder="Date"
-                      value={values.value}
-                      iconPosition="left"
+                      required
+                      control={Input}
+                      label="Expire date"
+                      placeholder="YYYY-MM-DD"
                       onChange={handleChange}
                     />
                   </Form.Group>

@@ -3,7 +3,7 @@ import {Button, Header, Icon, Modal, Form, Input, TextArea, Select} from 'semant
 import UserService from '../../../services/user_service'
 import {toaster} from "evergreen-ui";
 
-const AddProfileModal = ({theTrigger}) => {
+const AddAboutMe = ({theTrigger}) => {
     const [profile, setProfile] = useState({
         first_name: '',
         last_name: '',
@@ -69,73 +69,6 @@ const AddProfileModal = ({theTrigger}) => {
             <Header icon='user' content='Add profile'/>
             <Modal.Content>
                 <Form>
-                    <Form.Group widths='equal'>
-                        <Form.Field
-                            name='first_name'
-                            control={Input}
-                            label='First name'
-                            placeholder='First name'
-                            onChange={handleChange}
-                        />
-                        <Form.Field
-                            name='last_name'
-                            control={Input}
-                            label='Last name'
-                            placeholder='Last name'
-                            onChange={handleChange}
-                        />
-                        <Form.Field
-                            name='middle_name'
-                            control={Input}
-                            label='Middle name'
-                            placeholder='Middle name'
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-                    <Form.Group widths='equal'>
-                        <Form.Field
-                            name='school_id'
-                            control={Input}
-                            label='School ID'
-                            placeholder='School ID'
-                            onChange={handleChange}
-                        />
-
-                        <Form.Field
-                            control={Select}
-                            options={genderOptions}
-                            label={{children: 'Gender', htmlFor: 'form-select-control-gender'}}
-                            placeholder='Gender'
-                            search
-                            searchInput={{id: 'form-select-control-gender'}}
-                            name='gender'
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-                    <Form.Group widths='equal'>
-                        <Form.Field
-                            name='date_of_birth'
-                            control={Input}
-                            label='Date of birth'
-                            placeholder='Date of birth'
-                            onChange={handleChange}
-                        />
-
-                        <Form.Field
-                            name='cin_number'
-                            control={Input}
-                            label='CIN number'
-                            placeholder='National identity number'
-                            onChange={handleChange}
-                        />
-                        <Form.Field
-                            name='passport_number'
-                            control={Input}
-                            label='Passport number'
-                            placeholder='Passport number'
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
                     <Form.Field
                         name='about_me'
                         control={TextArea}
@@ -157,4 +90,4 @@ const AddProfileModal = ({theTrigger}) => {
     )
 }
 
-export default AddProfileModal
+export default AddAboutMe

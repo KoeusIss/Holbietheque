@@ -3,6 +3,8 @@
 import datetime
 from web_flask.models.user import User, UserSchema
 from web_flask.models.student import StudentSchema
+from web_flask.models.social import SocialSchema
+from web_flask.models.address import AddressSchema
 from web_flask.api.v1.app import jwt
 from web_flask.api.v1.app import mail
 from web_flask.models import storage
@@ -17,10 +19,12 @@ from flask_jwt_extended import (
 )
 from functools import wraps
 from hashlib import md5
+
 student_schema = StudentSchema()
 users_schema = UserSchema(many=True)
 user_schema = UserSchema()
-
+social_schema = SocialSchema()
+address_schema = AddressSchema()
 
 def admin_required(fn):
     @wraps(fn)
@@ -170,7 +174,7 @@ def login_user():
 
 
 @app_views.route(
-    '/users/<user_id>/student',
+    '/<user_id>/student',
     methods=['GET'],
     strict_slashes=False
 )
@@ -180,12 +184,51 @@ def get_user_student(user_id):
     if not the_user:
         return {
             "success": False,
-            "message": "data not found"
+            "message": "User not found"
         }, 400
     the_student = the_user.student
+    if not the_student:
+        return {
+            "success": False,
+            "message": "Student not found",
+            "student": []
+        }, 200
     student = student_schema.dump(the_student)
+    address = address_schema.dump(the_student.address)
+    social = social_schema.dump(the_student.social)
     return {
         "success": True,
         "message": "data found",
         "student": student,
+        "address": address,
+        "social_links": social
     }
+
+@app_views.route(
+    '/users/<user_id>',
+    methods=['PUT'],
+    strict_slashes=False
+)
+def update_user(user_id):
+    """ PUT /api/v1/students/:student_id/address """
+    the_user = storage.get(User, user_id)
+    if not the_user:
+        return {
+           "success": False,
+           "message": "User not found"
+        }, 400
+    if not request.get_json():
+        return {
+            "success": False,
+            "message": "Not a json request"
+        }, 400
+    ignore = ['id', 'created_at', 'updated_at']
+    data = request.get_json()
+    for key, value in data.items():
+        if key not in ignore:
+            setattr(the_user, key, value)
+    storage.save()
+    return {
+        "success": True,
+        "message": "User updated successfully"
+    }, 200

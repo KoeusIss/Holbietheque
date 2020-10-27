@@ -1,37 +1,38 @@
 import React, {useState} from 'react'
-import {Button, Header, Icon, Modal, Form, Input, TextArea, Select, Checkbox} from 'semantic-ui-react'
-import UserService from '../../../services/user_service'
+import StudentService from "../../../services/student_service";
+import {
+  Button,
+  Header,
+  Icon,
+  Modal,
+  Form,
+  Input,
+  TextArea,
+  Checkbox
+} from 'semantic-ui-react'
 import {toaster} from "evergreen-ui";
 
-const AddEducationModal = ({theTrigger, student_id}) => {
-  const [finshed, setFinished] = useState(false)
-  const [education, setEducation] = useState({
-    degree: '',
-    school: '',
-    major: '',
-    is_finished: finshed,
-    start_at: '',
-    end_at: '',
-    grade: '',
-    description: ''
-  })
-  const [loginError, setError] = useState("");
+
+const EditCertificate = ({theTrigger, data}) => {
+  const [expire, setExpire] = useState(false)
+  const [certificate, setCertificate] = useState(data)
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false)
-  const current_id = UserService.currentUser().id
+  const certificateService = new StudentService("certificates")
 
   const handleChange = (event) => {
     event.preventDefault();
-    setEducation({...education, [event.target.name]: event.target.value});
+    setCertificate({...certificate, [event.target.name]: event.target.value});
   };
 
   const handleSubmit = () => {
     setLoading(true);
-    UserService.postStudentEducation(education, student_id).then(
-      () => {
+    certificateService.update(certificate).then(
+      (response) => {
         setLoading(false);
         setOpen(false)
-        toaster.notify("Added successfully", {duration: 5})
+        toaster.notify(response.data.message, {duration: 5})
       },
       (error) => {
         const returnError =
@@ -56,65 +57,63 @@ const AddEducationModal = ({theTrigger, student_id}) => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
     >
-      <Header icon='book' content='Add education'/>
+      <Header icon='certificate' content='Add certificate'/>
       <Modal.Content>
         <Form>
-
+          <Form.Group widths='equal'>
             <Form.Field
-              name='degree'
+              name='name'
               control={Input}
-              label='Degree name'
-              placeholder='Degree name'
+              label='Certificate name'
+              placeholder='Certificate name'
               onChange={handleChange}
+              value={certificate.name}
             />
             <Form.Field
-              name='major'
+              name='authority'
               control={Input}
-              label='Education major'
-              placeholder='Education major'
+              label='Authority'
+              placeholder='Issued by ..'
               onChange={handleChange}
+              value={certificate.authority}
             />
-            <Form.Field
-              name='school'
-              control={Input}
-              label='School'
-              placeholder='School name'
-              onChange={handleChange}
-            />
-            <Form.Group widths='equal'>
           </Form.Group>
           <Form.Group widths='equal'>
             <Form.Field
-              name='start_at'
+              name='issued_at'
               control={Input}
-              label='Start'
-              placeholder='Started date'
+              label='Issue date'
+              placeholder='Issue date'
               onChange={handleChange}
+              value={certificate.issued_at}
             />
 
             <Form.Field
-              name='end_at'
+              name='expired_at'
               control={Input}
-              label='Finish'
-              placeholder='Finish date'
+              label='Expire date'
+              placeholder='Expire date'
               onChange={handleChange}
-              disabled={finshed}
+              disabled={expire}
+              value={certificate.expired_at}
             />
 
           </Form.Group>
           <Form.Field
-            name='is_finished'
-            label='Still at school?'
+            name='is_expire'
+            label='Never expire'
             control={Checkbox}
-            onClick={() => setFinished(!finshed)}
+            onClick={() => setExpire(!expire)}
             onChange={handleChange}
+            value={certificate.is_expire}
           />
           <Form.Field
             name='description'
             control={TextArea}
             label='Description'
-            placeholder='What about the education..'
+            placeholder='What about the certificate..'
             onChange={handleChange}
+            value={certificate.description}
           />
         </Form>
       </Modal.Content>
@@ -122,7 +121,7 @@ const AddEducationModal = ({theTrigger, student_id}) => {
         <Button color='red' onClick={() => setOpen(false)}>
           <Icon name='remove'/> Cancel
         </Button>
-        <Button color='green' onClick={handleSubmit}>
+        <Button color='green' onClick={handleSubmit} loading={loading}>
           <Icon name='checkmark'/> Add
         </Button>
       </Modal.Actions>
@@ -130,4 +129,4 @@ const AddEducationModal = ({theTrigger, student_id}) => {
   )
 }
 
-export default AddEducationModal
+export default EditCertificate

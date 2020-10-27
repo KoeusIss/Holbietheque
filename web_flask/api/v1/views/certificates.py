@@ -21,8 +21,8 @@ def get_user_certificates(student_id):
     the_student = storage.get(Student, student_id)
     if not the_student:
         return {
-            "failed": True,
-            "message": "Unrecognized student"
+            "success": False,
+            "message": "Student not found"
         }, 400
     certificates = certificates_schema.dump(the_student.certificates)
     return {
@@ -33,22 +33,42 @@ def get_user_certificates(student_id):
 
 
 @app_views.route(
+    '/certificates/<certificate_id>',
+    methods=['GET'],
+    strict_slashes=False
+)
+def get_certificate(certificate_id):
+    """ GET /api/v1/projects/:project_id """
+    the_certificate = storage.get(Certificate, certificate_id)
+    if not the_certificate:
+        return {
+            "success": False,
+            "message": "Certificate not found"
+        }, 400
+    certificate = certificate_schema.dump(the_certificate)
+    return {
+        "success": True,
+        "certificate": certificate
+    }, 201
+
+
+@app_views.route(
     '/<student_id>/certificates',
     methods=['POST'],
     strict_slashes=False
 )
 def create_certificate(student_id):
-    """ POST /api/v1/students/:student_id/certificates """
+    """ POST /api/v1/:student_id/certificates """
     the_student = storage.get(Student, student_id)
     if not request.get_json():
         return {
-            "failed": True,
-            "message": "not a json"
+            "success": False,
+            "message": "Not a json request"
         }, 400
     if not the_student:
         return {
-            "failed": True,
-            "message": "unrecognized student"
+            "success": False,
+            "message": "Student not found"
         }, 400
     data = request.get_json()
     the_certificate = Certificate(**data)
@@ -58,14 +78,13 @@ def create_certificate(student_id):
         certificate = certificate_schema.dump(the_certificate)
         return {
             "success": True,
-            "message": "created successfully",
-            "certificate": certificate
+            "message": "Certificate created successfully"
         }, 201
     except (IntegrityError, OperationalError) as error:
         the_certificate.rollback()
         return {
-           "failed": True,
-           "message": error.orig.args[1]
+           "success": False,
+           "message": "Something goes wrong with provided data"
         }, 400
 
 
@@ -77,15 +96,15 @@ def create_certificate(student_id):
 def update_certificate(certificate_id):
     """ PUT /api/v1/certificates/:certificate_id """
     the_certificate = storage.get(Certificate, certificate_id)
-    if not the_certificate:
-        return {
-           "failed": True,
-           "message": "data not found"
-        }, 400
     if not request.get_json():
         return {
-            "failed": True,
-            "message": "not a json"
+            "success": False,
+            "message": "Not a json request"
+        }, 400
+    if not the_certificate:
+        return {
+           "success": False,
+           "message": "Certificate not found"
         }, 400
     ignore = ['id', 'created_at', 'updated_at', 'student_id']
     data = request.get_json()
@@ -93,9 +112,28 @@ def update_certificate(certificate_id):
         if key not in ignore:
             setattr(the_certificate, key, value)
     storage.save()
-    certificate = certificate_schema.dump(the_certificate)
     return {
         "success": True,
-        "message": "updated successfully",
-        "certificate": certificate
+        "message": "Certificate updated successfully"
+    }, 200
+
+
+@app_views.route(
+    '/projects/<certificate_id>',
+    methods=['DELETE'],
+    strict_slashes=False
+)
+def delete_certificate(certificate_id):
+    """ DELETE /api/v1/certificates/:certificate_id """
+    the_certificate = storage.get(Certificate, certificate_id)
+    if not certificate_id:
+        return {
+           "success": False,
+           "message": "Certificate not found"
+        }, 400
+    storage.delete(the_certificate)
+    storage.save()
+    return {
+        "success": True,
+        "message": "Certificate deleted successfully"
     }, 200

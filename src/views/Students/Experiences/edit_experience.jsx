@@ -1,19 +1,27 @@
 import React, {useState} from 'react'
-import {Button, Header, Icon, Modal, Form, Input, TextArea, Select, Checkbox} from 'semantic-ui-react'
-import UserService from '../../../services/user_service'
+import StudentService from "../../../services/student_service";
+import Experience from "../../../models/experience";
+import {
+  Button,
+  Header,
+  Icon,
+  Modal,
+  Form,
+  Input,
+  TextArea,
+  Select,
+  Checkbox
+} from 'semantic-ui-react'
 import {toaster} from "evergreen-ui";
 
-const AddExperienceModal = ({theTrigger, student_id}) => {
+const EditExperience = ({theTrigger, data}) => {
   const [actual, setActual] = useState(false)
-  const [experience, setExperience] = useState({
-    title: '',
-    company: '',
-    location: '',
-    is_actual: actual,
-    start_at: '',
-    end_at: '',
-    description: ''
-  })
+  const [experience, setExperience] = useState(data)
+  const [loginError, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = React.useState(false)
+  const experienceService = new StudentService("experiences")
+
   const jobTypeOptions = [
     {key: 'f', text: 'Full time', value: 'Full time'},
     {key: 'p', text: 'Part time', value: 'Part time'},
@@ -21,10 +29,6 @@ const AddExperienceModal = ({theTrigger, student_id}) => {
     {key: 'a', text: 'Apprenticeship', value: 'Apprenticeship'},
     {key: 'i', text: 'Internship', value: 'Internship'}
   ]
-  const [loginError, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = React.useState(false)
-  const current_id = UserService.currentUser().id
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -33,11 +37,11 @@ const AddExperienceModal = ({theTrigger, student_id}) => {
 
   const handleSubmit = () => {
     setLoading(true);
-    UserService.postStudentExperience(experience, student_id).then(
-      () => {
+    experienceService.update(experience).then(
+      (response) => {
         setLoading(false);
         setOpen(false)
-        toaster.notify("Added successfully", {duration: 5})
+        toaster.notify(response.data.message, {duration: 5})
       },
       (error) => {
         const returnError =
@@ -62,7 +66,7 @@ const AddExperienceModal = ({theTrigger, student_id}) => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
     >
-      <Header icon='book' content='Add education'/>
+      <Header icon='book' content='Edit experience'/>
       <Modal.Content>
         <Form>
           <Form.Group widths='equal'>
@@ -72,6 +76,7 @@ const AddExperienceModal = ({theTrigger, student_id}) => {
               label='Job title'
               placeholder='Job title'
               onChange={handleChange}
+              value={experience.title}
             />
             <Form.Field
               control={Select}
@@ -79,11 +84,11 @@ const AddExperienceModal = ({theTrigger, student_id}) => {
               label={{children: 'Job Type', htmlFor: 'form-select-control-job-type'}}
               placeholder='Job Type'
               search
-              searchInput={{id: 'form-select-control-job-type'}}
+              searchInput={{id: experience.id}}
               name='job_type'
               onChange={handleChange}
             />
-            </Form.Group>
+          </Form.Group>
           <Form.Group widths='equal'>
             <Form.Field
               name='company'
@@ -91,6 +96,7 @@ const AddExperienceModal = ({theTrigger, student_id}) => {
               label='Company name'
               placeholder='Company name'
               onChange={handleChange}
+              value={experience.company}
             />
             <Form.Field
               name='location'
@@ -98,6 +104,7 @@ const AddExperienceModal = ({theTrigger, student_id}) => {
               label='Location'
               placeholder='Tunisia, France, Germany ...'
               onChange={handleChange}
+              value={experience.location}
             />
           </Form.Group>
           <Form.Group widths='equal'>
@@ -107,6 +114,7 @@ const AddExperienceModal = ({theTrigger, student_id}) => {
               label='Start'
               placeholder='Started date'
               onChange={handleChange}
+              value={experience.start_at}
             />
 
             <Form.Field
@@ -125,6 +133,7 @@ const AddExperienceModal = ({theTrigger, student_id}) => {
             control={Checkbox}
             onClick={() => setActual(!actual)}
             onChange={handleChange}
+            value={experience.end_at}
           />
           <Form.Field
             name='description'
@@ -132,6 +141,7 @@ const AddExperienceModal = ({theTrigger, student_id}) => {
             label='Description'
             placeholder='What about the your experience..'
             onChange={handleChange}
+            value={experience.description}
           />
         </Form>
       </Modal.Content>
@@ -139,7 +149,7 @@ const AddExperienceModal = ({theTrigger, student_id}) => {
         <Button color='red' onClick={() => setOpen(false)}>
           <Icon name='remove'/> Cancel
         </Button>
-        <Button color='green' onClick={handleSubmit}>
+        <Button color='green' onClick={handleSubmit} loading={loading}>
           <Icon name='checkmark'/> Add
         </Button>
       </Modal.Actions>
@@ -147,4 +157,4 @@ const AddExperienceModal = ({theTrigger, student_id}) => {
   )
 }
 
-export default AddExperienceModal
+export default EditExperience

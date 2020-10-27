@@ -11,7 +11,7 @@ address_schema = AddressSchema()
 
 
 @app_views.route(
-    '/<student_id>/address',
+    '/<student_id>/address', 
     methods=['POST'],
     strict_slashes=False
 )
@@ -31,8 +31,9 @@ def create_address(student_id):
     data = request.get_json()
     the_address = Address(**data)
     try:
-        the_address.student_id = the_student.id
+        the_student.address = the_address
         the_address.save()
+        the_student.save()
         address = address_schema.dump(the_address)
         return {
             "success": True,

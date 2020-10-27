@@ -17,7 +17,7 @@ const EducationPane = ({ profileId }) => {
     setLoading(true);
     educationService.all(profileId).then(
       (res) => {
-        setEducation(res.data.experiences);
+        setEducation(res.data.educations);
         setCount(res.data.count);
         setLoading(false);
       },

@@ -23,7 +23,7 @@ const AddEducation = ({ theTrigger, student_id }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [education, setEducation] = useState(new Education());
-  const educationService = new StudentService("education");
+  const educationService = new StudentService("educations");
 
   const months = [
     { key: "1", text: "January", value: "01" },

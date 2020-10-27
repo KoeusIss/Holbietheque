@@ -71,8 +71,16 @@ const Students = () => {
                           src={student.image}
                         />
                         <Card.Header>{student.full_name}</Card.Header>
-                        <Card.Meta>Cohort #{student.cohort.name}</Card.Meta>
-                        <Card.Meta>{student.specialization.name}</Card.Meta>
+                        <Card.Meta>
+                          {student.cohort
+                            ? "Cohort #" + student.cohort.name
+                            : null}
+                        </Card.Meta>
+                        <Card.Meta>
+                          {student.specialization
+                            ? student.specialization.name
+                            : null}
+                        </Card.Meta>
                         <Card.Description>{student.about_me}</Card.Description>
                       </Card.Content>
                       <Card.Content extra>

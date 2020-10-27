@@ -97,7 +97,7 @@ const AddCertificate = ({ theTrigger, student_id }) => {
                       name="issued_at"
                       required
                       control={Input}
-                      label="Expired date"
+                      label="Issued at"
                       placeholder="YYYY-MM-DD"
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -108,7 +108,7 @@ const AddCertificate = ({ theTrigger, student_id }) => {
                       name="expired_at"
                       required
                       control={Input}
-                      label="Expire date"
+                      label="Expiration Date"
                       placeholder="YYYY-MM-DD"
                       onChange={handleChange}
                     />

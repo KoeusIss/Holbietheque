@@ -17,6 +17,7 @@ import {
   Button,
   Card,
   Icon,
+  Container,
   List,
   Tab,
 } from "semantic-ui-react";
@@ -53,147 +54,165 @@ const Student = () => {
   }, [student]);
 
   return (
-    <div>
-      {student.id ? (
-        <Grid stackable>
-          <Grid.Column width={5}>
-            <Card fluid>
-              <Image src={student.image} wrapped ui={false} />
-              <Card.Content>
-                <Card.Header>{student.full_name}</Card.Header>
-                {student.specialization && (
-                  <Card.Meta>
-                    <span>{student.specialization}</span>
-                  </Card.Meta>
-                )}
-                <Card.Description>
-                  <Card.Content>
-                    <List>
-                      {location && location.state && (
-                        <List.Item>
-                          <List.Icon name="marker" />
-                          <List.Content>
-                            {location.state.name}, {location.state.country.name}
-                          </List.Content>
-                        </List.Item>
-                      )}
-                      {socialLinks && (
-                        <>
-                          {socialLinks.github && (
-                            <List.Item>
-                              <List.Icon name="github" />
-                              <List.Content>{socialLinks.github}</List.Content>
-                            </List.Item>
-                          )}
-                          {socialLinks.linkedin && (
-                            <List.Item>
-                              <List.Icon name="linkedin" />
-                              <List.Content>
-                                {socialLinks.linkedin}
-                              </List.Content>
-                            </List.Item>
-                          )}
-                          {socialLinks.medium && (
-                            <List.Item>
-                              <List.Icon name="medium m" />
-                              <List.Content>{socialLinks.medium}</List.Content>
-                            </List.Item>
-                          )}
-                          {socialLinks.twitter && (
-                            <List.Item>
-                              <List.Icon name="medium m" />
-                              <List.Content>{socialLinks.twitter}</List.Content>
-                            </List.Item>
-                          )}
-                          {socialLinks.stackoverflow && (
-                            <List.Item>
-                              <List.Icon name="stack overflow" />
-                              <List.Content>
-                                {socialLinks.stackoverflow}
-                              </List.Content>
-                            </List.Item>
-                          )}
-                          {student.user.email && (
-                            <List.Item>
-                              <List.Icon name="mail" />
-                              <List.Content>
-                                <a href={"mailto:" + student.user.email}>
-                                  {student.user.email}
-                                </a>
-                              </List.Content>
-                            </List.Item>
-                          )}
-                          {student.website && (
-                            <List.Item>
-                              <List.Icon name="linkify" />
-                              <List.Content>
-                                <a href={student.website}>{student.website}</a>
-                              </List.Content>
-                            </List.Item>
-                          )}
-                        </>
-                      )}
-                    </List>
-                  </Card.Content>
-                </Card.Description>
-              </Card.Content>
-              {student.cohort && (
-                <Card.Content extra>
-                  <Icon name="user" />
-                  {student.cohort}
+    <div
+      style={{
+        top: "2rem",
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "80vh",
+      }}
+    >
+      <Container style={{ marginTop: "5rem" }}>
+        {student.id ? (
+          <Grid stackable>
+            <Grid.Column width={5}>
+              <Card fluid>
+                <Image src={student.image} wrapped ui={false} />
+                <Card.Content>
+                  <Card.Header>{student.full_name}</Card.Header>
+                  {student.specialization && (
+                    <Card.Meta>
+                      <span>{student.specialization}</span>
+                    </Card.Meta>
+                  )}
+                  <Card.Description>
+                    <Card.Content>
+                      <List>
+                        {location && location.state && (
+                          <List.Item>
+                            <List.Icon name="marker" />
+                            <List.Content>
+                              {location.state.name},{" "}
+                              {location.state.country.name}
+                            </List.Content>
+                          </List.Item>
+                        )}
+                        {socialLinks && (
+                          <>
+                            {socialLinks.github && (
+                              <List.Item>
+                                <List.Icon name="github" />
+                                <List.Content>
+                                  {socialLinks.github}
+                                </List.Content>
+                              </List.Item>
+                            )}
+                            {socialLinks.linkedin && (
+                              <List.Item>
+                                <List.Icon name="linkedin" />
+                                <List.Content>
+                                  {socialLinks.linkedin}
+                                </List.Content>
+                              </List.Item>
+                            )}
+                            {socialLinks.medium && (
+                              <List.Item>
+                                <List.Icon name="medium m" />
+                                <List.Content>
+                                  {socialLinks.medium}
+                                </List.Content>
+                              </List.Item>
+                            )}
+                            {socialLinks.twitter && (
+                              <List.Item>
+                                <List.Icon name="medium m" />
+                                <List.Content>
+                                  {socialLinks.twitter}
+                                </List.Content>
+                              </List.Item>
+                            )}
+                            {socialLinks.stackoverflow && (
+                              <List.Item>
+                                <List.Icon name="stack overflow" />
+                                <List.Content>
+                                  {socialLinks.stackoverflow}
+                                </List.Content>
+                              </List.Item>
+                            )}
+                            {student.user.email && (
+                              <List.Item>
+                                <List.Icon name="mail" />
+                                <List.Content>
+                                  <a href={"mailto:" + student.user.email}>
+                                    {student.user.email}
+                                  </a>
+                                </List.Content>
+                              </List.Item>
+                            )}
+                            {student.website && (
+                              <List.Item>
+                                <List.Icon name="linkify" />
+                                <List.Content>
+                                  <a href={student.website}>
+                                    {student.website}
+                                  </a>
+                                </List.Content>
+                              </List.Item>
+                            )}
+                          </>
+                        )}
+                      </List>
+                    </Card.Content>
+                  </Card.Description>
                 </Card.Content>
-              )}
-              <Card.Content extra>
-                <AddProfile
-                  theTrigger={<Button basic>Edit profile</Button>}
-                  user_id={id}
-                />
-              </Card.Content>
-            </Card>
-          </Grid.Column>
-          <Grid.Column width={11}>
-            <Tab
-              menu={{ attached: false }}
-              panes={[
-                {
-                  menuItem: "Overview",
-                  render: () => (
-                    <ProfilePane student={student} socialLink={socialLinks} />
-                  ),
-                },
-                {
-                  menuItem: "Education",
-                  render: () => <EducationPane profileId={student.id} />,
-                },
-                {
-                  menuItem: "Experience",
-                  render: () => <ExperiencePane profileId={student.id} />,
-                },
-                {
-                  menuItem: "Certificates",
-                  render: () => <CertificatePane profileId={student.id} />,
-                },
-                {
-                  menuItem: "Projects",
-                  render: () => <ProjectPane profileId={student.id} />,
-                },
-              ]}
+                {student.cohort && (
+                  <Card.Content extra>
+                    <Icon name="user" />
+                    {student.cohort}
+                  </Card.Content>
+                )}
+                <Card.Content extra>
+                  <AddProfile
+                    theTrigger={<Button basic>Edit profile</Button>}
+                    user_id={id}
+                  />
+                </Card.Content>
+              </Card>
+            </Grid.Column>
+            <Grid.Column width={11}>
+              <Tab
+                menu={{ attached: false }}
+                panes={[
+                  {
+                    menuItem: "Overview",
+                    render: () => (
+                      <ProfilePane student={student} socialLink={socialLinks} />
+                    ),
+                  },
+                  {
+                    menuItem: "Education",
+                    render: () => <EducationPane profileId={student.id} />,
+                  },
+                  {
+                    menuItem: "Experience",
+                    render: () => <ExperiencePane profileId={student.id} />,
+                  },
+                  {
+                    menuItem: "Certificates",
+                    render: () => <CertificatePane profileId={student.id} />,
+                  },
+                  {
+                    menuItem: "Projects",
+                    render: () => <ProjectPane profileId={student.id} />,
+                  },
+                ]}
+              />
+            </Grid.Column>
+          </Grid>
+        ) : (
+          <Segment vertical textAlign="center">
+            <Image
+              src={require("../../images/empty_img.png")}
+              size="large"
+              style={{ margin: "auto" }}
             />
-          </Grid.Column>
-        </Grid>
-      ) : (
-        <Segment vertical textAlign="center">
-          <Image
-            src={require("../../images/empty_img.png")}
-            size="large"
-            style={{ margin: "auto" }}
-          />
-          <AddProfile
-            theTrigger={<Button basic>Add profile</Button>}
-            user_id={id}
-          />
-        </Segment>
-      )}
+            <AddProfile
+              theTrigger={<Button basic>Add profile</Button>}
+              user_id={id}
+            />
+          </Segment>
+        )}
+      </Container>
     </div>
   );
 };

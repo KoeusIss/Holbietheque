@@ -8,8 +8,13 @@ const API_URL =
     : "http://localhost:5000/api/v1";
 
 class UserService {
-  student(user_id) {
-    const api = [API_URL, user_id, "student"].join("/");
+  student(id) {
+    const api = [API_URL, "students", id].join("/");
+    return axios.get(api, { headers: authHeader() });
+  }
+
+  students() {
+    const api = [API_URL, "students"].join("/");
     return axios.get(api, { headers: authHeader() });
   }
 
@@ -22,17 +27,6 @@ class UserService {
       data.birth_day,
     ].join("-");
     return axios.post(api, data, { headers: authHeader() });
-  }
-
-  update_first_login(user_id) {
-    const api = [API_URL, "users", user_id].join("/");
-    return axios.put(
-      api,
-      {
-        first_login: true,
-      },
-      { headers: authHeader() }
-    );
   }
 
   postStudentCertificate(cert, id) {
@@ -104,7 +98,7 @@ class UserService {
         return {
           id: decoded.identity,
           role: decoded.user_claims.role,
-          first_login: decoded.user_claims.first_login,
+          profile: decoded.user_claims.profile,
         };
       } else {
         return null;

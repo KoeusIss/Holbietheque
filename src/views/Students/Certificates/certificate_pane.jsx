@@ -7,7 +7,7 @@ import StudentService from "../../../services/student_service";
 import { Button, Header, Icon, Menu, Segment, Card } from "semantic-ui-react";
 import { toaster } from "evergreen-ui";
 
-const CertificatePane = ({ profileId }) => {
+const CertificatePane = ({ profileId, owner }) => {
   const [loading, setLoading] = useState(false);
   const [certificates, setCertificates] = useState([]);
   const [count, setCount] = useState(0);
@@ -58,17 +58,19 @@ const CertificatePane = ({ profileId }) => {
   return (
     <div>
       <Menu text fluid>
-        <Menu.Item position="right">
-          {/* Certificate create form modal trigger */}
-          <AddCertificate
-            theTrigger={
-              <Button icon basic loading={loading}>
-                <Icon name="plus" />
-              </Button>
-            }
-            student_id={profileId}
-          />
-        </Menu.Item>
+        {owner() && (
+          <Menu.Item position="right">
+            {/* Certificate create form modal trigger */}
+            <AddCertificate
+              theTrigger={
+                <Button icon basic loading={loading}>
+                  <Icon name="plus" />
+                </Button>
+              }
+              student_id={profileId}
+            />
+          </Menu.Item>
+        )}
       </Menu>
       {/* Placeholder if there's no certificates */}
       {count === 0 ? (
@@ -78,14 +80,16 @@ const CertificatePane = ({ profileId }) => {
             No certificates are listed.
           </Header>
           {/* Certificate create form modal trigger */}
-          <AddCertificate
-            theTrigger={
-              <Button primary loading={loading}>
-                Add new Certificate
-              </Button>
-            }
-            student_id={profileId}
-          />
+          {owner() && (
+            <AddCertificate
+              theTrigger={
+                <Button primary loading={loading}>
+                  Add new Certificate
+                </Button>
+              }
+              student_id={profileId}
+            />
+          )}
         </Segment>
       ) : (
         <div>
@@ -96,14 +100,20 @@ const CertificatePane = ({ profileId }) => {
                   <Card.Header>{cert.name}</Card.Header>
                   <Card.Meta>{cert.authority}</Card.Meta>
                   <Card.Description>{cert.description}</Card.Description>
-                  <Button.Group basic size="small" floated="right">
-                    {/* Certificate edit form modal trigger */}
-                    <EditCertificate
-                      theTrigger={<Button icon="pencil" />}
-                      data={cert}
-                    />
-                    <Button icon="trash" onClick={handleDelete} id={cert.id} />
-                  </Button.Group>
+                  {owner() && (
+                    <Button.Group basic size="small" floated="right">
+                      {/* Certificate edit form modal trigger */}
+                      <EditCertificate
+                        theTrigger={<Button icon="pencil" />}
+                        data={cert}
+                      />
+                      <Button
+                        icon="trash"
+                        onClick={handleDelete}
+                        id={cert.id}
+                      />
+                    </Button.Group>
+                  )}
                 </Card.Content>
               </Card>
             );

@@ -135,7 +135,8 @@ def verify_mail():
 @jwt.user_claims_loader
 def add_claims_to_access_token(user):
     return {
-        'role': user['role']
+        'role': user['role'],
+        'profile': user['profile']
     }
 
 
@@ -160,7 +161,13 @@ def login_user():
     hashed = md5(data.get("password").encode()).hexdigest()
     the_user = storage.get_user_by_email(data.get("email", None))
     if the_user and the_user.password == hashed:
-        user = {"id": the_user.id, "role": the_user.role}
+        if the_user.role == "student" and the_user.student:
+            profile = the_user.student.id
+        elif the_user.role == 'recruiter' and the_user.recruiter:
+            profile = the_user.recruiter.id
+        else:
+            profile = None
+        user = {"id": the_user.id, "role": the_user.role, "profile": profile}
         return {
                    "success": True,
                    "message": "Login Successful",

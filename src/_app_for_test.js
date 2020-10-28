@@ -1,23 +1,30 @@
-import React from "react";
-import { Switch, Route, withRouter } from "react-router-dom";
+import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  withRouter,
+} from "react-router-dom";
 import Contact from "./views/Contact";
-import Home from "./views/_Home";
+import Home from "./views/Home";
 import Students from "./views/Students";
 import Student from "./views/Students/student";
+import "./App.css";
+import DesktopContainer from "./components/Navbar";
 import Signup from "./views/Signup";
 import Login from "./views/Login";
 import Verify from "./views/Verify";
 import About from "./views/About";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
-import "./App.css";
+import FooterLayout from "./components/Footer";
 
-const App = withRouter(({ location }) => {
+const Main = withRouter(({ location }, loggedin, setLoggedin) => {
   return (
     <div>
       {location.pathname !== "/login" &&
         location.pathname !== "/signup" &&
-        location.pathname !== "/verification" && <Navbar />}
+        location.pathname !== "/verification" && (
+          <DesktopContainer status={loggedin} changeStatus={setLoggedin} />
+        )}
       <Switch>
         <Route path="/" exact={true}>
           <Home />
@@ -41,14 +48,23 @@ const App = withRouter(({ location }) => {
           <Verify />
         </Route>
         <Route path="/login">
-          <Login />
+          <Login setStatus={setLoggedin} />
         </Route>
       </Switch>
-      {location.pathname !== "/login" &&
-        location.pathname !== "/signup" &&
-        location.pathname !== "/verification" && <Footer />}
+      <FooterLayout />
     </div>
   );
 });
+
+function App() {
+  const [loggedin, setLoggedin] = useState(false);
+  return (
+    <div>
+      <Router>
+        <Main loggedin={loggedin} setLoggedin={setLoggedin} />
+      </Router>
+    </div>
+  );
+}
 
 export default App;

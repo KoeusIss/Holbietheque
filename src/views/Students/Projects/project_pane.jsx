@@ -7,7 +7,7 @@ import StudentService from "../../../services/student_service";
 import { Button, Header, Icon, Menu, Segment, Card } from "semantic-ui-react";
 import { toaster } from "evergreen-ui";
 
-const ProjectPane = ({ profileId }) => {
+const ProjectPane = ({ profileId, owner }) => {
   const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
   const [count, setCount] = useState(0);
@@ -58,16 +58,18 @@ const ProjectPane = ({ profileId }) => {
   return (
     <div>
       <Menu text fluid>
-        <Menu.Item position="right">
-          <AddProject
-            theTrigger={
-              <Button icon basic loading={loading}>
-                <Icon name="plus" />
-              </Button>
-            }
-            student_id={profileId}
-          />
-        </Menu.Item>
+        {owner() && (
+          <Menu.Item position="right">
+            <AddProject
+              theTrigger={
+                <Button icon basic loading={loading}>
+                  <Icon name="plus" />
+                </Button>
+              }
+              student_id={profileId}
+            />
+          </Menu.Item>
+        )}
       </Menu>
       {count === 0 ? (
         <Segment placeholder>
@@ -75,10 +77,12 @@ const ProjectPane = ({ profileId }) => {
             <Icon name="briefcase" />
             No experience are listed.
           </Header>
-          <AddProject
-            theTrigger={<Button primary>Add new project</Button>}
-            student_id={profileId}
-          />
+          {owner() && (
+            <AddProject
+              theTrigger={<Button primary>Add new project</Button>}
+              student_id={profileId}
+            />
+          )}
         </Segment>
       ) : (
         <div>
@@ -91,17 +95,19 @@ const ProjectPane = ({ profileId }) => {
                     From {project.start_at} to {project.end_at}
                   </Card.Meta>
                   <Card.Description>{project.description}</Card.Description>
-                  <Button.Group basic size="small" floated="right">
-                    <EditProject
-                      theTrigger={<Button icon="pencil" />}
-                      data={project}
-                    />
-                    <Button
-                      icon="trash"
-                      onClick={handleDelete}
-                      id={project.id}
-                    />
-                  </Button.Group>
+                  {owner() && (
+                    <Button.Group basic size="small" floated="right">
+                      <EditProject
+                        theTrigger={<Button icon="pencil" />}
+                        data={project}
+                      />
+                      <Button
+                        icon="trash"
+                        onClick={handleDelete}
+                        id={project.id}
+                      />
+                    </Button.Group>
+                  )}
                 </Card.Content>
               </Card>
             );

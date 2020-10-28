@@ -1,129 +1,89 @@
-/* eslint-disable max-classes-per-file */
-/* eslint-disable react/no-multi-comp */
-import { createMedia } from "@artsy/fresnel";
-import PropTypes from "prop-types";
+import React from "react";
+import { Menu, Container } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
-import UserService from "../../services/user_service";
-import React, { Component } from "react";
+import { useState } from "react";
 import { toaster } from "evergreen-ui";
-import {
-  Button,
-  Container,
-  Icon,
-  Menu,
-  Segment,
-  Image,
-  Sidebar,
-  Visibility,
-} from "semantic-ui-react";
+import UserService from "../../services/user_service";
 
-const { MediaContextProvider, Media } = createMedia({
-  breakpoints: {
-    mobile: 0,
-    tablet: 768,
-    computer: 1024,
-  },
-});
+const Navbar = () => {
+  const [activeItem, setActiveItem] = useState();
+  const handleItemClick = (e, { name }) => setActiveItem(name);
+  const user = UserService.currentUser();
+  const profile_id = localStorage.getItem("pid");
 
-/* Heads up!
- * Neither Semantic UI nor Semantic UI React offer a responsive navbar, however, it can be implemented easily.
- * It can be more complicated, but you can create really flexible markup.
- */
-class DesktopContainer extends Component {
-  state = {};
-
-  hideFixedMenu = () => this.setState({ fixed: false });
-  showFixedMenu = () => this.setState({ fixed: true });
-  current_user = UserService.currentUser();
-
-  handleLogout = () => {
+  const handleLogout = () => {
     localStorage.removeItem("access_token");
+    localStorage.removeItem("pid");
     toaster.success("Logout Successful, See you soon!", { duration: 3 });
   };
-  render() {
-    const { children } = this.props;
-    const { fixed } = this.state;
 
-    return (
-      <Media greaterThan="mobile">
-        <Visibility
-          once={false}
-          onBottomPassed={this.showFixedMenu}
-          onBottomPassedReverse={this.hideFixedMenu}
-        >
-          <Menu
-            style={{
-              backgroundColor: "#000",
-            }}
-            fixed={fixed ? "top" : null}
-            inverted={!fixed}
-            pointing={!fixed}
-            secondary={!fixed}
-            size="large"
-          >
-            <Container class="container">
-              <Menu.Item style={{ color: "white" }} as={NavLink} to="/" active>
-                Home
-              </Menu.Item>
-              <Menu.Item style={{ color: "white" }} as={NavLink} to="/students">
-                Students
-              </Menu.Item>
-              <Menu.Item style={{ color: "white" }} as={NavLink} to="/about">
-                About
-              </Menu.Item>
-              <Menu.Item style={{ color: "white" }} as={NavLink} to="/contact">
-                Contact
-              </Menu.Item>
-              <Menu.Item style={{ color: "white" }} position="right">
-                {this.current_user ? (
-                  <Button
-                    as={NavLink}
-                    to="/login"
-                    onClick={this.handleLogout}
-                    style={{ color: "#eb0045" }}
-                  >
-                    Logout
-                  </Button>
-                ) : (
-                  <Button as={NavLink} to="/login">
-                    Login
-                  </Button>
-                )}
-                {!this.current_user ? (
-                  <Button
-                    as={NavLink}
-                    to="/signup"
-                    style={{ marginLeft: "0.5em" }}
-                  >
-                    Sign Up
-                  </Button>
-                ) : null}
-              </Menu.Item>
-            </Container>
-          </Menu>
-        </Visibility>
-
-        {children}
-      </Media>
-    );
-  }
-}
-
-DesktopContainer.propTypes = {
-  children: PropTypes.node,
+  return (
+    <Menu
+      borderless
+      style={{ marginBottom: "0px", boxShadow: "none", minHeight: "60px" }}
+    >
+      <Container>
+        <Menu.Item
+          name="home"
+          active={activeItem === "home"}
+          onClick={handleItemClick}
+          as={NavLink}
+          to="/"
+        />
+        <Menu.Item
+          name="students"
+          active={activeItem === "students"}
+          onClick={handleItemClick}
+          as={NavLink}
+          to="/students"
+        />
+        <Menu.Item
+          name="about"
+          active={activeItem === "about"}
+          onClick={handleItemClick}
+          as={NavLink}
+          to="/about"
+        />
+        <Menu.Menu position="right">
+          {user ? (
+            <>
+              <Menu.Item
+                name="profile"
+                active={activeItem === "profile"}
+                onClick={handleItemClick}
+                as={NavLink}
+                to={"/students/" + profile_id}
+              />
+              <Menu.Item
+                name="logout"
+                active={activeItem === "logout"}
+                onClick={handleLogout}
+                as={NavLink}
+                to="/login"
+              />
+            </>
+          ) : (
+            <>
+              <Menu.Item
+                name="login"
+                active={activeItem === "login"}
+                onClick={handleItemClick}
+                as={NavLink}
+                to="/login"
+              />
+              <Menu.Item
+                name="signup"
+                active={activeItem === "signup"}
+                onClick={handleItemClick}
+                as={NavLink}
+                to="/signup"
+              />
+            </>
+          )}
+        </Menu.Menu>
+      </Container>
+    </Menu>
+  );
 };
 
-const ResponsiveContainer = ({ children }) => (
-  /* Heads up!
-   * For large applications it may not be best option to put all page into these containers at
-   * they will be rendered twice for SSR.
-   */
-  <MediaContextProvider>
-    <DesktopContainer>{children}</DesktopContainer>
-  </MediaContextProvider>
-);
-
-ResponsiveContainer.propTypes = {
-  children: PropTypes.node,
-};
-export default DesktopContainer;
+export default Navbar;

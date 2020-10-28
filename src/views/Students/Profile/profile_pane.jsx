@@ -18,37 +18,46 @@ const handleClick = () => {
   console.log("item clicked");
 };
 
-const ProfilePane = ({ student, socialLink }) => {
+const ProfilePane = ({ student, socialLink, owner }) => {
   return (
-    <div>
+    <div
+      style={{
+        top: "2rem",
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "80vh",
+      }}
+    >
       <Menu text fluid>
-        <Menu.Item position="right">
-          <Dropdown
-            button
-            basic
-            link
-            className="icon"
-            floating
-            labeled
-            icon="plus"
-            text="Add to profile"
-            onClick={handleClick}
-          >
-            <Dropdown.Menu>
-              <AddAddress
-                theTrigger={<Dropdown.Item text="Location" />}
-                student_id={student.id}
-              />
-              <AddSocialLinks
-                theTrigger={<Dropdown.Item text="Social links" />}
-                student_id={student.id}
-                socialLink={socialLink}
-              />
-              <Dropdown.Item text="Skills" />
-              <Dropdown.Item text="Language" />
-            </Dropdown.Menu>
-          </Dropdown>
-        </Menu.Item>
+        {owner() && (
+          <Menu.Item position="right">
+            <Dropdown
+              button
+              basic
+              link
+              className="icon"
+              floating
+              labeled
+              icon="plus"
+              text="Add to profile"
+              onClick={handleClick}
+            >
+              <Dropdown.Menu>
+                <AddAddress
+                  theTrigger={<Dropdown.Item text="Location" />}
+                  student_id={student.id}
+                />
+                <AddSocialLinks
+                  theTrigger={<Dropdown.Item text="Social links" />}
+                  student_id={student.id}
+                  socialLink={socialLink}
+                />
+                <Dropdown.Item text="Skills" />
+                <Dropdown.Item text="Language" />
+              </Dropdown.Menu>
+            </Dropdown>
+          </Menu.Item>
+        )}
       </Menu>
       <Card fluid>
         <Card.Content>

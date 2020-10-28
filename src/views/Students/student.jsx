@@ -7,7 +7,6 @@ import ExperiencePane from "./Experiences/experience_pane";
 import ProjectPane from "./Projects/project_pane";
 import CertificatePane from "./Certificates/certificate_pane";
 import UserService from "../../services/user_service";
-import AddEducationModal from "./Projects/add_project";
 import AStudent from "../../models/student";
 // GUI
 import {
@@ -18,6 +17,7 @@ import {
   Card,
   Icon,
   List,
+  Container,
   Tab,
 } from "semantic-ui-react";
 import "./student.css";
@@ -29,7 +29,16 @@ const Student = () => {
   const [location, setLocation] = useState({});
   const [socialLinks, setSocialLinks] = useState({});
   const [student, setStudent] = useState(new AStudent());
+  const current_user = UserService.currentUser();
   let { id } = useParams();
+
+  const owner = () => {
+    if (student && current_user && student.user.id === current_user.id) {
+      return true;
+    } else {
+      return null;
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -37,7 +46,7 @@ const Student = () => {
       (res) => {
         setStudent(res.data.student);
         setLocation(res.data.address);
-        setSocialLinks(res.data.social_links);
+        setSocialLinks(res.data.social);
       },
       (error) => {
         const returnError =
@@ -47,154 +56,181 @@ const Student = () => {
           error.message ||
           error.toString();
         setLoading(false);
-        toaster.notify(returnError, { duration: 5 });
       }
     );
   }, [student]);
 
   return (
-    <div>
-      {student.id ? (
-        <Grid stackable>
-          <Grid.Column width={5}>
-            <Card fluid>
-              <Image src={student.image} wrapped ui={false} />
-              <Card.Content>
-                <Card.Header>{student.full_name}</Card.Header>
-                {student.specialization && (
-                  <Card.Meta>
-                    <span>{student.specialization}</span>
-                  </Card.Meta>
-                )}
-                <Card.Description>
-                  <Card.Content>
-                    <List>
-                      {location && location.state && (
-                        <List.Item>
-                          <List.Icon name="marker" />
-                          <List.Content>
-                            {location.state.name}, {location.state.country.name}
-                          </List.Content>
-                        </List.Item>
-                      )}
-                      {socialLinks && (
-                        <>
-                          {socialLinks.github && (
-                            <List.Item>
-                              <List.Icon name="github" />
-                              <List.Content>{socialLinks.github}</List.Content>
-                            </List.Item>
-                          )}
-                          {socialLinks.linkedin && (
-                            <List.Item>
-                              <List.Icon name="linkedin" />
-                              <List.Content>
-                                {socialLinks.linkedin}
-                              </List.Content>
-                            </List.Item>
-                          )}
-                          {socialLinks.medium && (
-                            <List.Item>
-                              <List.Icon name="medium m" />
-                              <List.Content>{socialLinks.medium}</List.Content>
-                            </List.Item>
-                          )}
-                          {socialLinks.twitter && (
-                            <List.Item>
-                              <List.Icon name="medium m" />
-                              <List.Content>{socialLinks.twitter}</List.Content>
-                            </List.Item>
-                          )}
-                          {socialLinks.stackoverflow && (
-                            <List.Item>
-                              <List.Icon name="stack overflow" />
-                              <List.Content>
-                                {socialLinks.stackoverflow}
-                              </List.Content>
-                            </List.Item>
-                          )}
-                          {student.user.email && (
-                            <List.Item>
-                              <List.Icon name="mail" />
-                              <List.Content>
-                                <a href={"mailto:" + student.user.email}>
-                                  {student.user.email}
-                                </a>
-                              </List.Content>
-                            </List.Item>
-                          )}
-                          {student.website && (
-                            <List.Item>
-                              <List.Icon name="linkify" />
-                              <List.Content>
-                                <a href={student.website}>{student.website}</a>
-                              </List.Content>
-                            </List.Item>
-                          )}
-                        </>
-                      )}
-                    </List>
-                  </Card.Content>
-                </Card.Description>
-              </Card.Content>
-              {student.cohort && (
-                <Card.Content extra>
-                  <Icon name="user" />
-                  {student.cohort}
+    <Container>
+      <Segment vertical style={{ paddingTop: "4rem", paddingBottom: "10rem" }}>
+        {student.id ? (
+          <Grid stackable>
+            <Grid.Column width={5}>
+              <Card fluid>
+                <Image src={student.image} wrapped ui={false} />
+                <Card.Content>
+                  <Card.Header>{student.full_name}</Card.Header>
+                  {student.specialization && (
+                    <Card.Meta>
+                      <span>{student.specialization}</span>
+                    </Card.Meta>
+                  )}
+                  <Card.Description>
+                    <Card.Content>
+                      <List>
+                        {location && location.state && (
+                          <List.Item>
+                            <List.Icon name="marker" />
+                            <List.Content>
+                              {location.state.name},{" "}
+                              {location.state.country.name}
+                            </List.Content>
+                          </List.Item>
+                        )}
+                        {socialLinks && (
+                          <>
+                            {socialLinks.github && (
+                              <List.Item>
+                                <List.Icon name="github" />
+                                <List.Content>
+                                  {socialLinks.github}
+                                </List.Content>
+                              </List.Item>
+                            )}
+                            {socialLinks.linkedin && (
+                              <List.Item>
+                                <List.Icon name="linkedin" />
+                                <List.Content>
+                                  {socialLinks.linkedin}
+                                </List.Content>
+                              </List.Item>
+                            )}
+                            {socialLinks.medium && (
+                              <List.Item>
+                                <List.Icon name="medium m" />
+                                <List.Content>
+                                  {socialLinks.medium}
+                                </List.Content>
+                              </List.Item>
+                            )}
+                            {socialLinks.twitter && (
+                              <List.Item>
+                                <List.Icon name="medium m" />
+                                <List.Content>
+                                  {socialLinks.twitter}
+                                </List.Content>
+                              </List.Item>
+                            )}
+                            {socialLinks.stackoverflow && (
+                              <List.Item>
+                                <List.Icon name="stack overflow" />
+                                <List.Content>
+                                  {socialLinks.stackoverflow}
+                                </List.Content>
+                              </List.Item>
+                            )}
+                            {student.user.email && (
+                              <List.Item>
+                                <List.Icon name="mail" />
+                                <List.Content>
+                                  <a href={"mailto:" + student.user.email}>
+                                    {student.user.email}
+                                  </a>
+                                </List.Content>
+                              </List.Item>
+                            )}
+                            {student.website && (
+                              <List.Item>
+                                <List.Icon name="linkify" />
+                                <List.Content>
+                                  <a href={student.website}>
+                                    {student.website}
+                                  </a>
+                                </List.Content>
+                              </List.Item>
+                            )}
+                          </>
+                        )}
+                      </List>
+                    </Card.Content>
+                  </Card.Description>
                 </Card.Content>
-              )}
-              <Card.Content extra>
-                <AddProfile
-                  theTrigger={<Button basic>Edit profile</Button>}
-                  user_id={id}
-                />
-              </Card.Content>
-            </Card>
-          </Grid.Column>
-          <Grid.Column width={11}>
-            <Tab
-              menu={{ attached: false }}
-              panes={[
-                {
-                  menuItem: "Overview",
-                  render: () => (
-                    <ProfilePane student={student} socialLink={socialLinks} />
-                  ),
-                },
-                {
-                  menuItem: "Education",
-                  render: () => <EducationPane profileId={student.id} />,
-                },
-                {
-                  menuItem: "Experience",
-                  render: () => <ExperiencePane profileId={student.id} />,
-                },
-                {
-                  menuItem: "Certificates",
-                  render: () => <CertificatePane profileId={student.id} />,
-                },
-                {
-                  menuItem: "Projects",
-                  render: () => <ProjectPane profileId={student.id} />,
-                },
-              ]}
+                {student.cohort && (
+                  <Card.Content extra>
+                    <Icon name="user" />
+                    {student.cohort}
+                  </Card.Content>
+                )}
+
+                {owner() && (
+                  <Card.Content extra>
+                    <AddProfile
+                      theTrigger={<Button basic>Edit profile</Button>}
+                      user_id={id}
+                    />
+                  </Card.Content>
+                )}
+              </Card>
+            </Grid.Column>
+            <Grid.Column width={11}>
+              <Tab
+                menu={{ attached: false }}
+                panes={[
+                  {
+                    menuItem: "Overview",
+                    render: () => (
+                      <ProfilePane
+                        student={student}
+                        socialLink={socialLinks}
+                        owner={owner}
+                      />
+                    ),
+                  },
+                  {
+                    menuItem: "Education",
+                    render: () => (
+                      <EducationPane profileId={student.id} owner={owner} />
+                    ),
+                  },
+                  {
+                    menuItem: "Experience",
+                    render: () => (
+                      <ExperiencePane profileId={student.id} owner={owner} />
+                    ),
+                  },
+                  {
+                    menuItem: "Certificates",
+                    render: () => (
+                      <CertificatePane profileId={student.id} owner={owner} />
+                    ),
+                  },
+                  {
+                    menuItem: "Projects",
+                    render: () => (
+                      <ProjectPane profileId={student.id} owner={owner} />
+                    ),
+                  },
+                ]}
+              />
+            </Grid.Column>
+          </Grid>
+        ) : (
+          <Segment vertical textAlign="center">
+            <Image
+              src={require("../../images/empty_profile.png")}
+              size="large"
+              style={{ margin: "auto" }}
             />
-          </Grid.Column>
-        </Grid>
-      ) : (
-        <Segment vertical textAlign="center">
-          <Image
-            src={require("../../images/empty_img.png")}
-            size="large"
-            style={{ margin: "auto" }}
-          />
-          <AddProfile
-            theTrigger={<Button basic>Add profile</Button>}
-            user_id={id}
-          />
-        </Segment>
-      )}
-    </div>
+            {current_user && owner && (
+              <AddProfile
+                theTrigger={<Button basic>Add profile</Button>}
+                user_id={current_user.id}
+              />
+            )}
+          </Segment>
+        )}
+      </Segment>
+    </Container>
   );
 };
 export default Student;

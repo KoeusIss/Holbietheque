@@ -26,7 +26,7 @@ class User(BaseModel, Base):
     )
     role = Column(
         String(128),
-        default="guest"
+        default="recruiter"
     )
     active = Column(
         Boolean(),
@@ -67,4 +67,4 @@ class UserSchema(Schema):
     id = fields.Str()
     email = fields.Str()
     role = fields.Str()
-    first_login = fields.Boolean()
+

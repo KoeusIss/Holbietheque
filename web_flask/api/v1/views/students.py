@@ -33,9 +33,11 @@ def get_students():
     """ GET /api/v1/students """
     all_students = storage.all(Student).values()
     students = students_schema.dump(all_students)
+    count = len(all_students)
     return {
         "success": True,
         "message": "data found",
+        "count": count,
         "students": students
     }
 
@@ -54,10 +56,14 @@ def get_student(student_id):
             "message": "data not found"
         }, 400
     student = student_schema.dump(the_student)
+    address = address_schema.dump(the_student.address)
+    social = social_schema.dump(the_student.social)
     return {
         "success": True,
         "message": "data found",
-        "student": student
+        "student": student,
+        "social": social,
+        "address": address
     }
 
 

@@ -14,10 +14,10 @@ import { toaster } from "evergreen-ui";
 import * as yup from "yup";
 import { Formik, Field } from "formik";
 import AStudent from "../../../models/student";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import {
   genderOptions,
-  maritalStatus,
   days,
   months,
   years,
@@ -27,6 +27,7 @@ const AddProfile = ({ theTrigger, user_id }) => {
   const [loginError, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const history = useHistory();
 
   return (
     <>
@@ -35,29 +36,27 @@ const AddProfile = ({ theTrigger, user_id }) => {
         onSubmit={(values) => {
           console.log(values);
           setLoading(true);
-          axios
-            .all([
-              UserService.create(values, user_id),
-              UserService.update_first_login(user_id),
-            ])
-            .then(
-              axios.spread((...responses) => {
-                setLoading(false);
-                setOpen(false);
-                toaster.notify(responses[0].data.message, { duration: 5 });
-              }),
-              (error) => {
-                const returnError =
-                  (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                  error.message ||
-                  error.toString();
-                setLoading(false);
-                setOpen(false);
-                toaster.notify(returnError, { duration: 5 });
-              }
-            );
+          UserService.create(values, user_id).then(
+            (response) => {
+              setLoading(false);
+              setOpen(false);
+              localStorage.setItem("pid", response.data.student.id);
+              history.push("/students/" + response.data.student.id);
+              window.location.reload();
+              toaster.notify(response.data.message, { duration: 5 });
+            },
+            (error) => {
+              const returnError =
+                (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                error.message ||
+                error.toString();
+              setLoading(false);
+              setOpen(false);
+              toaster.notify(returnError, { duration: 5 });
+            }
+          );
         }}
         validationSchema={yup.object().shape({
           first_name: yup.string().required("First name is required"),

@@ -5,9 +5,10 @@
 import React, { useState } from "react";
 import { useHistory, Link, NavLink } from "react-router-dom";
 import AuthService from "../../services/auth_service";
-import User from "../../models/User"
+import User from "../../models/User";
 import { Formik, Field } from "formik";
 import * as yup from "yup";
+import UserService from "../../services/user_service";
 import { toaster } from "evergreen-ui";
 import {
   Grid,
@@ -33,8 +34,9 @@ function Login() {
           setLoading(true);
           AuthService.login(values).then(
             (response) => {
-              setLoading(false)
-              history.push('/')
+              setLoading(false);
+              history.push("/");
+              localStorage.setItem("pid", UserService.currentUser().profile);
               toaster.success(response.data.message, { duration: 5 });
             },
             (error) => {
@@ -50,16 +52,20 @@ function Login() {
           );
         }}
         validationSchema={yup.object().shape({
-          email: yup.string()
-            .required('Email is required')
-            .matches(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/,
-              "Please provide a valid email address"),
-          password: yup.string()
-            .required('Password is required')
+          email: yup
+            .string()
+            .required("Email is required")
+            .matches(
+              /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/,
+              "Please provide a valid email address"
+            ),
+          password: yup
+            .string()
+            .required("Password is required")
             .matches(
               /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
               "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-            )
+            ),
         })}
         render={({
           values,
@@ -70,7 +76,11 @@ function Login() {
           handleSubmit,
         }) => {
           return (
-            <Grid textAlign="center" verticalAlign="middle" style={{ height: "80vh" }}>
+            <Grid
+              textAlign="center"
+              verticalAlign="middle"
+              style={{ height: "80vh" }}
+            >
               <Grid.Column style={{ maxWidth: 450 }}>
                 {loginError ? (
                   <Header textAlign="left" intent="danger" title={loginError} />
@@ -111,7 +121,7 @@ function Login() {
                       loading={loading}
                     >
                       Login
-            </Button>
+                    </Button>
                   </Segment>
                 </Form>
                 <Message>
@@ -128,5 +138,5 @@ function Login() {
       />
     </>
   );
-};
+}
 export default Login;

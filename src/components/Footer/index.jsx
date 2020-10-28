@@ -23,13 +23,13 @@ const Footer = () => {
                 <List.Item>
                   <List.Icon name="github" />
                   <List.Content>
-                    <a href="http://github.com/KoeusIss">Dadi Foued</a>
+                    <a href="http://github.com/FouedDadi">Dadi Foued</a>
                   </List.Content>
                 </List.Item>
                 <List.Item>
                   <List.Icon name="github" />
                   <List.Content>
-                    <a href="http://github.com/KoeusIss">Chatti Iheb</a>
+                    <a href="http://github.com/IhebChatti">Chatti Iheb</a>
                   </List.Content>
                 </List.Item>
                 <List.Item>

@@ -26,7 +26,7 @@ class User(BaseModel, Base):
     )
     role = Column(
         String(128),
-        default="recruiter"
+        default="student"
     )
     active = Column(
         Boolean(),

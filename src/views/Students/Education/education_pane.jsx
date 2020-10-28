@@ -7,7 +7,7 @@ import StudentService from "../../../services/student_service";
 import { Button, Header, Icon, Menu, Segment, Card } from "semantic-ui-react";
 import { toaster } from "evergreen-ui";
 
-const EducationPane = ({ profileId }) => {
+const EducationPane = ({ profileId, owner }) => {
   const [loading, setLoading] = useState(false);
   const [education, setEducation] = useState([]);
   const [count, setCount] = useState(0);
@@ -35,7 +35,6 @@ const EducationPane = ({ profileId }) => {
   }, [education]);
 
   const handleDelete = (e) => {
-    console.log(e.target.id);
     setLoading(true);
     educationService.delete(e.target.id).then(
       (response) => {
@@ -58,17 +57,19 @@ const EducationPane = ({ profileId }) => {
   return (
     <div>
       <Menu text fluid>
-        <Menu.Item position="right">
-          {/* Education create form modal trigger */}
-          <AddEducation
-            theTrigger={
-              <Button icon basic>
-                <Icon name="plus" />
-              </Button>
-            }
-            student_id={profileId}
-          />
-        </Menu.Item>
+        {owner() && (
+          <Menu.Item position="right">
+            {/* Education create form modal trigger */}
+            <AddEducation
+              theTrigger={
+                <Button icon basic>
+                  <Icon name="plus" />
+                </Button>
+              }
+              student_id={profileId}
+            />
+          </Menu.Item>
+        )}
       </Menu>
       {/* Placeholder of there's no education */}
       {count === 0 ? (
@@ -78,14 +79,16 @@ const EducationPane = ({ profileId }) => {
             No education are listed.
           </Header>
           {/* Education create form modal trigger */}
-          <AddEducation
-            theTrigger={
-              <Button primary loading={loading}>
-                Add new education
-              </Button>
-            }
-            student_id={profileId}
-          />
+          {owner() && (
+            <AddEducation
+              theTrigger={
+                <Button primary loading={loading}>
+                  Add new education
+                </Button>
+              }
+              student_id={profileId}
+            />
+          )}
         </Segment>
       ) : (
         <div>
@@ -101,10 +104,12 @@ const EducationPane = ({ profileId }) => {
                     From {edu.start_at} to {edu.end_at}
                   </Card.Meta>
                   <Card.Description>{edu.description}</Card.Description>
-                  <Button.Group basic size="small" floated="right">
-                    <Button icon="pencil" />
-                    <Button icon="trash" />
-                  </Button.Group>
+                  {owner() && (
+                    <Button.Group basic size="small" floated="right">
+                      <Button icon="pencil" />
+                      <Button icon="trash" />
+                    </Button.Group>
+                  )}
                 </Card.Content>
               </Card>
             );

@@ -7,7 +7,6 @@ import ExperiencePane from "./Experiences/experience_pane";
 import ProjectPane from "./Projects/project_pane";
 import CertificatePane from "./Certificates/certificate_pane";
 import UserService from "../../services/user_service";
-import AddEducationModal from "./Projects/add_project";
 import AStudent from "../../models/student";
 // GUI
 import {
@@ -30,7 +29,16 @@ const Student = () => {
   const [location, setLocation] = useState({});
   const [socialLinks, setSocialLinks] = useState({});
   const [student, setStudent] = useState(new AStudent());
+  const current_user = UserService.currentUser();
   let { id } = useParams();
+
+  const owner = () => {
+    if (student && current_user && student.user.id === current_user.id) {
+      return true;
+    } else {
+      return null;
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -38,7 +46,7 @@ const Student = () => {
       (res) => {
         setStudent(res.data.student);
         setLocation(res.data.address);
-        setSocialLinks(res.data.social_links);
+        setSocialLinks(res.data.social);
       },
       (error) => {
         const returnError =
@@ -48,21 +56,13 @@ const Student = () => {
           error.message ||
           error.toString();
         setLoading(false);
-        toaster.notify(returnError, { duration: 5 });
       }
     );
   }, [student]);
 
   return (
-    <div
-      style={{
-        top: "2rem",
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "80vh",
-      }}
-    >
-      <Container style={{ marginTop: "5rem" }}>
+    <Container>
+      <Segment vertical style={{ paddingTop: "4rem", paddingBottom: "10rem" }}>
         {student.id ? (
           <Grid stackable>
             <Grid.Column width={5}>
@@ -161,12 +161,15 @@ const Student = () => {
                     {student.cohort}
                   </Card.Content>
                 )}
-                <Card.Content extra>
-                  <AddProfile
-                    theTrigger={<Button basic>Edit profile</Button>}
-                    user_id={id}
-                  />
-                </Card.Content>
+
+                {owner() && (
+                  <Card.Content extra>
+                    <AddProfile
+                      theTrigger={<Button basic>Edit profile</Button>}
+                      user_id={id}
+                    />
+                  </Card.Content>
+                )}
               </Card>
             </Grid.Column>
             <Grid.Column width={11}>
@@ -176,24 +179,36 @@ const Student = () => {
                   {
                     menuItem: "Overview",
                     render: () => (
-                      <ProfilePane student={student} socialLink={socialLinks} />
+                      <ProfilePane
+                        student={student}
+                        socialLink={socialLinks}
+                        owner={owner}
+                      />
                     ),
                   },
                   {
                     menuItem: "Education",
-                    render: () => <EducationPane profileId={student.id} />,
+                    render: () => (
+                      <EducationPane profileId={student.id} owner={owner} />
+                    ),
                   },
                   {
                     menuItem: "Experience",
-                    render: () => <ExperiencePane profileId={student.id} />,
+                    render: () => (
+                      <ExperiencePane profileId={student.id} owner={owner} />
+                    ),
                   },
                   {
                     menuItem: "Certificates",
-                    render: () => <CertificatePane profileId={student.id} />,
+                    render: () => (
+                      <CertificatePane profileId={student.id} owner={owner} />
+                    ),
                   },
                   {
                     menuItem: "Projects",
-                    render: () => <ProjectPane profileId={student.id} />,
+                    render: () => (
+                      <ProjectPane profileId={student.id} owner={owner} />
+                    ),
                   },
                 ]}
               />
@@ -202,18 +217,20 @@ const Student = () => {
         ) : (
           <Segment vertical textAlign="center">
             <Image
-              src={require("../../images/empty_img.png")}
+              src={require("../../images/empty_profile.png")}
               size="large"
               style={{ margin: "auto" }}
             />
-            <AddProfile
-              theTrigger={<Button basic>Add profile</Button>}
-              user_id={id}
-            />
+            {current_user && owner && (
+              <AddProfile
+                theTrigger={<Button basic>Add profile</Button>}
+                user_id={current_user.id}
+              />
+            )}
           </Segment>
         )}
-      </Container>
-    </div>
+      </Segment>
+    </Container>
   );
 };
 export default Student;

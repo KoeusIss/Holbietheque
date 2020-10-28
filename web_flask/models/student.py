@@ -125,7 +125,7 @@ class StudentSchema(Schema):
     specialization = fields.Nested(SpecializationSchema(only=["name"]))
     cohort = fields.Nested(CohortSchema(only=["name"]))
     image = fields.Method('avatar', dump_only=True)
-    user = fields.Nested(UserSchema(only=["email"]))
+    user = fields.Nested(UserSchema(only=["id", "email"]))
 
     def format_name(self, student):
         return '{} {}'.format(student.first_name, student.last_name)

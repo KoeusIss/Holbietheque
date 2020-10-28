@@ -1,33 +1,46 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { NavLink, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import {
-  Button,
+  Segment,
+  Header,
+  Container,
+  Grid,
+  Divider,
+  Menu,
+  Input,
   Card,
   Image,
-  Header,
-  Search,
-  Grid,
-  Segment,
+  Button,
   Icon,
-  Pagination,
-  Container,
-  Divider,
 } from "semantic-ui-react";
-import SearchExampleStandard from "../../components/search";
+import { toaster } from "evergreen-ui";
+import UserService from "../../services/user_service";
 
 const Students = () => {
+  const [loading, setLoading] = useState(false);
   const [students, setStudents] = useState([]);
+  const [count, setCount] = useState(0);
+
   useEffect(() => {
-    const auth_header = localStorage.getItem("access_token");
-    axios
-      .get("http://localhost:5000/api/v1/students", {
-        headers: { Authorization: `Bearer ${auth_header}` },
-      })
-      .then((response) => {
-        setStudents(response.data.students);
-      });
-  });
+    setLoading(true);
+    UserService.students().then(
+      (res) => {
+        setStudents(res.data.students);
+        setCount(res.data.count);
+      },
+      (error) => {
+        const returnError =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        setLoading(false);
+        toaster.notify(returnError, { duration: 5 });
+      }
+    );
+  }, [students]);
+
   return (
     <div
       style={{
@@ -37,85 +50,77 @@ const Students = () => {
         minHeight: "80vh",
       }}
     >
-      <Grid columns={2}>
-        <Grid.Row>
-          <Grid.Column>
-            <Header
-              as="h2"
-              style={{ margin: "auto 10% auto 5%", position: "absolute" }}
-            >
-              <Image src={require("../../images/students_list.png")} />
-              Students list
-              <Divider inverted />
-            </Header>
-          </Grid.Column>
-          <Divider inverted style={{ backgroundColor: "red" }} />
-          {/* <Grid.Column width="1">
-            <SearchExampleStandard source={students} />
-          </Grid.Column> */}
-        </Grid.Row>
-        <Grid.Row style={{ margin: "auto 5% auto 15%" }}>
-          <Container>
-            <Card.Group doubling textAlign="center" items>
-              {students.map((student) => {
-                console.log(student);
-                return (
-                  <div>
-                    <Card centered>
-                      <Card.Content>
-                        <Image
-                          floated="right"
-                          verticalAlign="top"
-                          size="tiny"
-                          rounded="true"
-                          src={student.image}
-                        />
-                        <Card.Header>{student.full_name}</Card.Header>
-                        <Card.Meta>
-                          {student.cohort
-                            ? "Cohort #" + student.cohort.name
-                            : null}
-                        </Card.Meta>
-                        <Card.Meta>
-                          {student.specialization
-                            ? student.specialization.name
-                            : null}
-                        </Card.Meta>
-                        <Card.Description>{student.about_me}</Card.Description>
-                      </Card.Content>
-                      <Card.Content extra>
-                        <div className="ui two buttons">
-                          <Button
-                            basic
-                            color="blue"
-                            as={NavLink}
-                            to={"/students/" + student.id}
-                          >
-                            View
-                          </Button>
-                        </div>
-                      </Card.Content>
-                    </Card>
-                  </div>
-                );
-              })}
-            </Card.Group>
-          </Container>
-        </Grid.Row>
-
-        {/* <Pagination
-          defaultActivePage={5}
-          ellipsisItem={{
-            content: <Icon name="ellipsis horizontal" />,
-            icon: true,
-          }}
-          firstItem={{ content: <Icon name="angle double left" />, icon: true }}
-          lastItem={{ content: <Icon name="angle double right" />, icon: true }}
-          prevItem={{ content: <Icon name="angle left" />, icon: true }}
-          nextItem={{ content: <Icon name="angle right" />, icon: true }}
-          totalPages={10}
-        /> */}
-      </Grid>
+      <Segment vertical style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
+        <Container>
+          <Header as="h2">Students list</Header>
+          <Divider hidden />
+          <Grid>
+            <Grid.Row>
+              <Grid.Column>
+                <Menu>
+                  <Menu.Item>
+                    <Input
+                      icon="search"
+                      placeholder="Search..."
+                      transparent
+                      iconPosition="left"
+                    />
+                  </Menu.Item>
+                </Menu>
+                <Divider hidden />
+                {count === 0 ? (
+                  <Segment placeholder>
+                    <Header icon>
+                      <Icon name="book" />
+                      No students are listed.
+                    </Header>
+                  </Segment>
+                ) : (
+                  <Card.Group itemsPerRow={4} stackable>
+                    {students.map((student) => {
+                      return (
+                        <Card>
+                          <Card.Content>
+                            <Image
+                              floated="right"
+                              verticalAlign="top"
+                              src={student.image}
+                            />
+                            <Card.Header>{student.full_name}</Card.Header>
+                            <Card.Meta>
+                              {student.cohort &&
+                                "Cohort #" + student.cohort.name}
+                            </Card.Meta>
+                            <Card.Meta>
+                              {student.specialization &&
+                                student.specialization.name}
+                            </Card.Meta>
+                            <Card.Description>
+                              {student.about_me}
+                            </Card.Description>
+                          </Card.Content>
+                          <Card.Content extra>
+                            <div className="ui two buttons">
+                              <Button
+                                basic
+                                color="blue"
+                                as={NavLink}
+                                to={"/students/" + student.id}
+                              >
+                                View
+                              </Button>
+                            </div>
+                          </Card.Content>
+                        </Card>
+                      );
+                    })}
+                  </Card.Group>
+                )}
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Container>
+      </Segment>
     </div>
   );
 };

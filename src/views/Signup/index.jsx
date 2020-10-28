@@ -16,12 +16,17 @@ import {
   Segment,
 } from "semantic-ui-react";
 import { toaster } from "evergreen-ui";
-import User from '../../models/User'
+import User from "../../models/User";
 
 function Signup() {
   const [user, setUser] = useState(new User());
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+
+  const changeHandler = (event) => {
+    event.preventDefault();
+    setUser({ ...user, [event.target.name]: event.target.value });
+  };
 
   return (
     <>
@@ -31,8 +36,8 @@ function Signup() {
           setLoading(true);
           AuthService.signup(values).then(
             (response) => {
-              setLoading(false)
-              history.push('/verification')
+              setLoading(false);
+              history.push("/verification");
               toaster.success(response.data.message, { duration: 5 });
             },
             (error) => {
@@ -48,18 +53,23 @@ function Signup() {
           );
         }}
         validationSchema={yup.object().shape({
-          email: yup.string()
-            .required('Email is required')
-            .matches(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/,
-              "Please provide a valid email address"),
-          password: yup.string()
-            .required('Password is required')
+          email: yup
+            .string()
+            .required("Email is required")
+            .matches(
+              /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/,
+              "Please provide a valid email address"
+            ),
+          password: yup
+            .string()
+            .required("Password is required")
             .matches(
               /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
               "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
             ),
-          password_confirmation: yup.string()
-            .oneOf([yup.ref('password'), null], 'Passwords must match')
+          password_confirmation: yup
+            .string()
+            .oneOf([yup.ref("password"), null], "Passwords must match"),
         })}
         render={({
           values,
@@ -70,7 +80,11 @@ function Signup() {
           handleSubmit,
         }) => {
           return (
-            <Grid textAlign="center" verticalAlign="middle" style={{ height: "80vh" }}>
+            <Grid
+              textAlign="center"
+              verticalAlign="middle"
+              style={{ height: "80vh" }}
+            >
               <Grid.Column style={{ maxWidth: 450 }}>
                 <Image
                   circular
@@ -84,18 +98,22 @@ function Signup() {
                     <Segment>
                       <Button.Group>
                         <Button
-                          onClick={handleChange}
+                          onClick={changeHandler}
                           name="role"
                           value="recruiter"
                           color="teal"
-                        >Recruiter</Button>
+                        >
+                          Recruiter
+                        </Button>
                         <Button.Or text="or" />
                         <Button
-                          onClick={handleChange}
+                          onClick={changeHandler}
                           name="role"
                           value="student"
                           color="pink"
-                        >Student</Button>
+                        >
+                          Student
+                        </Button>
                       </Button.Group>
                     </Segment>
                     <Segment>
@@ -128,7 +146,10 @@ function Signup() {
                       type="password"
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      error={touched.password_confirmation && errors.password_confirmation}
+                      error={
+                        touched.password_confirmation &&
+                        errors.password_confirmation
+                      }
                     />
                     <Button
                       color="pink"
@@ -155,6 +176,6 @@ function Signup() {
       />
     </>
   );
-};
+}
 
 export default Signup;

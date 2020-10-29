@@ -28,10 +28,6 @@ const { MediaContextProvider, Media } = createMedia({
   },
 });
 
-/* Heads up!
- * HomepageHeading uses inline styling, however it's not the best practice. Use CSS or styled
- * components for such things.
- */
 const HomepageHeading = ({ mobile }) => (
   <Segment style={{ padding: "8em 0em" }} vertical>
     <Grid container stackable verticalAlign="middle">
@@ -69,10 +65,7 @@ HomepageHeading.propTypes = {
   mobile: PropTypes.bool,
 };
 
-/* Heads up!
- * Neither Semantic UI nor Semantic UI React offer a responsive navbar, however, it can be implemented easily.
- * It can be more complicated, but you can create really flexible markup.
- */
+
 class DesktopContainer extends Component {
   state = {};
 
@@ -201,8 +194,37 @@ ResponsiveContainer.propTypes = {
 const HomepageLayout = () => (
   <ResponsiveContainer>
     <Segment style={{ padding: "8em 0em" }}>
-      <Grid container stackable verticalAlign="middle">
-        <Grid.Row>
+      <Container>
+        <Header as='h2' icon textAlign='center'>
+          <Icon name='id card outline' />
+          <Header.Content>Project creators and builders</Header.Content>
+        </Header>
+        <Divider hidden style={{ marginBottom: "5em" }} />
+        <Grid stackable verticalAlign="middle">
+          <Card.Group itemsPerRow={3}>
+            <Card
+              image='https://media-exp1.licdn.com/dms/image/C4E03AQGE3NyP9rHR6g/profile-displayphoto-shrink_800_800/0?e=1609372800&v=beta&t=yY-bJpcAyJCihoh-4obkW0B1oW7DbAH2InXgYK67JiU'
+              header='Iheb Chatti'
+              meta="Full stack web developer"
+              description='Iheb is the responsible for backend and DevOps technologies including deployment, and server maitenance'
+              extra={<a href="http://github.com/IhebChatti"><Icon name='github' />IhebChatti</a>}
+            />
+            <Card
+              image='https://media-exp1.licdn.com/dms/image/C5603AQFbU1EE3H1g4Q/profile-displayphoto-shrink_800_800/0?e=1609372800&v=beta&t=9WKRP32BzpUdOCAz3Ml0aGSQzrJjk3VPTB4GZxFCAP4'
+              header='Foued Dadi'
+              meta="Full stack web developer"
+              description='Foued Dadi is the designer of the project and front end builder with using Recat Js, CSS and HTML'
+              extra={<a href="http://github.com/FouedDadi"><Icon name='github' />FouedDadi</a>}
+            />
+            <Card
+              image='https://media-exp1.licdn.com/dms/image/C4E03AQFecUE73q39Xg/profile-displayphoto-shrink_800_800/0?e=1609372800&v=beta&t=-SeUrBu1PU8Eu1kHPrY0-a6u-pwQbKzY8dUdZKGZFAM'
+              header='Issam Sebri'
+              meta="Full stack web developer"
+              description='Sebri Issam is the responsible of the back end building and API'
+              extra={<a href="http://github.com/KoeusIss"><Icon name='github' />KoeusIss</a>}
+            />
+          </Card.Group>
+          {/* <Grid.Row>
           <Grid.Column floated="left" width={6}>
             <Card.Group itemsPerRow={3}>
               <Card>
@@ -275,8 +297,10 @@ const HomepageLayout = () => (
             </p>
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row></Grid.Row>
-      </Grid>
+        <Grid.Row></Grid.Row> */}
+        </Grid>
+
+      </Container>
     </Segment>
 
     <Segment style={{ padding: "8em 0em" }} vertical>

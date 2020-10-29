@@ -28,8 +28,8 @@ const Student = () => {
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState({});
   const [socialLinks, setSocialLinks] = useState({});
-  const [language, setLanguage] = useState([{}]);
-  const [skill, seSkill] = useState([{}]);
+  // const [language, setLanguage] = useState([{}]);
+  // const [skill, seSkill] = useState([{}]);
   const [student, setStudent] = useState(new AStudent());
   const current_user = UserService.currentUser();
   let { id } = useParams();
@@ -49,8 +49,8 @@ const Student = () => {
         setStudent(res.data.student);
         setLocation(res.data.address);
         setSocialLinks(res.data.social);
-        setLanguage(res.data.language);
-        seSkill(res.data.skills);
+        // setLanguage(res.data.language);
+        // seSkill(res.data.skills);
       },
       (error) => {
         const returnError =
@@ -62,7 +62,7 @@ const Student = () => {
         setLoading(false);
       }
     );
-  }, [student, language, socialLinks, skill]);
+  }, [student, socialLinks]);
 
   return (
     <Container>
@@ -186,8 +186,8 @@ const Student = () => {
                       <ProfilePane
                         student={student}
                         socialLink={socialLinks}
-                        languages={language}
-                        skills={skill}
+                        // languages={language}
+                        // skills={skill}
                         owner={owner}
                       />
                     ),

@@ -18,8 +18,8 @@ const Home = () => {
         vertical
         textAlign="center"
         style={{
-          paddingTop: "4rem",
-          paddingBottom: "4rem",
+          paddingTop: "10rem",
+          paddingBottom: "10rem",
           backgroundColor: "#000",
         }}
       >
@@ -56,7 +56,7 @@ const Home = () => {
           </Button>
         </Container>
       </Segment>
-      <Segment vertical style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
+      <Segment vertical style={{ paddingTop: "10rem", paddingBottom: "10rem" }}>
         <Container>
           <Grid stackable columns={2} divided>
             <Grid.Row>
@@ -104,7 +104,7 @@ const Home = () => {
           </Grid>
         </Container>
       </Segment>
-      <Segment vertical style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
+      <Segment vertical style={{ paddingTop: "10rem", paddingBottom: "10rem" }}>
         <Container>
           <Grid>
             <Grid.Row>
@@ -130,8 +130,8 @@ const Home = () => {
             <Grid.Row>
               <Grid.Column textAlign="center">
                 <Image
-                  src={require("../../images/graduation.png")}
-                  style={{ display: "inline", width: "200px" }}
+                  src={require("../../images/hire.svg")}
+                  style={{ display: "inline", width: "300px" }}
                 />
               </Grid.Column>
               <Grid.Column textAlign="center" verticalAlign="middle">
@@ -146,7 +146,7 @@ const Home = () => {
           </Grid>
         </Container>
       </Segment>
-      <Segment vertical style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
+      <Segment vertical style={{ paddingTop: "10rem", paddingBottom: "10rem" }}>
         <Container>
           <Grid>
             <Grid.Row>
@@ -159,7 +159,7 @@ const Home = () => {
             <Grid.Row>
               <Grid.Column textAlign="center">
                 <Image
-                  src={require("../../images/Mission-Icon.png")}
+                  src={require("../../images/mission.svg")}
                   style={{ display: "inline", width: "200px" }}
                 />
               </Grid.Column>

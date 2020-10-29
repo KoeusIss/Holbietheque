@@ -17,6 +17,9 @@ from flask_jwt_extended import (
 )
 from flask import request
 from sqlalchemy.exc import *
+from web_flask.models.language import LanguageSchema, Language
+from web_flask.models.skill import Skill, SkillSchema
+
 
 students_schema = StudentSchema(many=True)
 student_schema = StudentSchema()
@@ -27,6 +30,9 @@ experiences_schema = ExperienceSchema(many=True)
 projects_schema = ProjectSchema(many=True)
 social_schema = SocialSchema()
 user_schema = UserSchema(only=['id', 'email'])
+language_schema = LanguageSchema(only=['name', 'level'], many=True)
+skill_schema = SkillSchema(only=['name', 'level'], many=True)
+
 
 
 @app_views.route(
@@ -63,12 +69,16 @@ def get_student(student_id):
     student = student_schema.dump(the_student)
     address = address_schema.dump(the_student.address)
     social = social_schema.dump(the_student.social)
+    language = language_schema.dump(the_student.language)
+    skills = skill_schema.dump(the_student.skills)
     return {
         "success": True,
         "message": "data found",
         "student": student,
         "social": social,
-        "address": address
+        "address": address,
+        "language": language,
+        "skills": skills
     }
 
 

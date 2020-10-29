@@ -73,26 +73,30 @@ const ProfilePane = ({ student, languages, skills, socialLink, owner }) => {
           </Card.Description>
         </Card.Content>
       </Card>
-      <Card fluid>
-        <Card.Content>
-          <Card.Header>Languages</Card.Header>
-          <Card.Description>
-            {languages.map((language) => (
-              <div>{language.name}</div>
-            ))}
-          </Card.Description>
-        </Card.Content>
-      </Card>
-      <Card fluid>
-        <Card.Content>
-          <Card.Header>Skills</Card.Header>
-          <Card.Description>
-            {skills.map((skill) => (
-              <div>{skill.name}</div>
-            ))}
-          </Card.Description>
-        </Card.Content>
-      </Card>
+      {languages ? (
+        <Card fluid>
+          <Card.Content>
+            <Card.Header>Languages</Card.Header>
+            <Card.Description>
+              {languages.map((language) => (
+                <div>{language.name}</div>
+              ))}
+            </Card.Description>
+          </Card.Content>
+        </Card>
+      ) : null}
+      {skills ? (
+        <Card fluid>
+          <Card.Content>
+            <Card.Header>Skills</Card.Header>
+            <Card.Description>
+              {skills.map((skill) => (
+                <div>{skill.name}</div>
+              ))}
+            </Card.Description>
+          </Card.Content>
+        </Card>
+      ) : null}
     </div>
   );
 };

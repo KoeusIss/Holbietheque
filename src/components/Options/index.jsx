@@ -10,6 +10,21 @@ const maritalStatus = [
   { key: "o", text: "Other", value: "other" },
 ];
 
+const communLangs = [
+  { key: "us", text: "English", value: "english" },
+  { key: "fr", text: "French", value: "french" },
+  { key: "tn", text: "Arabic", value: "arabic" },
+  { key: "es", text: "Spanish", value: "spanish" },
+];
+
+const levels = [
+  { key: "1", text: "Basic", value: "basic" },
+  { key: "2", text: "Novice", value: "novice" },
+  { key: "3", text: "Intermediate", value: "intermediate" },
+  { key: "4", text: "Advanced", value: "advanced" },
+  { key: "5", text: "Expert", value: "expert" },
+];
+
 const days = [];
 let d = 1;
 while (d < 32) {
@@ -71,4 +86,14 @@ const states = [
   },
 ];
 
-export { genderOptions, maritalStatus, days, months, years, countries, states };
+export {
+  genderOptions,
+  maritalStatus,
+  days,
+  months,
+  years,
+  countries,
+  states,
+  communLangs,
+  levels,
+};

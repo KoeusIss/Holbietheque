@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Menu, Container, Sticky, Rail } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
@@ -8,12 +8,11 @@ import UserService from "../../services/user_service";
 const Navbar = () => {
   const [activeItem, setActiveItem] = useState();
   const handleItemClick = (e, { name }) => setActiveItem(name);
-  const user = UserService.currentUser();
-  const profile_id = localStorage.getItem("pid");
+  const currentUser = UserService.currentUser();
+  const profile = currentUser && currentUser.profile;
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
-    localStorage.removeItem("pid");
     toaster.success("Logout Successful, See you soon!", { duration: 3 });
   };
 
@@ -54,7 +53,7 @@ const Navbar = () => {
             to="/about"
           />
           <Menu.Menu position="right">
-            {user ? (
+            {currentUser ? (
               <>
                 <Menu.Item
                   name="profile"
@@ -62,7 +61,7 @@ const Navbar = () => {
                   style={{ color: "#fff" }}
                   onClick={handleItemClick}
                   as={NavLink}
-                  to={"/students/" + profile_id}
+                  to={!profile ? "/new" : "/students/" + profile}
                 />
                 <Menu.Item
                   name="logout"
@@ -79,6 +78,7 @@ const Navbar = () => {
                   name="login"
                   active={activeItem === "login"}
                   onClick={handleItemClick}
+                  style={{ color: "#fff" }}
                   as={NavLink}
                   to="/login"
                 />
@@ -86,6 +86,7 @@ const Navbar = () => {
                   name="signup"
                   active={activeItem === "signup"}
                   onClick={handleItemClick}
+                  style={{ color: "#fff" }}
                   as={NavLink}
                   to="/signup"
                 />

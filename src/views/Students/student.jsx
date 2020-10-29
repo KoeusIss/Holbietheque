@@ -28,6 +28,8 @@ const Student = () => {
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState({});
   const [socialLinks, setSocialLinks] = useState({});
+  const [language, setLanguage] = useState([{}]);
+  const [skill, seSkill] = useState([{}]);
   const [student, setStudent] = useState(new AStudent());
   const current_user = UserService.currentUser();
   let { id } = useParams();
@@ -47,6 +49,8 @@ const Student = () => {
         setStudent(res.data.student);
         setLocation(res.data.address);
         setSocialLinks(res.data.social);
+        setLanguage(res.data.language);
+        seSkill(res.data.skills);
       },
       (error) => {
         const returnError =
@@ -58,7 +62,7 @@ const Student = () => {
         setLoading(false);
       }
     );
-  }, [student]);
+  }, [student, language, socialLinks, skill]);
 
   return (
     <Container>
@@ -182,6 +186,8 @@ const Student = () => {
                       <ProfilePane
                         student={student}
                         socialLink={socialLinks}
+                        languages={language}
+                        skills={skill}
                         owner={owner}
                       />
                     ),
@@ -214,23 +220,10 @@ const Student = () => {
               />
             </Grid.Column>
           </Grid>
-        ) : (
-          <Segment vertical textAlign="center">
-            <Image
-              src={require("../../images/empty_profile.png")}
-              size="large"
-              style={{ margin: "auto" }}
-            />
-            {current_user && owner && (
-              <AddProfile
-                theTrigger={<Button basic>Add profile</Button>}
-                user_id={current_user.id}
-              />
-            )}
-          </Segment>
-        )}
+        ) : (null
+          )}
       </Segment>
-    </Container>
+    </Container >
   );
 };
 export default Student;

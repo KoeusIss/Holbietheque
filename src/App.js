@@ -10,6 +10,7 @@ import Verify from "./views/Verify";
 import About from "./views/About";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import NewProfile from "./views/New"
 import "./App.css";
 
 const App = withRouter(({ location }) => {
@@ -42,6 +43,9 @@ const App = withRouter(({ location }) => {
         </Route>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/new">
+          <NewProfile />
         </Route>
       </Switch>
       {location.pathname !== "/login" &&

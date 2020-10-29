@@ -50,7 +50,7 @@ class Social(BaseModel, Base):
         String(128)
     )
     student_id = Column(
-        String(128),
+        String(60),
         ForeignKey("students.id"),
         nullable=False
     )

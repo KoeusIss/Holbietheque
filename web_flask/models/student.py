@@ -9,6 +9,9 @@ from web_flask.models.specialization import SpecializationSchema
 from web_flask.models.cohort import CohortSchema
 from hashlib import md5
 from web_flask.models.user import UserSchema
+from web_flask.models.language import LanguageSchema
+from web_flask.models.skill import SkillSchema
+
 
 
 class Student(BaseModel, Base):
@@ -90,6 +93,16 @@ class Student(BaseModel, Base):
         back_populates="student",
         cascade="all, delete"
     )
+    language = relationship(
+        "Language",
+        backref="student",
+        cascade="all, delete"
+    )
+    skills = relationship(
+        "Skill",
+        backref="student",
+        cascade="all, delete"
+    )
     user_id = Column(
         String(60),
         ForeignKey('users.id')
@@ -122,6 +135,8 @@ class StudentSchema(Schema):
     marital_status = fields.Str()
     school_id = fields.Str()
     about_me = fields.Str()
+    languages = fields.Nested(LanguageSchema(many=True, only=["name", "level"]))
+    skills = fields.Nested(SkillSchema(many=True, only=["name", "level"]))
     specialization = fields.Nested(SpecializationSchema(only=["name"]))
     cohort = fields.Nested(CohortSchema(only=["name"]))
     image = fields.Method('avatar', dump_only=True)

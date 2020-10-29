@@ -16,7 +16,8 @@ from web_flask.models.user import User
 from web_flask.models.cohort import Cohort
 from web_flask.models.recruiter import Recruiter
 from web_flask.models.specialization import Specialization
-
+from web_flask.models.language import Language
+from web_flask.models.skill import Skill
 from os import environ, path
 from dotenv import load_dotenv
 from web_flask.config import base_dir
@@ -30,7 +31,7 @@ classes = {"Country": Country, "State": State,
            "Certificate": Certificate, "Education": Education,
            "Experience": Experience, "Project": Project, "Social": Social,
            "User": User, "Cohort": Cohort, "Specialization": Specialization,
-           "Recruiter": Recruiter}
+           "Recruiter": Recruiter, "Language": Language, "Skill": Skill}
 
 
 class DBStorage:

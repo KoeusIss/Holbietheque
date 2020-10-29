@@ -9,7 +9,7 @@ const Navbar = () => {
   const [activeItem, setActiveItem] = useState();
   const handleItemClick = (e, { name }) => setActiveItem(name);
   const currentUser = UserService.currentUser();
-  const profile = currentUser.profile;
+  const profile = currentUser && currentUser.profile;
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
@@ -61,7 +61,7 @@ const Navbar = () => {
                   style={{ color: "#fff" }}
                   onClick={handleItemClick}
                   as={NavLink}
-                  to={!profile ? '/new' : "/students/" + profile}
+                  to={!profile ? "/new" : "/students/" + profile}
                 />
                 <Menu.Item
                   name="logout"
@@ -73,25 +73,25 @@ const Navbar = () => {
                 />
               </>
             ) : (
-                <>
-                  <Menu.Item
-                    name="login"
-                    active={activeItem === "login"}
-                    onClick={handleItemClick}
-                    style={{ color: "#fff" }}
-                    as={NavLink}
-                    to="/login"
-                  />
-                  <Menu.Item
-                    name="signup"
-                    active={activeItem === "signup"}
-                    onClick={handleItemClick}
-                    style={{ color: "#fff" }}
-                    as={NavLink}
-                    to="/signup"
-                  />
-                </>
-              )}
+              <>
+                <Menu.Item
+                  name="login"
+                  active={activeItem === "login"}
+                  onClick={handleItemClick}
+                  style={{ color: "#fff" }}
+                  as={NavLink}
+                  to="/login"
+                />
+                <Menu.Item
+                  name="signup"
+                  active={activeItem === "signup"}
+                  onClick={handleItemClick}
+                  style={{ color: "#fff" }}
+                  as={NavLink}
+                  to="/signup"
+                />
+              </>
+            )}
           </Menu.Menu>
         </Container>
       </Menu>

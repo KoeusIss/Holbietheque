@@ -17,6 +17,7 @@ import {
   Visibility,
   Popup,
   Form,
+  Card,
 } from "semantic-ui-react";
 
 const { MediaContextProvider, Media } = createMedia({
@@ -203,35 +204,74 @@ const HomepageLayout = () => (
       <Grid container stackable verticalAlign="middle">
         <Grid.Row>
           <Grid.Column floated="left" width={6}>
-            <Image
-              bordered
-              rounded
-              size="large"
-              src={require("../../images/founders.jpeg")}
-            />
+            <Card.Group itemsPerRow={3}>
+              <Card>
+                <Image
+                  src="https://react.semantic-ui.com/images/avatar/large/daniel.jpg"
+                  wrapped
+                  ui={false}
+                />
+                <Card.Content>
+                  <Card.Header>Sebri Issam</Card.Header>
+                  <Card.Meta>Joined in 2019</Card.Meta>
+                  <Card.Description>Holberton School Student</Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                  <a href="https://www.linkedin.com/in/issam-sebri/">
+                    <Icon name="linkedin" />
+                    Linkedin
+                  </a>
+                </Card.Content>
+              </Card>
+              <Card>
+                <Image
+                  src="https://react.semantic-ui.com/images/avatar/large/daniel.jpg"
+                  wrapped
+                  ui={false}
+                />
+                <Card.Content>
+                  <Card.Header>Dadi Foued</Card.Header>
+                  <Card.Meta>Joined in 2019</Card.Meta>
+                  <Card.Description>Holberton School Student</Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                  <a href="https://www.linkedin.com/in/foued-dadi-5b5474165/">
+                    <Icon name="linkedin" />
+                    Linkedin
+                  </a>
+                </Card.Content>
+              </Card>
+              <Card>
+                <Image
+                  src="https://react.semantic-ui.com/images/avatar/large/daniel.jpg"
+                  wrapped
+                  ui={false}
+                />
+                <Card.Content>
+                  <Card.Header> Chatti Iheb</Card.Header>
+                  <Card.Meta>Joined in 2019</Card.Meta>
+                  <Card.Description>Holberton School Student</Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                  <a href="https://www.linkedin.com/in/iheb-chatti-b98487177/">
+                    <Icon name="linkedin" />
+                    Linkedin
+                  </a>
+                </Card.Content>
+              </Card>
+            </Card.Group>
           </Grid.Column>
           <Grid.Column width={8}>
             <Header as="h3" style={{ fontSize: "2em", color: "#000" }}>
-              Founders of Holberton School
+              Developers
             </Header>
             <p style={{ fontSize: "1.33em" }}>
-              Sylvain Kalache and Julien Barbier created Holberton School in San
-              Francisco to respond to a problem observed in the tech world: to
-              become computer engineers, some students spent many years
-              studying, sometimes going so far as to get into debt. , and still
-              lacked the skills to find their dream job. Sylvain and Julien have
-              thus decided to create a school which teaches students to think
-              like the best developers, which helps them develop human skills to
-              stand out during interviews and throughout their career, and which
-              offers a curriculum focused on practical experience through a
-              full-stack development program. Since its opening in 2016,
-              Holberton School has been able to get noticed by the most
-              innovative companies on the planet. Our graduates have been
-              offered exciting jobs at LinkedIn, Google, Tesla, Docker, Apple,
-              Dropbox, Facebook, Pinterest, Genentech, Cisco, IBM, etc. In
-              addition, Holberton School has opened several campuses around the
-              world, and our unique, proven and scalable approach has caught the
-              attention of major investors in Silicon Valley.
+              Sebri Issam, Chatti Iheb and Dadi foued are Holberton School
+              students joined the school in 2019, they created this web app in
+              order to help students present their CV's to the recruiters which
+              will help them take one more step toward the profesional life.
+              Recruiters also can benefit from this app, they can find the
+              profiles they are looking for to hire for their companies.
             </p>
           </Grid.Column>
         </Grid.Row>

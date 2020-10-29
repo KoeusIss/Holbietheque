@@ -1,5 +1,6 @@
 import React from "react";
 import { Segment, Container, Grid, Header, List } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -41,7 +42,28 @@ const Footer = () => {
               </List>
             </Grid.Column>
             <Grid.Column width={3}>
-              <Header as="h4">About</Header>
+              <Header as="h4">Help</Header>
+              <List>
+                <List.Item>
+                  <List.Icon name="map" />
+                  <List.Content>
+                    <a href="https://goo.gl/maps/wAvMvYmMEnku2VBw8">Map</a>
+                  </List.Content>
+                </List.Item>
+
+                <List.Item>
+                  <List.Icon name="phone" />
+                  <List.Content as={Link} to="/contact">
+                    <a>Contact us</a>
+                  </List.Content>
+                </List.Item>
+                <List.Item>
+                  <List.Icon name="info circle" />
+                  <List.Content as={Link} to="/about">
+                    <a>about us</a>
+                  </List.Content>
+                </List.Item>
+              </List>
             </Grid.Column>
           </Grid.Row>
         </Grid>

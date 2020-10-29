@@ -71,51 +71,51 @@ const Students = () => {
                 {count === 0 ? (
                   <Segment placeholder>
                     <Header icon>
-                      <Icon name="book" />
+                      <Icon name="student" />
                       No students are listed.
                     </Header>
                   </Segment>
                 ) : (
-                  <Card.Group itemsPerRow={4} stackable>
-                    {students.map((student) => {
-                      return (
-                        <Card>
-                          <Card.Content>
-                            <Image
-                              floated="right"
-                              verticalAlign="top"
-                              src={student.image}
-                            />
-                            <Card.Header>{student.full_name}</Card.Header>
-                            <Card.Meta>
-                              {student.cohort &&
-                                "Cohort #" + student.cohort.name}
-                            </Card.Meta>
-                            <Card.Meta>
-                              {student.specialization &&
-                                student.specialization.name}
-                            </Card.Meta>
-                            <Card.Description>
-                              {student.about_me}
-                            </Card.Description>
-                          </Card.Content>
-                          <Card.Content extra>
-                            <div className="ui two buttons">
-                              <Button
-                                basic
-                                color="blue"
-                                as={NavLink}
-                                to={"/students/" + student.id}
-                              >
-                                View
+                    <Card.Group itemsPerRow={4} stackable>
+                      {students.map((student) => {
+                        return (
+                          <Card key={student.id}>
+                            <Card.Content>
+                              <Image
+                                floated="right"
+                                verticalAlign="top"
+                                src={student.image}
+                              />
+                              <Card.Header>{student.full_name}</Card.Header>
+                              <Card.Meta>
+                                {student.cohort &&
+                                  "Cohort #" + student.cohort.name}
+                              </Card.Meta>
+                              <Card.Meta>
+                                {student.specialization &&
+                                  student.specialization.name}
+                              </Card.Meta>
+                              <Card.Description>
+                                {student.about_me}
+                              </Card.Description>
+                            </Card.Content>
+                            <Card.Content extra>
+                              <div className="ui two buttons">
+                                <Button
+                                  basic
+                                  color="blue"
+                                  as={NavLink}
+                                  to={"/students/" + student.id}
+                                >
+                                  View
                               </Button>
-                            </div>
-                          </Card.Content>
-                        </Card>
-                      );
-                    })}
-                  </Card.Group>
-                )}
+                              </div>
+                            </Card.Content>
+                          </Card>
+                        );
+                      })}
+                    </Card.Group>
+                  )}
               </Grid.Column>
             </Grid.Row>
           </Grid>

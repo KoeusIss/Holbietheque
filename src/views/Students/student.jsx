@@ -214,23 +214,10 @@ const Student = () => {
               />
             </Grid.Column>
           </Grid>
-        ) : (
-          <Segment vertical textAlign="center">
-            <Image
-              src={require("../../images/empty_profile.png")}
-              size="large"
-              style={{ margin: "auto" }}
-            />
-            {current_user && owner && (
-              <AddProfile
-                theTrigger={<Button basic>Add profile</Button>}
-                user_id={current_user.id}
-              />
-            )}
-          </Segment>
-        )}
+        ) : (null
+          )}
       </Segment>
-    </Container>
+    </Container >
   );
 };
 export default Student;

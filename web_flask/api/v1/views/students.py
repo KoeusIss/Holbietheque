@@ -9,7 +9,12 @@ from web_flask.models.project import ProjectSchema
 from web_flask.models.user import User, UserSchema
 from web_flask.models.social import SocialSchema
 from web_flask.models import storage
+from web_flask.api.v1.app import jwt
 from web_flask.api.v1.views import app_views
+from flask_jwt_extended import (
+    jwt_required, create_access_token,
+    get_jwt_identity, get_jwt_claims, verify_jwt_in_request
+)
 from flask import request
 from sqlalchemy.exc import *
 
@@ -67,6 +72,19 @@ def get_student(student_id):
     }
 
 
+@jwt.user_claims_loader
+def add_claims_to_access_token(user):
+    return {
+        'role': user['role'],
+        'profile': user['profile']
+    }
+
+
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+    return user['id']
+
+
 @app_views.route(
     '/students',
     methods=['POST'],
@@ -84,10 +102,12 @@ def create_student():
     try:
         the_student.save()
         student = student_schema.dump(the_student)
+        user = {"id": the_student.user.id, "role": "student", "profile": the_student.id}
         return {
             "success": True,
-            "message": "created successfully",
-            "student": student
+            "message": "Student created successfully",
+            "student": student,
+            "access_token": create_access_token(identity=user)
         }, 201
     except (IntegrityError, OperationalError) as error:
         the_student.rollback()

@@ -40,7 +40,7 @@ const AddProfile = ({ theTrigger, user_id }) => {
             (response) => {
               setLoading(false);
               setOpen(false);
-              localStorage.setItem("pid", response.data.student.id);
+              localStorage.setItem("access_token", response.data.access_token);
               history.push("/students/" + response.data.student.id);
               window.location.reload();
               toaster.notify(response.data.message, { duration: 5 });

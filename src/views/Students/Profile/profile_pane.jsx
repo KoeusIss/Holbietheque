@@ -17,7 +17,7 @@ import AddAboutMe from "./add_about_me";
 import AddLanguage from "./add_language";
 import AddSkill from "./add_skill";
 
-const ProfilePane = ({ student, socialLink, owner }) => {
+const ProfilePane = ({ student, languages, skills, socialLink, owner }) => {
   return (
     <div
       style={{
@@ -49,14 +49,14 @@ const ProfilePane = ({ student, socialLink, owner }) => {
                   theTrigger={<Dropdown.Item text="Social links" />}
                   student_id={student.id}
                 />
-                {/* <AddLanguage
+                <AddLanguage
                   theTrigger={<Dropdown.Item text="Languages" />}
                   student_id={student.id}
                 />
                 <AddSkill
                   theTrigger={<Dropdown.Item text="Skills" />}
                   student_id={student.id}
-                /> */}
+                />
               </Dropdown.Menu>
             </Dropdown>
           </Menu.Item>
@@ -70,7 +70,7 @@ const ProfilePane = ({ student, socialLink, owner }) => {
           </Card.Description>
         </Card.Content>
       </Card>
-      {/* {languages ? (
+      {student.language ? (
         <Card fluid>
           <Card.Content>
             <Card.Header>Languages</Card.Header>
@@ -82,7 +82,7 @@ const ProfilePane = ({ student, socialLink, owner }) => {
           </Card.Content>
         </Card>
       ) : null}
-      {skills ? (
+      {student.skill ? (
         <Card fluid>
           <Card.Content>
             <Card.Header>Skills</Card.Header>
@@ -93,7 +93,7 @@ const ProfilePane = ({ student, socialLink, owner }) => {
             </Card.Description>
           </Card.Content>
         </Card>
-      ) : null} */}
+      ) : null}
     </div>
   );
 };

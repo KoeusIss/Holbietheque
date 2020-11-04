@@ -26,6 +26,7 @@ user_schema = UserSchema()
 social_schema = SocialSchema()
 address_schema = AddressSchema()
 
+
 def admin_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -33,7 +34,7 @@ def admin_required(fn):
         claims = get_jwt_claims()
         if claims['role'] != 'admin':
             return {
-                       "failed": True,
+                       "success": False,
                        "message": "admin only"
                    }, 403
         else:
@@ -69,7 +70,7 @@ def get_user(user_id):
     the_user = storage.get(User, user_id)
     if not the_user:
         return {
-                   "failed": True,
+                   "success": False,
                    "message": "data not found"
                }, 400
     user = user_schema.dump(the_user)
@@ -88,7 +89,7 @@ def get_user(user_id):
 def signup_user():
     """ POST /api/v1/signup """
     if not request.get_json():
-        return {"message": "not a json"}, 400
+        return {"success": False, "message": "not a json"}, 400
     data = request.get_json()
     otp = randint(000000, 999999)
     data['otp'] = str(otp)
@@ -103,10 +104,16 @@ def signup_user():
         msg.body = str(otp)
         mail.send(msg)
         the_user.save()
-        return {"message": "Signup Successful", "id": the_user.id}, 201
+        return {
+            "success": True,
+            "message": "Signup Successful",
+            "id": the_user.id}, 201
     except (IntegrityError, OperationalError) as error:
         the_user.rollback()
-        return {"message": error.orig.args[1]}, 400
+        return {
+            "success": False,
+            "message": error.orig.args[1]
+        }, 400
 
 
 @app_views.route(
@@ -117,19 +124,19 @@ def signup_user():
 def verify_mail():
     """ POST /api/v1/verifcation """
     if not request.get_json():
-        return {"message": "not a json"}, 400
+        return {"success": False, "message": "not a json"}, 400
     data = request.get_json()
     if not data['id']:
-        return {"message": "Account verification failed"}, 400
+        return {"success": False, "message": "Account verification failed"}, 400
     the_user = storage.get(User, data['id'])
     if not the_user:
-        return {"message": "Unrecognized user id"}, 400
+        return {"success": False, "message": "Unrecognized user id"}, 400
     if the_user.otp == data['otp'] and the_user.otp_expired_at > datetime.datetime.utcnow():
         setattr(the_user, 'active', True)
         storage.save()
-        return {"message": "Account activated successfully"}, 200
+        return {"success": True, "message": "Account activated successfully"}, 200
     else:
-        return {"message": "Code has expired"}, 400
+        return {"success": False, "message": "Code has expired"}, 400
 
 
 @jwt.user_claims_loader
@@ -190,16 +197,16 @@ def get_user_student(user_id):
     the_user = storage.get(User, user_id)
     if not the_user:
         return {
-            "success": False,
-            "message": "User not found"
-        }, 400
+                   "success": False,
+                   "message": "User not found"
+               }, 400
     the_student = the_user.student
     if not the_student:
         return {
-            "success": False,
-            "message": "Student not found",
-            "student": []
-        }, 200
+                   "success": False,
+                   "message": "Student not found",
+                   "student": []
+               }, 200
     student = student_schema.dump(the_student)
     address = address_schema.dump(the_student.address)
     social = social_schema.dump(the_student.social)
@@ -211,6 +218,7 @@ def get_user_student(user_id):
         "social_links": social
     }
 
+
 @app_views.route(
     '/users/<user_id>',
     methods=['PUT'],
@@ -221,14 +229,14 @@ def update_user(user_id):
     the_user = storage.get(User, user_id)
     if not the_user:
         return {
-           "success": False,
-           "message": "User not found"
-        }, 400
+                   "success": False,
+                   "message": "User not found"
+               }, 400
     if not request.get_json():
         return {
-            "success": False,
-            "message": "Not a json request"
-        }, 400
+                   "success": False,
+                   "message": "Not a json request"
+               }, 400
     ignore = ['id', 'created_at', 'updated_at']
     data = request.get_json()
     for key, value in data.items():
@@ -236,6 +244,6 @@ def update_user(user_id):
             setattr(the_user, key, value)
     storage.save()
     return {
-        "success": True,
-        "message": "User updated successfully"
-    }, 200
+               "success": True,
+               "message": "User updated successfully"
+           }, 200

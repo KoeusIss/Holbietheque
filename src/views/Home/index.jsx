@@ -1,5 +1,8 @@
+/**
+ * Home views
+ */
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   Segment,
   Container,
@@ -11,6 +14,12 @@ import {
   Grid,
 } from "semantic-ui-react";
 
+/**
+ * Home component provide a presentation of the web application
+ * a static page
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const Home = () => {
   return (
     <>

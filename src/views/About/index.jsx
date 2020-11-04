@@ -1,7 +1,9 @@
+/**
+ * About views
+ */
 import { createMedia } from "@artsy/fresnel";
 import PropTypes from "prop-types";
-import React, { Component } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { Component } from "react"
 import {
   Button,
   Container,
@@ -10,13 +12,10 @@ import {
   Header,
   Icon,
   Image,
-  List,
   Menu,
   Segment,
   Sidebar,
   Visibility,
-  Popup,
-  Form,
   Card,
 } from "semantic-ui-react";
 
@@ -224,80 +223,6 @@ const HomepageLayout = () => (
               extra={<a href="http://github.com/KoeusIss"><Icon name='github' />KoeusIss</a>}
             />
           </Card.Group>
-          {/* <Grid.Row>
-          <Grid.Column floated="left" width={6}>
-            <Card.Group itemsPerRow={3}>
-              <Card>
-                <Image
-                  src="https://react.semantic-ui.com/images/avatar/large/daniel.jpg"
-                  wrapped
-                  ui={false}
-                />
-                <Card.Content>
-                  <Card.Header>Sebri Issam</Card.Header>
-                  <Card.Meta>Joined in 2019</Card.Meta>
-                  <Card.Description>Holberton School Student</Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a href="https://www.linkedin.com/in/issam-sebri/">
-                    <Icon name="linkedin" />
-                    Linkedin
-                  </a>
-                </Card.Content>
-              </Card>
-              <Card>
-                <Image
-                  src="https://react.semantic-ui.com/images/avatar/large/daniel.jpg"
-                  wrapped
-                  ui={false}
-                />
-                <Card.Content>
-                  <Card.Header>Dadi Foued</Card.Header>
-                  <Card.Meta>Joined in 2019</Card.Meta>
-                  <Card.Description>Holberton School Student</Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a href="https://www.linkedin.com/in/foued-dadi-5b5474165/">
-                    <Icon name="linkedin" />
-                    Linkedin
-                  </a>
-                </Card.Content>
-              </Card>
-              <Card>
-                <Image
-                  src="https://react.semantic-ui.com/images/avatar/large/daniel.jpg"
-                  wrapped
-                  ui={false}
-                />
-                <Card.Content>
-                  <Card.Header> Chatti Iheb</Card.Header>
-                  <Card.Meta>Joined in 2019</Card.Meta>
-                  <Card.Description>Holberton School Student</Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a href="https://www.linkedin.com/in/iheb-chatti-b98487177/">
-                    <Icon name="linkedin" />
-                    Linkedin
-                  </a>
-                </Card.Content>
-              </Card>
-            </Card.Group>
-          </Grid.Column>
-          <Grid.Column width={8}>
-            <Header as="h3" style={{ fontSize: "2em", color: "#000" }}>
-              Developers
-            </Header>
-            <p style={{ fontSize: "1.33em" }}>
-              Sebri Issam, Chatti Iheb and Dadi foued are Holberton School
-              students joined the school in 2019, they created this web app in
-              order to help students present their CV's to the recruiters which
-              will help them take one more step toward the profesional life.
-              Recruiters also can benefit from this app, they can find the
-              profiles they are looking for to hire for their companies.
-            </p>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row></Grid.Row> */}
         </Grid>
 
       </Container>

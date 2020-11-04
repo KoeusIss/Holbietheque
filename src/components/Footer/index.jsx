@@ -54,7 +54,7 @@ const Footer = () => {
                 <List.Item>
                   <List.Icon name="phone" />
                   <List.Content as={Link} to="/contact">
-                    <a>Contact us</a>
+                    <a href="#">Contact us</a>
                   </List.Content>
                 </List.Item>
                 <List.Item>

@@ -1,22 +1,22 @@
+/**
+ * Contact views
+ */
 import React from "react";
 import {
   Button,
-  Container,
-  Divider,
   Grid,
-  Header,
-  Icon,
-  Image,
-  List,
-  Menu,
-  Segment,
-  Sidebar,
-  Visibility,
   Popup,
   Form,
 } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 
+/**
+ * Contact component provide a space fr users to contact creators
+ * and admins of the page, its a set of fields to asking email,
+ * subject and text for message
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const Contact = () => (
   <Grid>
     <Grid.Row style={{ padding: "10em 45em" }}>

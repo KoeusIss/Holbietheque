@@ -60,3 +60,9 @@ hr {
 input::placeholder {
   font-size: 20px;
 }
+.frm-container {
+    height: 80vh;
+}
+.frm-cln {
+    max-width: 450px;
+}

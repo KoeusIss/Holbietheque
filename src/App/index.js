@@ -1,3 +1,6 @@
+/**
+ * App main parent component
+ */
 import React from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import Contact from "../views/Contact";
@@ -14,7 +17,9 @@ import NewProfile from "../views/New"
 import "./App.css";
 
 /**
- * Application main parent component
+ * App component that dispatching routes with react-router-dom and take the
+ * location props as argument to exclude navigation and footer from the login
+ * signup and verification view
  */
 const App = withRouter(({ location }) => {
   return (

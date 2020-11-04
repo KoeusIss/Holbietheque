@@ -1,18 +1,21 @@
 import React from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
-import Contact from "./views/Contact";
-import Home from "./views/_Home";
-import Students from "./views/Students";
-import Student from "./views/Students/student";
-import Signup from "./views/Signup";
-import Login from "./views/Login";
-import Verify from "./views/Verify";
-import About from "./views/About";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
-import NewProfile from "./views/New"
+import Contact from "../views/Contact";
+import Home from "../views/Home";
+import Students from "../views/Students";
+import Student from "../views/Students/student";
+import Signup from "../views/Signup";
+import Login from "../views/Login";
+import Verify from "../views/Verify";
+import About from "../views/About";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import NewProfile from "../views/New"
 import "./App.css";
 
+/**
+ * Application main parent component
+ */
 const App = withRouter(({ location }) => {
   return (
     <div>

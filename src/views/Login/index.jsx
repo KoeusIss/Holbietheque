@@ -1,14 +1,16 @@
-//
-// Login views
-//
+/**
+ * Login views related to the route @/login where the user can login to a new
+ * session by providing his credentials as email and password and pick up
+ * between to be a student or a recruiter
+ */
 
 import React, { useState } from "react";
 import { useHistory, Link, NavLink } from "react-router-dom";
 import AuthService from "../../services/auth_service";
 import User from "../../models/User";
+import UserService from "../../services/user_service";
 import { Formik, Field } from "formik";
 import * as yup from "yup";
-import UserService from "../../services/user_service";
 import { toaster } from "evergreen-ui";
 import {
   Grid,
@@ -20,7 +22,12 @@ import {
   Header,
 } from "semantic-ui-react";
 
-function Login() {
+/**
+ * Login component
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const Login = () => {
   const [user, setUser] = useState(new User());
   const history = useHistory();
   const [loginError, setError] = useState("");

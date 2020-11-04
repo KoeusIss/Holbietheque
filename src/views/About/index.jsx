@@ -87,7 +87,7 @@ class DesktopContainer extends Component {
             inverted
             textAlign="center"
             style={{
-              backgroundColor: "#000",
+              backgroundColor: "#2f2e41",
               minHeight: 700,
               padding: "1em 0em",
             }}

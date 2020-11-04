@@ -24,7 +24,7 @@ const Navbar = () => {
           marginBottom: "0px",
           boxShadow: "none",
           minHeight: "60px",
-          backgroundColor: "#000",
+          backgroundColor: "#2f2e41",
         }}
       >
         <Container>

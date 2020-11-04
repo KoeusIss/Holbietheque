@@ -27,15 +27,16 @@ const Home = () => {
         vertical
         textAlign="center"
         style={{
-          paddingTop: "10rem",
-          paddingBottom: "10rem",
-          backgroundColor: "#000",
+          paddingTop: "15rem",
+          paddingBottom: "20rem",
+          height: "100vh",
+          backgroundColor: "#2f2e41",
         }}
       >
         <Container>
           <Image
             src={require("../../images/welcome.svg")}
-            style={{ display: "inline", width: "200px" }}
+            style={{ display: "inline", width: "300px" }}
           />
           <Header as="h1" style={{ color: "#fff" }}>
             Hire The Profile You Desire
@@ -43,21 +44,19 @@ const Home = () => {
           <p style={{ color: "#fff" }}>Holberton School Student Platform</p>
           <Divider hidden />
           <Button
-            basic
             icon
             labelPosition="left"
             as={NavLink}
             to="/students"
-            color="teal"
+            style={{ backgroundColor: "#69f0ae" }}
           >
             <Icon name="student" />
             Students
           </Button>
           <Button
-            basic
             icon
             labelPosition="right"
-            color="teal"
+            style={{ backgroundColor: "#69f0ae" }}
             href="https://github.com/KoeusIss/holbie.tech"
           >
             <Icon name="github" />

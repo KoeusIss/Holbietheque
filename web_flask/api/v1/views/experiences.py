@@ -22,7 +22,7 @@ def get_user_experience(student_id):
     if not the_student:
         return {
             "success": False,
-            "message": "Student not found"
+            "message": "Index not found"
         }, 400
     experiences = experiences_schema.dump(the_student.experiences)
     return {
@@ -68,7 +68,7 @@ def create_experience(student_id):
     if not the_student:
         return {
             "success": False,
-            "message": "Student not found"
+            "message": "Index not found"
         }, 400
     data = request.get_json()
     the_experience = Experience(**data)

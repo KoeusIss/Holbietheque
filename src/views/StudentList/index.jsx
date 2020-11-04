@@ -1,3 +1,6 @@
+/**
+ * StudentList list views
+ */
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import {
@@ -14,9 +17,15 @@ import {
   Icon,
 } from "semantic-ui-react";
 import { toaster } from "evergreen-ui";
+import './studentList.css'
 import UserService from "../../services/user_service";
 
-const Students = () => {
+/**
+ * StudentList component
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const StudentList = () => {
   const [loading, setLoading] = useState(false);
   const [students, setStudents] = useState([]);
   const [count, setCount] = useState(0);
@@ -27,6 +36,7 @@ const Students = () => {
       (res) => {
         setStudents(res.data.students);
         setCount(res.data.count);
+        setLoading(false)
       },
       (error) => {
         const returnError =
@@ -42,14 +52,7 @@ const Students = () => {
   }, [students]);
 
   return (
-    <div
-      style={{
-        top: "2rem",
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "80vh",
-      }}
-    >
+    <div className='list-container'>
       <Segment vertical style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
         <Container>
           <Header as="h2">Students list</Header>
@@ -125,4 +128,4 @@ const Students = () => {
   );
 };
 
-export default Students;
+export default StudentList;

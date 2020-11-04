@@ -1,4 +1,4 @@
-""" Students Views-API endpoints """
+""" Index Views-API endpoints """
 
 from web_flask.models.student import Student, StudentSchema
 from web_flask.models.address import Address, AddressSchema
@@ -115,7 +115,7 @@ def create_student():
         user = {"id": the_student.user.id, "role": "student", "profile": the_student.id}
         return {
             "success": True,
-            "message": "Student created successfully",
+            "message": "Index created successfully",
             "student": student,
             "access_token": create_access_token(identity=user)
         }, 201

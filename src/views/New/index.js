@@ -1,6 +1,6 @@
 import React from "react"
 import { Segment, Image, Button } from "semantic-ui-react"
-import AddProfile from "../Students/Profile/add_profile"
+import AddProfile from "../Student/Profile/add_profile"
 import UserService from "../../services/user_service"
 
 

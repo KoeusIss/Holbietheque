@@ -5,6 +5,7 @@ from sqlalchemy import Column, String, ForeignKey, Boolean, Date
 from marshmallow import Schema, fields, ValidationError, pre_load
 from sqlalchemy.orm import relationship
 
+
 class Skill(BaseModel, Base):
     """
         name: (str)

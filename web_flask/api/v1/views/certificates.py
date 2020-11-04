@@ -22,7 +22,7 @@ def get_user_certificates(student_id):
     if not the_student:
         return {
             "success": False,
-            "message": "Student not found"
+            "message": "Index not found"
         }, 400
     certificates = certificates_schema.dump(the_student.certificates)
     return {
@@ -68,7 +68,7 @@ def create_certificate(student_id):
     if not the_student:
         return {
             "success": False,
-            "message": "Student not found"
+            "message": "Index not found"
         }, 400
     data = request.get_json()
     the_certificate = Certificate(**data)

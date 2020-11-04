@@ -27,7 +27,7 @@ load_dotenv(path.join(base_dir, '.env'))
 
 
 classes = {"Country": Country, "State": State,
-           "Address": Address, "Student": Student,
+           "Address": Address, "Index": Student,
            "Certificate": Certificate, "Education": Education,
            "Experience": Experience, "Project": Project, "Social": Social,
            "User": User, "Cohort": Cohort, "Specialization": Specialization,

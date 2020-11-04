@@ -1,4 +1,4 @@
-// Student attribute service
+// Index attribute service
 
 import axios from "axios";
 import authHeader from "./auth_header";

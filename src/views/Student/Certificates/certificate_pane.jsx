@@ -34,6 +34,7 @@ const CertificatePane = ({ profileId, owner }) => {
     );
   }, [certificates]);
 
+  
   const handleDelete = (e) => {
     console.log(e.target.id);
     setLoading(true);

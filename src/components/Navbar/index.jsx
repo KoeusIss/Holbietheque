@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Menu, Container, Sticky, Rail } from "semantic-ui-react";
+import React from "react";
+import { Menu, Container, Sticky } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { toaster } from "evergreen-ui";

@@ -1,4 +1,4 @@
-""" Students Views-API endpoints """
+""" Index Views-API endpoints """
 
 import datetime
 from web_flask.models.user import User, UserSchema
@@ -204,7 +204,7 @@ def get_user_student(user_id):
     if not the_student:
         return {
                    "success": False,
-                   "message": "Student not found",
+                   "message": "Index not found",
                    "student": []
                }, 200
     student = student_schema.dump(the_student)

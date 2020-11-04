@@ -5,6 +5,7 @@ from sqlalchemy import Column, String, ForeignKey, Boolean, Date
 from marshmallow import Schema, fields, ValidationError, pre_load
 from sqlalchemy.orm import relationship
 
+
 class Social(BaseModel, Base):
     """
         info: (str)
@@ -58,6 +59,7 @@ class Social(BaseModel, Base):
         'Student',
         back_populates='social'
     )
+
 
 class SocialSchema(Schema):
     """ Experience Schema """

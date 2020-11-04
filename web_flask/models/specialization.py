@@ -9,7 +9,6 @@ from marshmallow import Schema, fields
 class Specialization(BaseModel, Base):
     """
         name: (str) specialization name/number
-
     """
     __tablename__ = "specializations"
     name = Column(

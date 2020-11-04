@@ -13,7 +13,6 @@ from web_flask.models.language import LanguageSchema
 from web_flask.models.skill import SkillSchema
 
 
-
 class Student(BaseModel, Base):
     """
         first_name: (str) student first name
@@ -121,7 +120,6 @@ class Student(BaseModel, Base):
     )
 
 
- 
 class StudentSchema(Schema):
     """ Student Schema """
     id = fields.Str()

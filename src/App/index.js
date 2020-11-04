@@ -5,8 +5,8 @@ import React from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import Contact from "../views/Contact";
 import Home from "../views/Home";
-import Students from "../views/Students";
-import Student from "../views/Students/student";
+import StudentList from "../views/StudentList";
+import Student from "../views/Student";
 import Signup from "../views/Signup";
 import Login from "../views/Login";
 import Verify from "../views/Verify";
@@ -32,7 +32,7 @@ const App = withRouter(({ location }) => {
           <Home />
         </Route>
         <Route path="/students" exact>
-          <Students />
+          <StudentList />
         </Route>
         <Route path="/students/:id" exact>
           <Student />

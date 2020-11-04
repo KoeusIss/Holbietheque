@@ -22,7 +22,7 @@ def get_student_projects(student_id):
     if not the_student:
         return {
             "success": False,
-            "message": "Student not found"
+            "message": "Index not found"
         }, 400
     projects = projects_schema.dump(the_student.projects)
     return {
@@ -68,7 +68,7 @@ def add_student_project(student_id):
     if not the_student:
         return {
             "success": False,
-            "message": "Student not found"
+            "message": "Index not found"
         }, 400
     data = request.get_json()
     the_project = Project(**data)

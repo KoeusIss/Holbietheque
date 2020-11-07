@@ -85,7 +85,7 @@ const SignupFrm = ({
               }
             />
             <Button
-              color="pink"
+              color={role === "student" ? "teal" : "pink"}
               fluid
               size="large"
               type="submit"
@@ -99,11 +99,7 @@ const SignupFrm = ({
               fluid
               size="large"
               type="button"
-              onClick={() => {
-                console.log(role)
-                toggleRole()
-                values.role = role;
-              }}
+              onClick={toggleRole}
             >
               Signup as {role === "student" ? "recruiter" : "student"}
             </Button>

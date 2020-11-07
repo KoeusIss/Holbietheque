@@ -3,7 +3,7 @@ export default class User {
 		email = "",
 		password = "",
 		password_confirmation = "",
-		role = "recruiter"
+		role = ""
 	) {
 		this.email = email
 		this.password = password

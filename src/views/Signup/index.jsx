@@ -35,6 +35,7 @@ const Signup = () => {
    */
   const onSubmit = (values) => {
     setLoading(true);
+    values.role = role
     AuthService.signup(values).then(
       (response) => {
         setLoading(false);
@@ -54,18 +55,12 @@ const Signup = () => {
     );
   }
   
-  const toggleRole = (values) => {
+  const toggleRole = () => {
     if (role === "recruiter") {
       setRole('student')
-    } else if (role === "student") {
+    } else {
       setRole('recruiter')
     }
-  }
-  /**
-   * Test submit
-   */
-  const onSubmitTest = (values) => {
-    console.log(values)
   }
   
   /**
@@ -92,7 +87,7 @@ const Signup = () => {
     <>
       <Formik
         initialValues={initialValue}
-        onSubmit={onSubmitTest}
+        onSubmit={onSubmit}
         validationSchema={validationSchema}
         render={({
                    values,

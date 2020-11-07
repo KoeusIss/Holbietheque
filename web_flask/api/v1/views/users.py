@@ -91,29 +91,28 @@ def signup_user():
     if not request.get_json():
         return {"success": False, "message": "not a json"}, 400
     data = request.get_json()
+    if storage.get_user_by_email(data.get("email", None)):
+        return {
+            "success": False,
+            "message": "There's already an account associate with this email!"
+        }, 400
     otp = randint(000000, 999999)
     data['otp'] = str(otp)
     data['otp_expired_at'] = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
     the_user = User(**data)
-    try:
-        msg = Message(
-            'Mail confirmation from holbie.tech',
-            sender='support@holbie.tech',
-            recipients=the_user.email.split()
-        )
-        msg.body = str(otp)
-        mail.send(msg)
-        the_user.save()
-        return {
-            "success": True,
-            "message": "Signup Successful",
-            "id": the_user.id}, 201
-    except (IntegrityError, OperationalError) as error:
-        the_user.rollback()
-        return {
-            "success": False,
-            "message": error.orig.args[1]
-        }, 400
+    msg = Message(
+        'Mail confirmation from holbie.tech',
+        sender='support@holbie.tech',
+        recipients=the_user.email.split()
+    )
+    msg.body = str(otp)
+    mail.send(msg)
+    the_user.save()
+    return {
+        "success": True,
+        "message": "Signup Successful",
+        "id": the_user.id
+    }, 201
 
 
 @app_views.route(
@@ -161,9 +160,9 @@ def login_user():
     """ POST /api/v1/login """
     if not request.get_json():
         return {
-                   "failed": True,
-                   "message": "not a json"
-               }, 400
+            "failed": True,
+            "message": "not a json"
+        }, 400
     data = request.get_json()
     hashed = md5(data.get("password").encode()).hexdigest()
     the_user = storage.get_user_by_email(data.get("email", None))
@@ -182,9 +181,9 @@ def login_user():
                }, 200
     else:
         return {
-                   "failed": True,
-                   "message": "Login Failed"
-               }, 401
+            "failed": True,
+            "message": "Login Failed"
+        }, 401
 
 
 @app_views.route(
@@ -197,9 +196,9 @@ def get_user_student(user_id):
     the_user = storage.get(User, user_id)
     if not the_user:
         return {
-                   "success": False,
-                   "message": "User not found"
-               }, 400
+            "success": False,
+            "message": "User not found"
+        }, 400
     the_student = the_user.student
     if not the_student:
         return {

@@ -14,6 +14,8 @@ import About from "../views/About";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import NewProfile from "../views/New"
+import PageNotFound from "../views/PageNotFound";
+import Recruiter from "../views/Recruiter";
 import "./App.css";
 
 /**
@@ -37,6 +39,10 @@ const App = withRouter(({ location }) => {
         <Route path="/students/:id" exact>
           <Student />
         </Route>
+        w
+        <Route path='/recruiter' exact>
+          <Recruiter/>
+        </Route>
         <Route path="/about">
           <About />
         </Route>
@@ -55,10 +61,13 @@ const App = withRouter(({ location }) => {
         <Route path="/new">
           <NewProfile />
         </Route>
+        <Route path="/*">
+          <PageNotFound />
+        </Route>
       </Switch>
-      {location.pathname !== "/login" &&
-        location.pathname !== "/signup" &&
-        location.pathname !== "/verification" && <Footer />}
+      {(location.pathname === "/" ||
+      location.pathname === "/about") &&
+      <Footer />}
     </div>
   );
 });

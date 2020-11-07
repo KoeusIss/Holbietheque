@@ -36,7 +36,7 @@ const Home = () => {
         <Container>
           <Image
             src={require("../../images/welcome.svg")}
-            style={{ display: "inline", width: "300px" }}
+            style={{ display: "inline", width: "500px" }}
           />
           <Header as="h1" style={{ color: "#fff" }}>
             Hire The Profile You Desire

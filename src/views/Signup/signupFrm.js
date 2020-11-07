@@ -7,6 +7,7 @@ import {
   Image,
   Message,
   Segment,
+  Divider
 } from "semantic-ui-react";
 import {Link, NavLink} from "react-router-dom";
 import './signup.css'
@@ -30,7 +31,9 @@ const SignupFrm = ({
                      touched,
                      errors,
                      loading,
-                     values
+                     values,
+                     toggleRole,
+                     role
                    }) => {
   return (
     <Grid
@@ -47,7 +50,8 @@ const SignupFrm = ({
         />
         <Form size="large" onSubmit={handleSubmit}>
           <Segment stacked>
-            <Header>Signup</Header>
+            <Header>Signup as {role}</Header>
+            
             <Form.Input
               name="email"
               placeholder="E-mail address"
@@ -88,6 +92,20 @@ const SignupFrm = ({
               loading={loading}
             >
               Signup
+            </Button>
+            <Divider horizontal>Or</Divider>
+            <Button
+              basic
+              fluid
+              size="large"
+              type="button"
+              onClick={() => {
+                console.log(role)
+                toggleRole()
+                values.role = role;
+              }}
+            >
+              Signup as {role === "student" ? "recruiter" : "student"}
             </Button>
           </Segment>
         </Form>

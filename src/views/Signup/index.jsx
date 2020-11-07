@@ -19,6 +19,7 @@ import User from "../../models/User";
 const Signup = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState("recruiter")
   
   /**
    * initialValue is and instance of User class with email and password
@@ -53,6 +54,20 @@ const Signup = () => {
     );
   }
   
+  const toggleRole = (values) => {
+    if (role === "recruiter") {
+      setRole('student')
+    } else if (role === "student") {
+      setRole('recruiter')
+    }
+  }
+  /**
+   * Test submit
+   */
+  const onSubmitTest = (values) => {
+    console.log(values)
+  }
+  
   /**
    * validationSchema is a yup object provides rules for fields
    */
@@ -77,7 +92,7 @@ const Signup = () => {
     <>
       <Formik
         initialValues={initialValue}
-        onSubmit={onSubmit}
+        onSubmit={onSubmitTest}
         validationSchema={validationSchema}
         render={({
                    values,
@@ -96,6 +111,8 @@ const Signup = () => {
               errors={errors}
               values={values}
               loading={loading}
+              toggleRole={toggleRole}
+              role={role}
             />
           );
         }}

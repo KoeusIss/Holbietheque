@@ -115,7 +115,7 @@ def create_student():
         user = {"id": the_student.user.id, "role": "student", "profile": the_student.id}
         return {
             "success": True,
-            "message": "Index created successfully",
+            "message": "Student created successfully",
             "student": student,
             "access_token": create_access_token(identity=user)
         }, 201

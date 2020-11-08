@@ -15,7 +15,7 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import NewProfile from "../views/New"
 import PageNotFound from "../views/PageNotFound";
-import Recruiter from "../views/Recruiter";
+import RecruiterProfile from "../views/Recruiter";
 import "./App.css";
 
 /**
@@ -39,9 +39,8 @@ const App = withRouter(({ location }) => {
         <Route path="/students/:id" exact>
           <Student />
         </Route>
-        w
-        <Route path='/recruiter' exact>
-          <Recruiter/>
+        <Route path='/recruiters/:id' exact>
+          <RecruiterProfile/>
         </Route>
         <Route path="/about">
           <About />

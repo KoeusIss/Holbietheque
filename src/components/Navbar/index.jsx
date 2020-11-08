@@ -15,6 +15,19 @@ const Navbar = () => {
     localStorage.removeItem("access_token");
     toaster.success("Logout Successful, See you soon!", { duration: 3 });
   };
+  
+  const userPath = () => {
+    if (!profile) {
+      return "/new"
+    } else {
+      if (currentUser.role === "student") {
+        return ["students", currentUser.profile].join('/')
+      }
+      else if (currentUser.role === "recruiter") {
+        return ["recruiters", currentUser.profile].join('/')
+      }
+    }
+  }
 
   return (
     <Sticky>
@@ -61,7 +74,7 @@ const Navbar = () => {
                   style={{ color: "#fff" }}
                   onClick={handleItemClick}
                   as={NavLink}
-                  to={!profile ? "/new" : "/students/" + profile}
+                  to={userPath}
                 />
                 <Menu.Item
                   name="logout"

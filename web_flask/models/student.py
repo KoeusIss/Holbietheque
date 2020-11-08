@@ -1,8 +1,6 @@
 """ Student model """
 from web_flask.models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, DateTime
-from web_flask.models.address import AddressSchema
-from web_flask.models.social import SocialSchema
 from sqlalchemy.orm import relationship
 from marshmallow import Schema, fields
 from web_flask.models.specialization import SpecializationSchema

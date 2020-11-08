@@ -1,5 +1,4 @@
 import React from "react";
-import { Table, Flag } from "semantic-ui-react";
 
 const countries = [
   { name: "Afghanistan", countryCode: "af" },

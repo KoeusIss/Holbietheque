@@ -21,7 +21,7 @@ const OpenPane = () => {
     <div>
       <Grid>
         <Grid.Row>
-          <Grid.Column width={12}>
+          <Grid.Column>
             <Menu text fluid style={{marginTop: "0"}}>
               <Menu.Item position="right">
                 <Button icon basic labelPosition="left">
@@ -64,19 +64,6 @@ const OpenPane = () => {
               </List>
             </Segment>
           
-          </Grid.Column>
-          <Grid.Column width={4}>
-            <Menu vertical fluid>
-              <Menu.Item>
-                <Header as='h4'>Stacks</Header>
-              </Menu.Item>
-              <Menu.Item>
-                <Header as='h4'>Office locations</Header>
-              </Menu.Item>
-              <Menu.Item>
-                <Header as='h4'>Company benefits</Header>
-              </Menu.Item>
-            </Menu>
           </Grid.Column>
         </Grid.Row>
       </Grid>

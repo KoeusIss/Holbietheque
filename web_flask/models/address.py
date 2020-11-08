@@ -45,12 +45,6 @@ class Address(BaseModel, Base):
         back_populates="address",
         cascade="all, delete"
     )
-    recruiter = relationship(
-        "Recruiter",
-        uselist=False,
-        back_populates="address",
-        cascade="all, delete"
-    )
 
 
 class AddressSchema(Schema):

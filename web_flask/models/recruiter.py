@@ -4,51 +4,42 @@ from web_flask.models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from marshmallow import Schema, fields
+from web_flask.models.user import UserSchema
 
 
 class Recruiter(BaseModel, Base):
     """
-        first_name: (str) student first name
-        last_name: (str) student last name
-        middle_name: (str) middle name
-        id_number: (list) identity number
-        passport_number: (str) passport number
-        marital_status: (str) marital status
-        address: (str) reference to student's address
-        certificates: (str) student's certificates
+        name: (str) company name
+        description: (str) description or slogan
+        founded: (str) founded year
+        web_site: (list) web site
+        company_size: (str) company size
+        logo: (str) reference to student's address
+        headquarter: (str) headquarter location
 
     """
     __tablename__ = "recruiters"
-    first_name = Column(
+    name = Column(
         String(128),
         nullable=False
     )
-    last_name = Column(
-        String(128),
-        nullable=False
-    )
-    company_name = Column(
+    description = Column(
         String(128)
     )
-    phone_number = Column(
-        String(128),
+    founded = Column(
+        String(128)
     )
-    mobile_number = Column(
+    web_site = Column(
         String(128),
     )
     company_size = Column(
         String(16)
     )
-    specialization = Column(
+    logo = Column(
         String(255)
     )
-    address_id = Column(
-        String(60),
-        ForeignKey('addresses.id')
-    )
-    address = relationship(
-        'Address',
-        back_populates='recruiter'
+    headquarter = Column(
+        String(60)
     )
     user_id = Column(
         String(60),
@@ -62,16 +53,12 @@ class Recruiter(BaseModel, Base):
  
 class RecruiterSchema(Schema):
     """ Recruiter Schema """
-
     id = fields.Str()
-    first_name = fields.Str()
-    last_name = fields.Str()
-    full_name = fields.Method('format_name', dump_only=True)
-    company_name = fields.Str()
+    name = fields.Str()
+    description = fields.Str()
+    founded = fields.Str()
     company_size = fields.Str()
-    phone_number = fields.Str()
-    mobile_number = fields.Str()
-    specialization = fields.Str()
-
-    def format_name(self, recruiter):
-        return '{} {}'.format(recruiter.first_name, recruiter.last_name)
+    web_site = fields.Str()
+    headquarter = fields.Str()
+    logo = fields.Str()
+    user = fields.Nested(UserSchema(only=["id", "email"]))

@@ -8,7 +8,6 @@ import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
 import AuthService from "../../services/auth_service";
 import User from "../../models/User";
-import UserService from "../../services/user_service";
 import {Formik} from "formik";
 import * as yup from "yup";
 

@@ -84,7 +84,7 @@ def create_recruiter():
         return {
             "success": True,
             "message": "Recruiter created successfully",
-            "student": recruiter,
+            "recruiter": recruiter,
             "access_token": create_access_token(identity=user)
         }, 201
     except (IntegrityError, OperationalError) as error:

@@ -21,10 +21,10 @@ const Navbar = () => {
       return "/new"
     } else {
       if (currentUser.role === "student") {
-        return ["students", currentUser.profile].join('/')
+        return "students/" + currentUser.profile
       }
       else if (currentUser.role === "recruiter") {
-        return ["recruiters", currentUser.profile].join('/')
+        return "recruiters/" + currentUser.profile
       }
     }
   }

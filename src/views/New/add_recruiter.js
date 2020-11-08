@@ -5,9 +5,6 @@ import {
   Icon,
   Modal,
   Form,
-  Input,
-  TextArea,
-  Select,
 } from "semantic-ui-react";
 import {toaster} from "evergreen-ui";
 import * as yup from "yup";
@@ -24,22 +21,21 @@ import RecruiterService from "../../services/recruiter_service";
 const AddNewRecruiter = ({theTrigger, user_id}) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const [charCount, setCharCount] = useState(255)
   const history = useHistory();
   
   /**
    * Recruiter initial value instance
    * @type Recruiter
    */
-  const [initialValue, setInitialValue] = useState({
+  const initialValue = {
     "name": "",
     "description": "",
     "web_site": "",
     "founded": "",
     "company_size": "",
-    "headquarter": "",
-    "logo": ""
-  })
+    "logo": "",
+    "headquarter": ""
+  }
   /**
    * Submit a create request in order to receive a success message
    * @param {object} values collected values from Formik form

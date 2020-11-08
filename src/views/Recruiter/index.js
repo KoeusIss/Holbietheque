@@ -86,7 +86,7 @@ const RecruiterProfile = () => {
         <Tab menu={{secondary: true, pointing: true}} panes={[
           {
             menuItem: 'About',
-            render: () => <AboutPane/>,
+            render: () => <AboutPane userID={id} recruiter={recruiter}/>,
           },
           {
             menuItem: 'Open job',

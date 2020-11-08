@@ -1,7 +1,7 @@
 /**
  * Recruiter model
  */
-export default class Recruiter {
+class Recruiter {
   constructor(
     name = "",
     description = "",
@@ -28,3 +28,5 @@ export default class Recruiter {
     this.interview_process = interview_process
   }
 }
+
+export default Recruiter

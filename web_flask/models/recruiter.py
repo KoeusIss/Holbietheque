@@ -36,10 +36,22 @@ class Recruiter(BaseModel, Base):
         String(16)
     )
     logo = Column(
-        String(255)
+        String(128)
     )
     headquarter = Column(
         String(60)
+    )
+    about = Column(
+        String(1024)
+    )
+    our_mission = Column(
+        String(1024)
+    )
+    core_values = Column(
+        String(1024)
+    )
+    interview_process = Column(
+        String(1024)
     )
     user_id = Column(
         String(60),
@@ -61,4 +73,8 @@ class RecruiterSchema(Schema):
     web_site = fields.Str()
     headquarter = fields.Str()
     logo = fields.Str()
+    about = fields.Str()
+    our_mission = fields.Str()
+    core_values = fields.Str()
+    interview_process = fields.Str()
     user = fields.Nested(UserSchema(only=["id", "email"]))

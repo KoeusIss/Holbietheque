@@ -13,6 +13,7 @@ import {
   Icon,
   Grid,
 } from "semantic-ui-react";
+import "./home.css"
 
 /**
  * Home component provide a presentation of the web application
@@ -23,15 +24,10 @@ import {
 const Home = () => {
   return (
     <>
+      {/* Heading segment */}
       <Segment
         vertical
         textAlign="center"
-        style={{
-          paddingTop: "15rem",
-          paddingBottom: "20rem",
-          height: "100vh",
-          backgroundColor: "#2f2e41",
-        }}
       >
         <Container>
           <Image
@@ -39,9 +35,9 @@ const Home = () => {
             style={{ display: "inline", width: "500px" }}
           />
           <Header as="h1" style={{ color: "#fff" }}>
-            Hire The Profile You Desire
+            Find your best suit candidate
           </Header>
-          <p style={{ color: "#fff" }}>Holberton School Student Platform</p>
+          <p style={{ color: "#fff" }}>Holberton school student platform</p>
           <Divider hidden />
           <Button
             icon
@@ -64,7 +60,8 @@ const Home = () => {
           </Button>
         </Container>
       </Segment>
-      <Segment vertical style={{ paddingTop: "10rem", paddingBottom: "10rem" }}>
+      {/* Widget segment */}
+      <Segment vertical>
         <Container>
           <Grid stackable columns={2} divided>
             <Grid.Row>
@@ -112,29 +109,19 @@ const Home = () => {
           </Grid>
         </Container>
       </Segment>
-      <Segment vertical style={{ paddingTop: "10rem", paddingBottom: "10rem" }}>
+      {/* What is holbietech segment */}
+      <Segment vertical>
         <Container>
           <Grid>
             <Grid.Row>
               <Grid.Column>
                 <h2>
                   What is Holbietheque
-                  <Button
-                    basic
-                    icon
-                    labelPosition="right"
-                    floated="right"
-                    as={NavLink}
-                    to="/about"
-                  >
-                    <Icon name="right arrow" />
-                    More
-                  </Button>
                 </h2>
               </Grid.Column>
             </Grid.Row>
           </Grid>
-          <Grid columns={2}>
+          <Grid columns={2} stackable>
             <Grid.Row>
               <Grid.Column textAlign="center">
                 <Image
@@ -154,7 +141,8 @@ const Home = () => {
           </Grid>
         </Container>
       </Segment>
-      <Segment vertical style={{ paddingTop: "10rem", paddingBottom: "10rem" }}>
+      {/* Our mission segment */}
+      <Segment vertical>
         <Container>
           <Grid>
             <Grid.Row>
@@ -163,7 +151,7 @@ const Home = () => {
               </Grid.Column>
             </Grid.Row>
           </Grid>
-          <Grid columns={2}>
+          <Grid columns={2} stackable>
             <Grid.Row>
               <Grid.Column textAlign="center">
                 <Image

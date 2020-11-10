@@ -1,0 +1,19 @@
+@media only screen and (min-width: 600px) {
+    .ui.vertical.segment {
+        padding: 8em 0;
+    }
+}
+
+.ui.vertical.segment.heading {
+    background-color: #2f2e41 !important;
+}
+
+h3.ui.header {
+    font-size: 2em !important;
+}
+.about-heading, h3.ui.header.about-heading{
+    color: white;
+}
+p {
+    font-size: 1.25em !important;
+}

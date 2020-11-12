@@ -70,11 +70,11 @@ const StudentList = () => {
                     />
                   </Menu.Item>
                 </Menu>
-                <Divider hidden />
+                <Divider hidden/>
                 {count === 0 ? (
                   <Segment placeholder>
                     <Header icon>
-                      <Icon name="student" />
+                      <Icon name="student"/>
                       No students are listed.
                     </Header>
                   </Segment>

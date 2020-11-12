@@ -1,29 +1,69 @@
-import React, {useState} from "react";
-import {Button, Form, Header, Icon, Modal} from "semantic-ui-react";
-import Recruiter from "../index";
-import RecruiterService from "../../../services/recruiter_service";
+/**
+ * Edit view
+ */
+import React, {useEffect, useState} from "react";
 import {toaster} from "evergreen-ui";
 import * as yup from "yup";
 import {Formik} from "formik";
+import Recruiter from "../Recruiter";
+import RecruiterFrm from "./recruiterFrm";
+import RecruiterService from "../../services/recruiter_service";
+import {
+  Button,
+  Header,
+  Icon,
+  Modal,
+} from "semantic-ui-react";
+import LocationService from "../../services/loacation_service";
 
-const AddAbout = ({theTrigger, user_id}) => {
-  const [open, setOpen] = React.useState(false);
+/**
+ * Edit recruiter modal
+ * @param {JSX.Element} theTrigger
+ * @param {object} recruiter
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const EditRecruiter = ({theTrigger, recruiter}) => {
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [data, setData] = useState({})
   
+  const [countries, setCountries] = React.useState([])
+  useEffect(() => {
+    LocationService.getCountries().then(
+      (response) => {
+        response.data.countries.map((c) => {
+          countries.push(
+            {key: c.id, text: c.name, value: c.name}
+          )
+        })
+      }
+    )
+  }, [])
   /**
    * Recruiter initial value instance
    * @type Recruiter
    */
-  const initialValue = {
-    about: ""
-  }
+  useEffect(() => {
+    Object.assign(data, {
+      "name": recruiter.name,
+      "description": recruiter.description,
+      "web_site": recruiter.web_site,
+      "founded": recruiter.founded,
+      "logo": recruiter.logo,
+      "headquarter": recruiter.headquarter,
+      "company_size": recruiter.company_size
+    })
+  }, [recruiter])
+  
+  
   /**
    * Submit a create request in order to receive a success message
    * @param {object} values collected values from Formik form
    */
   const onSubmit = (values) => {
     setLoading(true);
-    RecruiterService.update(values, user_id).then(
+    RecruiterService.update(values, recruiter.id).then(
       (response) => {
         setLoading(false);
         setOpen(false);
@@ -47,13 +87,13 @@ const AddAbout = ({theTrigger, user_id}) => {
    * Validation schema shape
    */
   const validationSchema = yup.object().shape({
-    about: yup.string().max(1024, "You should not exceed 1024 character")
+    name: yup.string().required("Company name is required")
   })
   
   return (
     <>
       <Formik
-        initialValues={initialValue}
+        initialValues={data}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
         render={({
@@ -62,11 +102,8 @@ const AddAbout = ({theTrigger, user_id}) => {
                    touched,
                    handleBlur,
                    handleSubmit,
-                   setFieldValue,
+                   handleChange,
                  }) => {
-          const handleChange = (e, {name, value}) => {
-            setFieldValue(name, value);
-          }
           return (
             <Modal
               closeIcon
@@ -75,18 +112,13 @@ const AddAbout = ({theTrigger, user_id}) => {
               onClose={() => setOpen(false)}
               onOpen={() => setOpen(true)}
             >
-              <Header icon="industry" content="Add about section"/>
+              <Header icon="user" content="Create new recruiter profile"/>
               <Modal.Content>
-                <Form>
-                  <Form.TextArea
-                    name="about"
-                    label="About the company"
-                    placeholder="Write something about the company"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.about && errors.about}
-                  />
-                </Form>
+                <RecruiterFrm
+                  touched={touched}
+                  errors={errors}
+                  countries={countries}
+                />
               </Modal.Content>
               <Modal.Actions>
                 <Button color="red" onClick={() => setOpen(false)}>
@@ -99,9 +131,9 @@ const AddAbout = ({theTrigger, user_id}) => {
             </Modal>
           );
         }}
-    />
-</>
-)
-  ;
+      />
+    </>
+  )
 }
-export default AddAbout
+
+export default EditRecruiter;

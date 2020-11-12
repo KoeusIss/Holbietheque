@@ -19,3 +19,4 @@ from web_flask.api.v1.views.specializations import *
 from web_flask.api.v1.views.recruiters import *
 from web_flask.api.v1.views.skills import *
 from web_flask.api.v1.views.languages import *
+from web_flask.api.v1.views.stacks import *

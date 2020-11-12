@@ -1,6 +1,15 @@
-.cover {
-    padding: 2rem;
+.company-logo {
+    display: flex;
+    justify-content: center;
 }
-.cover-img {
-    margin: auto;
+
+.company-header {
+    margin-top: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+    .company-header {
+        text-align: center !important;
+        margin-bottom: 20px;
+    }
 }

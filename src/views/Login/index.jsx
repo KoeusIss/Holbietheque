@@ -13,6 +13,7 @@ import * as yup from "yup";
 
 import {toaster} from "evergreen-ui";
 import LoginFrm from "./loginFrm";
+import {Container} from "semantic-ui-react";
 
 /**
  * Login component
@@ -84,6 +85,7 @@ const Login = () => {
                    handleSubmit,
                  }) => {
           return (
+            <Container>
             <LoginFrm
               handleSubmit={handleSubmit}
               handleChange={handleChange}
@@ -93,6 +95,7 @@ const Login = () => {
               values={values}
               loading={loading}
             />
+            </Container>
           );
         }}
       />

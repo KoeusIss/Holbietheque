@@ -10,6 +10,7 @@ import SignupFrm from "./signupFrm";
 import * as yup from "yup";
 import {toaster} from "evergreen-ui";
 import User from "../../models/User";
+import {Container} from "semantic-ui-react";
 
 /**
  * Signup component
@@ -98,6 +99,7 @@ const Signup = () => {
                    handleSubmit,
                  }) => {
           return (
+            <Container>
             <SignupFrm
               handleSubmit={handleSubmit}
               handleChange={handleChange}
@@ -109,6 +111,7 @@ const Signup = () => {
               toggleRole={toggleRole}
               role={role}
             />
+            </Container>
           );
         }}
       />

@@ -2,7 +2,7 @@
  * Home views
  */
 import React from "react";
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {
   Segment,
   Container,
@@ -28,53 +28,54 @@ const Home = () => {
       <Segment
         vertical
         textAlign="center"
+        className={"home-section"}
       >
         <Container>
           <Image
             src={require("../../images/welcome.svg")}
-            style={{ display: "inline", width: "500px" }}
+            style={{display: "inline", width: "500px"}}
           />
-          <Header as="h1" style={{ color: "#fff" }}>
+          <Header as="h1" style={{color: "#fff"}}>
             Find your best suit candidate
           </Header>
-          <p style={{ color: "#fff" }}>Holberton school student platform</p>
-          <Divider hidden />
+          <p style={{color: "#fff"}}>Holberton school student platform</p>
+          <Divider hidden/>
           <Button
             icon
             labelPosition="left"
             as={NavLink}
             to="/students"
-            style={{ backgroundColor: "#69f0ae" }}
+            style={{backgroundColor: "#69f0ae"}}
           >
-            <Icon name="student" />
+            <Icon name="student"/>
             Students
           </Button>
           <Button
             icon
             labelPosition="right"
-            style={{ backgroundColor: "#69f0ae" }}
+            style={{backgroundColor: "#69f0ae"}}
             href="https://github.com/KoeusIss/holbie.tech"
           >
-            <Icon name="github" />
+            <Icon name="github"/>
             Project
           </Button>
         </Container>
       </Segment>
       {/* Widget segment */}
-      <Segment vertical>
+      <Segment vertical className={"home-section"}>
         <Container>
           <Grid stackable columns={2} divided>
             <Grid.Row>
               <Grid.Column>
                 <Header as="h3">
-                  <Icon name="address book outline" color="grey" />
+                  <Icon name="address book outline" color="grey"/>
                   <Header.Content>Students collection</Header.Content>
                 </Header>
                 <p>A quick way to reach our students profiles informations</p>
               </Grid.Column>
               <Grid.Column>
                 <Header as="h3">
-                  <Icon name="address card" color="grey" />
+                  <Icon name="address card" color="grey"/>
                   <Header.Content>Simple & Easy</Header.Content>
                 </Header>
                 <p>
@@ -87,7 +88,7 @@ const Home = () => {
             <Grid.Row>
               <Grid.Column>
                 <Header as="h3">
-                  <Icon name="star outline" color="grey" />
+                  <Icon name="star outline" color="grey"/>
                   <Header.Content>Show them your skills</Header.Content>
                 </Header>
                 <p>
@@ -97,7 +98,7 @@ const Home = () => {
               </Grid.Column>
               <Grid.Column>
                 <Header as="h3">
-                  <Icon name="address book outline" color="grey" />
+                  <Icon name="address book outline" color="grey"/>
                   <Header.Content>Contact us</Header.Content>
                 </Header>
                 <p>
@@ -110,7 +111,7 @@ const Home = () => {
         </Container>
       </Segment>
       {/* What is holbietech segment */}
-      <Segment vertical>
+      <Segment vertical className={"home-section"}>
         <Container>
           <Grid>
             <Grid.Row>
@@ -126,7 +127,7 @@ const Home = () => {
               <Grid.Column textAlign="center">
                 <Image
                   src={require("../../images/hire.svg")}
-                  style={{ display: "inline", width: "300px" }}
+                  style={{display: "inline", width: "300px"}}
                 />
               </Grid.Column>
               <Grid.Column textAlign="center" verticalAlign="middle">
@@ -142,7 +143,7 @@ const Home = () => {
         </Container>
       </Segment>
       {/* Our mission segment */}
-      <Segment vertical>
+      <Segment vertical className={"home-section"}>
         <Container>
           <Grid>
             <Grid.Row>
@@ -156,7 +157,7 @@ const Home = () => {
               <Grid.Column textAlign="center">
                 <Image
                   src={require("../../images/mission.svg")}
-                  style={{ display: "inline", width: "200px" }}
+                  style={{display: "inline", width: "200px"}}
                 />
               </Grid.Column>
               <Grid.Column textAlign="center" verticalAlign="middle">

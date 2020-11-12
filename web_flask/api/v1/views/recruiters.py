@@ -2,6 +2,7 @@
 
 from web_flask.models.recruiter import Recruiter, RecruiterSchema
 from web_flask.models import storage
+from web_flask.models.stack import StackSchema
 from web_flask.api.v1.views import app_views
 from flask import request
 from sqlalchemy.exc import *
@@ -13,6 +14,7 @@ from flask_jwt_extended import (
 
 recruiters_schema = RecruiterSchema(many=True)
 recruiter_schema = RecruiterSchema()
+stacks_schema = StackSchema(many=True)
 
 
 @app_views.route(

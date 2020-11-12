@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   Button,
   Header,
@@ -17,11 +17,25 @@ import {
   states
 } from "../../components/Options";
 import RecruiterService from "../../services/recruiter_service";
+import LocationService from "../../services/loacation_service"
 
 const AddNewRecruiter = ({theTrigger, user_id}) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false);
   const history = useHistory();
+  
+  const [countries, setCountries] = React.useState([])
+  useEffect(() => {
+    LocationService.getCountries().then(
+      (response) => {
+        response.data.countries.map((c) => {
+          countries.push(
+          {key: c.id, text: c.name, value: c.name}
+        )
+        })
+      }
+    )
+  }, [])
   
   /**
    * Recruiter initial value instance
@@ -144,7 +158,7 @@ const AddNewRecruiter = ({theTrigger, user_id}) => {
                   </Form.Group>
                   <Form.Group widths="equal">
                     <Form.Select
-                      options={states}
+                      options={countries}
                       label={{
                         children: "Headquarter location",
                         htmlFor: "form-select-control-location",

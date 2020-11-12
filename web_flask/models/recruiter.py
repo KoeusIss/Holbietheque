@@ -1,7 +1,8 @@
 """ Recruiter model """
 
 from web_flask.models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, ForeignKey, DateTime
+from sqlalchemy import Column, String, ForeignKey
+from web_flask.models.stack import StackSchema
 from sqlalchemy.orm import relationship
 from marshmallow import Schema, fields
 from web_flask.models.user import UserSchema
@@ -60,6 +61,11 @@ class Recruiter(BaseModel, Base):
     user = relationship(
         'User',
         back_populates='recruiter'
+    )
+    stacks = relationship(
+        "Stack",
+        backref="recruiter",
+        cascade="all, delete"
     )
 
  

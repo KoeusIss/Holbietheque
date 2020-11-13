@@ -1,3 +1,7 @@
+/**
+ * Gender options for
+ * @type {({text: string, value: string, key: string})[]}
+ */
 const genderOptions = [
   {key: "m", text: "Male", value: "male"},
   {key: "f", text: "Female", value: "female"},
@@ -17,6 +21,10 @@ const communLangs = [
   {key: "es", text: "Spanish", value: "spanish"},
 ];
 
+/**
+ * Skills and language level
+ * @type {({text: string, value: string, key: string})[]}
+ */
 const levels = [
   {key: "1", text: "Basic", value: "basic"},
   {key: "2", text: "Novice", value: "novice"},
@@ -24,6 +32,33 @@ const levels = [
   {key: "4", text: "Advanced", value: "advanced"},
   {key: "5", text: "Expert", value: "expert"},
 ];
+
+/**
+ * Job level
+ * @type {({text: string, value: string, key: string})[]}
+ */
+const jobLevels = [
+  {key: "1", text: "Associate", value: "Associate"},
+  {key: "2", text: "Senior", value: "Senior"},
+  {key: "3", text: "Junior", value: "Junior"},
+  {key: "4", text: "Entry level", value: "Entry level"},
+  {key: "5", text: "Manager", value: "Manager"},
+  {key: "6", text: "Executive", value: "Executive"},
+];
+
+/**
+ * Job types
+ * @type {({text: string, value: string, key: string})[]}
+ */
+const jobTypes = [
+  {key: "1", text: "Internship", value: "Internship"},
+  {key: "2", text: "Full time", value: "Full time"},
+  {key: "3", text: "Part time", value: "Part time"},
+  {key: "4", text: "Contract", value: "Contract"},
+  {key: "5", text: "Volunteer", value: "Volunteer"},
+  {key: "6", text: "Apprenticeship", value: "Apprenticeship"},
+];
+
 
 const days = [];
 let d = 1;
@@ -105,4 +140,6 @@ export {
   communLangs,
   levels,
   company_size,
+  jobLevels,
+  jobTypes
 };

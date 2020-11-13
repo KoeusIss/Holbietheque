@@ -1,35 +1,53 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Segment, Header, Grid, Menu, Image, List, Button, Icon, Divider, Label} from "semantic-ui-react";
+import JobService from "../../../services/job_service";
+import Job from "./job";
+import {Link, Route, useRouteMatch, Switch} from "react-router-dom";
+import AddEditJob from "./add_edit_job";
 
-const jobs = [
-  {
-    "title": "Marketing Internship Summer",
-    "location": "Amazon – Seattle, WA",
-    "published_at": "6 hours ago",
-    "salary": "$55K-$108K"
-  },
-  {
-    "title": "Ops Manager,Operations",
-    "location": "Amazon – Buford, GA",
-    "published_at": "6 hours ago",
-    "salary": "$55K-$108K"
-  }
-]
 const company_img = "https://i.stack.imgur.com/NC3AA.png"
-const OpenPane = () => {
+const JobsPane = ({userID, recruiter}) => {
+  const [loading, setLoading] = useState(false)
+  const [jobs, setJobs] = useState([])
+  
+  useEffect(() => {
+    setLoading(true);
+    JobService.getJobsByRecruiter(recruiter.id).then(
+      (response) => {
+        setJobs(response.data.jobs);
+      },
+      (error) => {
+        const returnError =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        setLoading(false);
+      }
+    );
+  }, [jobs]);
+  
+  let {path, url} = useRouteMatch();
+  
   return (
     <div>
       <Grid>
         <Grid.Row>
-          <Grid.Column>
-            <Menu text fluid style={{marginTop: "0"}}>
-              <Menu.Item position="right">
-                <Button icon basic labelPosition="left">
-                  <Icon name="plus"/>
-                  Add new job
-                </Button>
-              </Menu.Item>
-            </Menu>
+          <Menu text fluid style={{marginTop: "0"}}>
+            <Menu.Item position="left">
+              <AddEditJob
+                recruiter={recruiter}
+                theTrigger={
+                  <Button icon basic labelPosition="right">
+                    <Icon name="plus"/>
+                    Add new job
+                  </Button>
+                }
+              />
+            </Menu.Item>
+          </Menu>
+          <Grid.Column width={6}>
             <Segment>
               <List relaxed='very' divided>
                 {jobs.map((job, index) => {
@@ -37,7 +55,7 @@ const OpenPane = () => {
                     <List.Item>
                       <Image size="mini" src={company_img}/>
                       <List.Content>
-                        <List.Header>{job.title}</List.Header>
+                        <List.Header as={Link} to={`${url}/${job.id}`}>{job.title}</List.Header>
                         <List.Description>
                           {job.location}
                         </List.Description>
@@ -45,31 +63,40 @@ const OpenPane = () => {
                           {job.salary}
                         </List.Description>
                         <List.Description style={{marginTop: "10px"}}>
-                        <Label.Group>
-                          <Label>Python</Label>
-                          <Label>ReactJS</Label>
-                          <Label>AWS</Label>
-                          <Label>GCP</Label>
-                        </Label.Group>
-                      </List.Description>
-                      </List.Content>
-                      
-                      <List.Content floated={"right"}>
-                        <Button basic icon><Icon name="pencil"/></Button>
-                        <Button basic icon><Icon name="trash"/></Button>
+                          <Label.Group>
+                            <Label>Python</Label>
+                            <Label>ReactJS</Label>
+                            <Label>AWS</Label>
+                            <Label>GCP</Label>
+                          </Label.Group>
+                        </List.Description>
                       </List.Content>
                     </List.Item>
                   )
                 })}
               </List>
             </Segment>
+          </Grid.Column>
           
+          <Grid.Column width={10}>
+            <Switch>
+              <Route path={`${path}/:jobId`}>
+                <Job recruiter={recruiter}/>
+              </Route>
+              <Route path={path} exact>
+                <Segment placeholder textAlign={"center"}>
+                  <Header as='h4' icon>
+                    <Icon name='paperclip' color="grey"/>
+                    Select a job to see details
+                  </Header>
+                </Segment>
+              </Route>
+            </Switch>
           </Grid.Column>
         </Grid.Row>
       </Grid>
-    
     </div>
   )
 }
 
-export default OpenPane
+export default JobsPane

@@ -67,6 +67,11 @@ class Recruiter(BaseModel, Base):
         backref="recruiter",
         cascade="all, delete"
     )
+    jobs = relationship(
+        "Job",
+        backref="recruiter",
+        cascade="all, delete"
+    )
 
  
 class RecruiterSchema(Schema):

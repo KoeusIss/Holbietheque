@@ -39,7 +39,7 @@ const App = withRouter(({ location }) => {
         <Route path="/students/:id" exact>
           <Student />
         </Route>
-        <Route path='/recruiters/:id' exact>
+        <Route path='/recruiters/:id'>
           <RecruiterProfile/>
         </Route>
         <Route path="/about">

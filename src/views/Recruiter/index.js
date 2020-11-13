@@ -3,7 +3,6 @@
  */
 import React, {useEffect, useState} from "react";
 import AboutPane from "./About";
-import OpenPane from "./OpenJob";
 import EditRecruiter from "./add_edit_recruiter";
 import RecruiterService from "../../services/recruiter_service"
 import Recruiter from "../../models/Recruiter";
@@ -21,6 +20,7 @@ import {
   Button
 } from "semantic-ui-react";
 import "./recruiter.css"
+import JobsPane from "./OpenJob";
 
 /**
  * Recruiter profile view
@@ -124,7 +124,7 @@ const RecruiterProfile = () => {
           },
           {
             menuItem: 'Jobs',
-            render: () => <OpenPane/>,
+            render: () => <JobsPane userID={id} recruiter={recruiter}/>,
           }
         ]}/>
       </Segment>

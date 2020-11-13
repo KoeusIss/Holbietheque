@@ -1,0 +1,65 @@
+""" Job model """
+
+from web_flask.models.base_model import BaseModel, Base
+from sqlalchemy import Column, String, ForeignKey
+from marshmallow import Schema, fields
+
+
+class Job(BaseModel, Base):
+    """
+        title: (str) the title of the job
+        type: (str) full_time part_time ...
+        summary: (str) short summary of job
+        description: (str) description of duty
+        salary: (str) proposed salary range
+        level: (str) required level
+        location: (str) location of work
+
+    """
+    __tablename__ = "jobs"
+    title = Column(
+        String(128),
+        nullable=False
+    )
+    type = Column(
+        String(128),
+        nullable=False
+    )
+    summary = Column(
+        String(2048),
+        nullable=False
+    )
+    description = Column(
+        String(4096),
+        nullable=False
+    )
+    salary = Column(
+        String(128),
+        nullable=False
+    )
+    level = Column(
+        String(128),
+        nullable=False
+    )
+    location = Column(
+        String(128),
+        nullable=False
+    )
+    recruiter_id = Column(
+        String(60),
+        ForeignKey('recruiters.id'),
+        nullable=False
+    )
+
+
+class JobSchema(Schema):
+    """ Job Schema """
+    id = fields.Str()
+    title = fields.Str()
+    type = fields.Str()
+    summary = fields.Str()
+    description = fields.Str()
+    salary = fields.Str()
+    level = fields.Str()
+    location = fields.Str()
+    created_at = fields.DateTime()

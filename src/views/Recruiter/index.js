@@ -7,12 +7,10 @@ import EditRecruiter from "./add_edit_recruiter";
 import RecruiterService from "../../services/recruiter_service"
 import Recruiter from "../../models/Recruiter";
 import {useParams} from "react-router-dom";
-import {toaster} from "evergreen-ui";
 import {
   Container,
   Segment,
   Tab,
-  Image,
   Header,
   Grid,
   List,
@@ -21,6 +19,7 @@ import {
 } from "semantic-ui-react";
 import "./recruiter.css"
 import JobsPane from "./OpenJob";
+import UploadLogo from "./add_logo";
 
 /**
  * Recruiter profile view
@@ -31,22 +30,17 @@ const RecruiterProfile = () => {
   const [loading, setLoading] = useState(false)
   const [recruiter, setRecruiter] = useState(new Recruiter())
   let {id} = useParams();
+  const owner = recruiter.id === id
   
   useEffect(() => {
     setLoading(true);
     RecruiterService.get(id).then(
       (res) => {
-        setRecruiter(res.data.recruiter);
+        setLoading(false)
+        setRecruiter(res.data.recruiter)
       },
       (error) => {
-        const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
         setLoading(false);
-        toaster.danger(message)
       }
     );
   }, [recruiter]);
@@ -56,9 +50,7 @@ const RecruiterProfile = () => {
       <Grid columns={2} stackable>
         <Grid.Row style={{paddingTop: "2rem"}}>
           <Grid.Column width={2} textAlign={"center"}>
-            <div className='company-logo'>
-              <Image src={"https://i.stack.imgur.com/NC3AA.png"}/>
-            </div>
+            <UploadLogo recruiter={recruiter}/>
           </Grid.Column>
           <Grid.Column width={11}>
             <Header as="h2" className="company-header">
@@ -66,7 +58,7 @@ const RecruiterProfile = () => {
               <Header.Subheader>
                 {recruiter.description}
               </Header.Subheader></Header>
-            <List horizontal={window.innerWidth > 600} relaxed>
+            <List horizontal={window.innerWidth > 480} relaxed>
               {recruiter.web_site &&
               <List.Item>
                 <List.Content>
@@ -104,6 +96,7 @@ const RecruiterProfile = () => {
             </List>
           </Grid.Column>
           <Grid.Column width={3}>
+            {owner &&
             <EditRecruiter
               recruiter={recruiter}
               theTrigger={
@@ -113,6 +106,7 @@ const RecruiterProfile = () => {
                 </Button>
               }
             />
+            }
           </Grid.Column>
         </Grid.Row>
       </Grid>

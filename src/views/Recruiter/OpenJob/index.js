@@ -4,11 +4,12 @@ import JobService from "../../../services/job_service";
 import Job from "./job";
 import {Link, Route, useRouteMatch, Switch} from "react-router-dom";
 import AddEditJob from "./add_edit_job";
+import image from "../../../images/image.png"
 
-const company_img = "https://i.stack.imgur.com/NC3AA.png"
 const JobsPane = ({userID, recruiter}) => {
   const [loading, setLoading] = useState(false)
   const [jobs, setJobs] = useState([])
+  const owner = userID === recruiter.id
   
   useEffect(() => {
     setLoading(true);
@@ -17,12 +18,6 @@ const JobsPane = ({userID, recruiter}) => {
         setJobs(response.data.jobs);
       },
       (error) => {
-        const returnError =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
         setLoading(false);
       }
     );
@@ -36,6 +31,7 @@ const JobsPane = ({userID, recruiter}) => {
         <Grid.Row>
           <Menu text fluid style={{marginTop: "0"}}>
             <Menu.Item position="left">
+              {owner &&
               <AddEditJob
                 recruiter={recruiter}
                 theTrigger={
@@ -45,6 +41,7 @@ const JobsPane = ({userID, recruiter}) => {
                   </Button>
                 }
               />
+              }
             </Menu.Item>
           </Menu>
           <Grid.Column width={6}>
@@ -53,7 +50,7 @@ const JobsPane = ({userID, recruiter}) => {
                 {jobs.map((job, index) => {
                   return (
                     <List.Item>
-                      <Image size="mini" src={company_img}/>
+                      <Image size="mini" src={image}/>
                       <List.Content>
                         <List.Header as={Link} to={`${url}/${job.id}`}>{job.title}</List.Header>
                         <List.Description>
@@ -61,14 +58,6 @@ const JobsPane = ({userID, recruiter}) => {
                         </List.Description>
                         <List.Description style={{marginTop: "6px"}}>
                           {job.salary}
-                        </List.Description>
-                        <List.Description style={{marginTop: "10px"}}>
-                          <Label.Group>
-                            <Label>Python</Label>
-                            <Label>ReactJS</Label>
-                            <Label>AWS</Label>
-                            <Label>GCP</Label>
-                          </Label.Group>
                         </List.Description>
                       </List.Content>
                     </List.Item>

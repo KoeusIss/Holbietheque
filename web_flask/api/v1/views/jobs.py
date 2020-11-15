@@ -1,6 +1,6 @@
 """ Job Views-API endpoints """
 
-from web_flask.models.recruiter import Recruiter
+from web_flask.models.recruiter import Recruiter, RecruiterSchema
 from web_flask.models.job import Job, JobSchema
 from web_flask.models import storage
 from web_flask.api.v1.views import app_views
@@ -9,6 +9,7 @@ from sqlalchemy.exc import IntegrityError, OperationalError
 
 jobs_schema = JobSchema(many=True)
 job_schema = JobSchema()
+recruiter_schema = RecruiterSchema(only=["id", "name", "logo"])
 
 
 @app_views.route(
@@ -70,9 +71,11 @@ def get_job(job_id):
     """ GET /api/v1/jobs/:job_id """
     the_job = storage.get(Job, job_id)
     job = job_schema.dump(the_job)
+    recruiter = recruiter_schema.dump(the_job.recruiter)
     return {
         "success": True,
-        "job": job
+        "job": job,
+        "recruiter": recruiter
     }, 200
 
 

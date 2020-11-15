@@ -17,7 +17,7 @@ class JobService {
     return axios.get(api, { headers: authHeader() });
   }
   
-  getJobs() {
+  jobs() {
     const api = [API_URL, "jobs"].join("/");
     return axios.get(api, { headers: authHeader() });
   }

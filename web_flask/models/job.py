@@ -1,7 +1,7 @@
 """ Job model """
 
 from web_flask.models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, ForeignKey
+from sqlalchemy import Column, String, ForeignKey, Text
 from marshmallow import Schema, fields
 
 
@@ -25,13 +25,8 @@ class Job(BaseModel, Base):
         String(128),
         nullable=False
     )
-    summary = Column(
-        String(2048),
-        nullable=False
-    )
     description = Column(
-        String(4096),
-        nullable=False
+        Text()
     )
     salary = Column(
         String(128),
@@ -57,7 +52,6 @@ class JobSchema(Schema):
     id = fields.Str()
     title = fields.Str()
     type = fields.Str()
-    summary = fields.Str()
     description = fields.Str()
     salary = fields.Str()
     level = fields.Str()

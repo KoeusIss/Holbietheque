@@ -1,7 +1,7 @@
 import React from "react";
 import {Form, Select, Input} from "semantic-ui-react";
 import {Field} from "formik";
-import {company_size, states, years} from "../../components/Options";
+import {company_size, years} from "../../components/Options";
 
 const RecruiterFrm = ({errors, touched, countries}) => {
   return (
@@ -63,14 +63,6 @@ const RecruiterFrm = ({errors, touched, countries}) => {
           />
         </Form.Field>
       </Form.Group>
-      <Form.Field>
-        <label>Logo</label>
-        <Field
-          type={"file"}
-          name="logo"
-          placeholder="Choose your logo"
-        />
-      </Form.Field>
     </Form>
   )
 }

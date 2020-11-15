@@ -63,6 +63,11 @@ class RecruiterService {
     const api = [API_URL, "recruiters", recruiterID].join("/");
     return axios.put(api, data, { headers: authHeader() });
   }
+  
+  upload(data, recruiterID) {
+    const api = [API_URL, recruiterID, "logo"].join("/");
+    return axios.post(api, data, { headers: authHeader() });
+  }
 }
 
 export default new RecruiterService();

@@ -26,43 +26,11 @@ def create_stacks(recruiter_id):
             "message": "Recruiter not found"
         }, 400
     data = request.get_json()
-    for each in data.stacks:
+    for each in data:
         instance = Stack(**each)
-        instance.recruiter_id = instance.id
+        instance.recruiter_id = the_recruiter.id
         instance.save()
     return {
         "success": True,
         "message": "Stacks added successfully",
     }, 201
-
-#
-# @app_views.route(
-#     '/skill/<skill_id>',
-#     methods=['PUT'],
-#     strict_slashes=False
-# )
-# def update_skill(skill_id):
-#     """ PUT /api/v1/skills/:skill_id """
-#     the_skill = storage.get(Skill, skill_id)
-#     if not the_skill:
-#         return {
-#            "failed": True,
-#            "message": "data not found"
-#         }, 400
-#     if not request.get_json():
-#         return {
-#             "failed": True,
-#             "message": "not a json"
-#         }, 400
-#     ignore = ['id', 'created_at', 'updated_at', 'student_id']
-#     data = request.get_json()
-#     for key, value in data.items():
-#         if key not in ignore:
-#             setattr(the_skill, key, value)
-#     storage.save()
-#     skill = skills_schema.dump(the_skill)
-#     return {
-#         "success": True,
-#         "message": "updated successfully",
-#         "skill": skill
-#     }, 200

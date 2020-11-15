@@ -16,6 +16,7 @@ import Navbar from "../components/Navbar";
 import NewProfile from "../views/New"
 import PageNotFound from "../views/PageNotFound";
 import RecruiterProfile from "../views/Recruiter";
+import Jobs from "../views/Job";
 import "./App.css";
 
 /**
@@ -32,6 +33,9 @@ const App = withRouter(({ location }) => {
       <Switch>
         <Route path="/" exact={true}>
           <Home />
+        </Route>
+        <Route path="/jobs">
+          <Jobs/>
         </Route>
         <Route path="/students" exact>
           <StudentList />

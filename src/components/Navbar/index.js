@@ -31,9 +31,9 @@ const Navbar = () => {
       return "/new"
     } else {
       if (currentUser.role === "student") {
-        return "students/" + currentUser.profile
+        return `/students/${currentUser.profile}`
       } else if (currentUser.role === "recruiter") {
-        return "recruiters/" + currentUser.profile
+        return `/recruiters/${currentUser.profile}`
       }
     }
   }
@@ -72,12 +72,15 @@ const Navbar = () => {
             </Menu.Item>
             <Menu.Item as={NavLink} to={"/about"} style={{color: "#fff"}}>About</Menu.Item>
             <Menu.Item as={NavLink} to={"/contact"} style={{color: "#fff"}}>Contact</Menu.Item>
+            <Menu.Item as={NavLink} to={"/jobs"} style={{color: "#fff"}}>Jobs</Menu.Item>
+            <Menu.Item as={NavLink} to={"/students"} style={{color: "#fff"}}>Students</Menu.Item>
             <Menu.Menu position="right">
-              <Menu.Item as={NavLink} to={"/students"} style={{color: "#fff"}}>Students</Menu.Item>
               {currentUser ?
                 <>
                   <Menu.Item as={NavLink} to={userPath} style={{color: "#fff"}}>Profile</Menu.Item>
-                  <Menu.Item as={NavLink} to={"/login"} style={{color: "#fff"}}>Logout</Menu.Item>
+                  <Menu.Item as={NavLink} to={"/login"} style={{color: "#fff"}}>
+                    <Button basic color={'green'} onClick={handleLogout}>Logout</Button>
+                  </Menu.Item>
                 </>
                 :
                 <Menu.Item as={NavLink} to={"/login"} style={{color: "#fff"}}>
@@ -128,6 +131,14 @@ const Navbar = () => {
             </Menu.Item>
             <Menu.Item
               as={NavLink}
+              to={"/jobs"}
+              style={{color: "#fff"}}
+              onClick={handleToggleDropdownMenu}
+            >
+              Jobs
+            </Menu.Item>
+            <Menu.Item
+              as={NavLink}
               to={"/students"}
               style={{color: "#fff"}}
               onClick={handleToggleDropdownMenu}
@@ -147,17 +158,21 @@ const Navbar = () => {
                 <Menu.Item
                   as={NavLink}
                   to={"/login"}
-                  style={{color: "#fff"}}
-                  onClick={handleLogout}
                 >
-                  Logout
+                  <Button
+                    basic
+                    fluid
+                    color={'green'}
+                    onClick={handleLogout}
+                  >
+                    logout
+                  </Button>
                 </Menu.Item>
               </>
               :
               <Menu.Item
                 as={NavLink}
                 to={"/login"}
-                style={{color: "#fff"}}
               >
                 <Button
                   basic

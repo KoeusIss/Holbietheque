@@ -4,14 +4,17 @@ from web_flask.models.recruiter import Recruiter, RecruiterSchema
 from web_flask.models import storage
 from web_flask.models.stack import StackSchema
 from web_flask.api.v1.views import app_views
-from flask import request
+from flask import request, session
 from sqlalchemy.exc import *
 from web_flask.api.v1.app import jwt
+import os
+from werkzeug.utils import secure_filename
 from flask_jwt_extended import (
     jwt_required, create_access_token,
     get_jwt_identity, get_jwt_claims, verify_jwt_in_request
 )
-
+UPLOAD_FOLDER = '/home/sebri/portfolio/holbie.tech/src/images'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 recruiters_schema = RecruiterSchema(many=True)
 recruiter_schema = RecruiterSchema()
 stacks_schema = StackSchema(many=True)
@@ -145,4 +148,32 @@ def update_recruiter(recruiter_id):
     return {
         "success": True,
         "message": "Recruiter updated successfully"
+    }, 200
+
+
+@app_views.route(
+    '/<recruiter_id>/logo',
+    methods=['POST'],
+    strict_slashes=False
+)
+def upload_logo(recruiter_id):
+    """ POST /:recruiter_id/logo """
+    the_recruiter = storage.get(Recruiter, recruiter_id)
+    if not the_recruiter:
+        return {
+            "success": False,
+            "message": "Recruiter not found"
+        }, 400
+    target = os.path.join(UPLOAD_FOLDER, recruiter_id)
+    if not os.path.isdir(target):
+        os.mkdir(target)
+    file = request.files['logo']
+    filename = secure_filename(file.filename)
+    destination = "/".join([target, filename])
+    file.save(destination)
+    setattr(the_recruiter, 'logo', destination)
+    storage.save()
+    return {
+        "success": True,
+        "message": "Logo uploaded successfully"
     }, 200

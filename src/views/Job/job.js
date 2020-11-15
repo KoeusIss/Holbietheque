@@ -1,40 +1,39 @@
+/**
+ * Job item
+ */
 import React, {useEffect, useState} from 'react'
 import {Button, Divider, Grid, Header, Icon, Image, Label, List, Menu, Segment} from "semantic-ui-react";
 import {useParams} from "react-router";
-import JobService from "../../../services/job_service";
-import AddEditJob from "./add_edit_job";
+import JobService from "../../services/job_service"
 import MDEditor from "@uiw/react-md-editor";
+import image from "../../images/image.png"
 
-const company_img = "https://i.stack.imgur.com/NC3AA.png"
 
-const Job = ({recruiter}) => {
-  let {jobId} = useParams();
+const JobItem = () => {
   const [job, setJob] = useState({})
   const [loading, setLoading] = useState(false)
+  let {jobId} = useParams();
   
+  // Loading job based on route id
   useEffect(() => {
     setLoading(true);
     JobService.job(jobId).then(
       (response) => {
         setJob(response.data.job);
+        setLoading(false)
       },
       (error) => {
-        const returnError =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
         setLoading(false);
       }
     );
   }, [job]);
+  
   return (
     <Segment>
       <Grid>
         <Grid.Row>
           <Grid.Column width={3}>
-            <Image src={company_img}/>
+            <Image src={image}/>
           </Grid.Column>
           <Grid.Column width={10}>
             <Header as='h2' style={{marginTop: "8px"}}>
@@ -64,18 +63,6 @@ const Job = ({recruiter}) => {
               </List.Item>
             </List>
           </Grid.Column>
-          <Grid.Column width={3}>
-            <Menu text style={{marginTop: "0", marginBottom: "0"}}>
-              <Menu.Menu position="right">
-                <AddEditJob
-                recruiter={recruiter}
-                theTrigger={<Button basic icon><Icon name="pencil"/></Button>}
-                job={job}
-              />
-                <Button basic icon><Icon name="trash"/></Button>
-              </Menu.Menu>
-            </Menu>
-          </Grid.Column>
         </Grid.Row>
         <Divider/>
         <Grid.Row>
@@ -88,4 +75,4 @@ const Job = ({recruiter}) => {
   )
 }
 
-export default Job
+export default JobItem

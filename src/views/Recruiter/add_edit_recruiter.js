@@ -23,12 +23,13 @@ import LocationService from "../../services/loacation_service";
  * @returns {JSX.Element}
  * @constructor
  */
-const EditRecruiter = ({theTrigger, recruiter}) => {
+const EditRecruiter = ({theTrigger, recruiter = null}) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [data, setData] = useState({})
-  
   const [countries, setCountries] = React.useState([])
+  const createMode = !recruiter
+  
   useEffect(() => {
     LocationService.getCountries().then(
       (response) => {
@@ -97,12 +98,9 @@ const EditRecruiter = ({theTrigger, recruiter}) => {
         onSubmit={onSubmit}
         validationSchema={validationSchema}
         render={({
-                   values,
                    errors,
                    touched,
-                   handleBlur,
                    handleSubmit,
-                   handleChange,
                  }) => {
           return (
             <Modal

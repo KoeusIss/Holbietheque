@@ -1,8 +1,7 @@
 """ Recruiter model """
 
 from web_flask.models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, ForeignKey
-from web_flask.models.stack import StackSchema
+from sqlalchemy import Column, String, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from marshmallow import Schema, fields
 from web_flask.models.user import UserSchema
@@ -43,16 +42,16 @@ class Recruiter(BaseModel, Base):
         String(60)
     )
     about = Column(
-        String(1024)
+        Text()
     )
     our_mission = Column(
-        String(1024)
+        Text()
     )
     core_values = Column(
-        String(1024)
+        Text()
     )
     interview_process = Column(
-        String(1024)
+        Text()
     )
     user_id = Column(
         String(60),

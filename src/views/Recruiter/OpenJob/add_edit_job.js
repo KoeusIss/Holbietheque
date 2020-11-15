@@ -17,27 +17,28 @@ import {
 import JobFrm from "./jobFrm";
 
 const AddEditJob = ({theTrigger, recruiter, job = null}) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({})
   const createMode = !job
+  const [value, setValue] = React.useState("");
   
-  /**
-   * Recruiter initial value instance
-   * @type Recruiter
-   */
-  useEffect(() => {
-    Object.assign(data, {
-      title: (job && job.title) || '',
-      description: (job && job.description) || '',
-      summary: (job && job.summary) || '',
-      salary: (job && job.salary) || '',
-      location: (job && job.location) || '',
-      level: (job && job.level) || '',
-      type: (job && job.type) || '',
-      created_at: (job && job.created_at) || '',
-    })
-  }, [job])
+  // /**
+  //  * Recruiter initial value instance
+  //  * @type Recruiter
+  //  */
+  // useEffect(() => {
+  //   Object.assign(data, {
+  //     title: (job && job.title) || '',
+  //     description: (job && job.description) || '',
+  //     summary: (job && job.summary) || '',
+  //     salary: (job && job.salary) || '',
+  //     location: (job && job.location) || '',
+  //     level: (job && job.level) || '',
+  //     type: (job && job.type) || '',
+  //     created_at: (job && job.created_at) || '',
+  //   })
+  // }, [])
   
   /**
    * create new job
@@ -45,6 +46,7 @@ const AddEditJob = ({theTrigger, recruiter, job = null}) => {
    */
   const createJob = (values) => {
     setLoading(true);
+    values.description = value;
     JobService.create(values, recruiter.id).then(
       (response) => {
         setLoading(false);
@@ -71,6 +73,7 @@ const AddEditJob = ({theTrigger, recruiter, job = null}) => {
    */
   const updateJob = (values) => {
     setLoading(true);
+    values.description = value
     JobService.update(values, job.id).then(
       (response) => {
         setLoading(false);
@@ -103,28 +106,24 @@ const AddEditJob = ({theTrigger, recruiter, job = null}) => {
     }
   }
   
-  /**
-   * Validation schema shape
-   */
-  const validationSchema = yup.object().shape({
-    title: yup.string().required("Job title is required")
-  })
-  
   return (
     <>
       <Formik
         initialValues={data}
         onSubmit={onSubmit}
-        validationSchema={validationSchema}
         render={({
+                   values,
                    errors,
                    touched,
                    handleSubmit,
+                   handleChange,
+                   setFieldValue
                  }) => {
           return (
             <Modal
               closeIcon
               open={open}
+              size="large"
               trigger={theTrigger}
               onClose={() => setOpen(false)}
               onOpen={() => setOpen(true)}
@@ -136,7 +135,16 @@ const AddEditJob = ({theTrigger, recruiter, job = null}) => {
               <Modal.Content scrolling>
                 <JobFrm
                   touched={touched}
-                  errors={errors}/>
+                  errors={errors}
+                  job={job}
+                  createMode={createMode}
+                  value={value}
+                  setValue={setValue}
+                  data={data}
+                  handleChange={handleChange}
+                  values={values}
+                  setFieldValue={setFieldValue}
+                />
               </Modal.Content>
               <Modal.Actions>
                 <Button

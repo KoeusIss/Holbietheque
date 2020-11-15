@@ -14,7 +14,6 @@ import Recruiter from "../Recruiter";
 import {
   years,
   company_size,
-  states
 } from "../../components/Options";
 import RecruiterService from "../../services/recruiter_service";
 import LocationService from "../../services/loacation_service"
@@ -182,15 +181,6 @@ const AddNewRecruiter = ({theTrigger, user_id}) => {
                       onChange={handleChange}
                     />
                   </Form.Group>
-                   <Form.Input
-                    name="logo"
-                    label="Logo"
-                    placeholder="Choose your logo"
-                    type={"file"}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.web_site && errors.web_site}
-                  />
                 </Form>
               </Modal.Content>
               <Modal.Actions>

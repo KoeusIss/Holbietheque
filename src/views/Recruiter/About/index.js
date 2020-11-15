@@ -1,18 +1,18 @@
 /**
  * About pane
  */
-import React from "react";
+import React, {useState} from "react";
 import DeleteModal from "./delete";
 import AddEditSection from "./add_edit_section";
 import {
   Segment,
-  Header,
   Grid,
   Menu,
   Dropdown,
   Button,
-  Icon, Image
+  Icon, Image, Table, Input
 } from "semantic-ui-react";
+import MDEditor from '@uiw/react-md-editor';
 
 const stacks = ["DevOps", "Web Development", "Cloud", "AI", "Machine learning"]
 
@@ -25,6 +25,9 @@ const stacks = ["DevOps", "Web Development", "Cloud", "AI", "Machine learning"]
  */
 const AboutPane = ({userID, recruiter}) => {
   const owner = userID === recruiter.id
+  const [hide, setHide] = useState(false)
+  
+  
   return (
     <div>
       <Grid stackable>
@@ -86,8 +89,7 @@ const AboutPane = ({userID, recruiter}) => {
               <>
                 {recruiter.about &&
                 <Segment>
-                  <Header>About the company</Header>
-                  <p>{recruiter.about}</p>
+                  <MDEditor.Markdown source={recruiter.about}/>
                   <Menu text style={{marginTop: "0", marginBottom: "0"}}>
                     {owner &&
                     <Menu.Menu position="right">
@@ -109,8 +111,7 @@ const AboutPane = ({userID, recruiter}) => {
                 {/* Our mission section */}
                 {recruiter.our_mission &&
                 <Segment>
-                  <Header>Our mission</Header>
-                  <p>{recruiter.our_mission}</p>
+                  <MDEditor.Markdown source={recruiter.our_mission}/>
                   <Menu text style={{marginTop: "0", marginBottom: "0"}}>
                     {owner &&
                     <Menu.Menu position="right">
@@ -129,10 +130,10 @@ const AboutPane = ({userID, recruiter}) => {
                     }
                   </Menu>
                 </Segment>}
+                {/* Core value section */}
                 {recruiter.core_values &&
                 <Segment>
-                  <Header>Core values</Header>
-                  <p>{recruiter.core_values}</p>
+                  <MDEditor.Markdown source={recruiter.core_values}/>
                   <Menu text style={{marginTop: "0", marginBottom: "0"}}>
                     {owner &&
                     <Menu.Menu position="right">
@@ -154,8 +155,7 @@ const AboutPane = ({userID, recruiter}) => {
                 {/*  Interview process section */}
                 {recruiter.interview_process &&
                 <Segment>
-                  <Header>Interview process</Header>
-                  <p>{recruiter.interview_process}</p>
+                  <MDEditor.Markdown source={recruiter.interview_process}/>
                   <Menu text style={{marginTop: "0", marginBottom: "0"}}>
                     {owner &&
                     <Menu.Menu position="right">
@@ -187,16 +187,31 @@ const AboutPane = ({userID, recruiter}) => {
           </Grid.Column>
           {/* Right side section */}
           <Grid.Column width={4}>
-            <Menu vertical fluid>
-              <Menu.Item>
-                <Header as='h4'>Stacks</Header>
+            <Table>
+              <Table.Header>
+                <Table.Row>
+                  {
+                    hide ?
+                      <Table.HeaderCell>Stacks</Table.HeaderCell>
+                      :
+                      <Table.HeaderCell><Input name="name"/></Table.HeaderCell>
+                  }
+                  <Table.HeaderCell>
+                    <Button icon basic onClick={() => setHide(!hide)}>
+                      <Icon name="plus" color="grey"/>
+                    </Button>
+                  </Table.HeaderCell>
+                </Table.Row>
                 {stacks.map((stack, index) => {
                   return (
-                    <p key={index}>{stack}</p>
+                    <Table.Row>
+                      <Table.Cell>{stack}</Table.Cell>
+                      <Table.Cell><Icon name={"minus"} size={"small"} color={"red"}/></Table.Cell>
+                    </Table.Row>
                   )
                 })}
-              </Menu.Item>
-            </Menu>
+              </Table.Header>
+            </Table>
           </Grid.Column>
         </Grid.Row>
       </Grid>

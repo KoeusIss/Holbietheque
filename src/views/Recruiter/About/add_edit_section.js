@@ -4,17 +4,14 @@
 import React, {useEffect, useState} from "react";
 import Recruiter from "../index";
 import RecruiterService from "../../../services/recruiter_service";
-import * as yup from "yup";
-import {Formik, Field} from "formik";
 import {toaster} from "evergreen-ui";
 import {
   Button,
-  Form,
   Header,
   Icon,
   Modal,
-  TextArea
 } from "semantic-ui-react";
+import MDEditor from '@uiw/react-md-editor';
 
 /**
  * AddEditSection modal for updating or creating section
@@ -28,7 +25,6 @@ import {
 const AddEditSection = ({theTrigger, recruiter, createMode, section}) => {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState({})
   const sectionName = {
     'about': 'About',
     'core_values': 'Core values',
@@ -38,22 +34,23 @@ const AddEditSection = ({theTrigger, recruiter, createMode, section}) => {
   const successMsg = createMode
     ? `${sectionName[section]} section created successfully`
     : `${sectionName[section]} section updated successfully`
+  const [value, setValue] = React.useState("");
   
   /**
    * Recruiter initial value instance
    * @type Recruiter
    */
   useEffect(() => {
-    Object.assign(data, {[section]: recruiter[section]})
-  }, [recruiter])
+    !createMode && setValue(recruiter[section])
+  }, [])
   
   /**
    * Submit a create request in order to receive a success message
    * @param {object} values collected values from Formik form
    */
-  const onSubmit = (values) => {
+  const onSubmit = () => {
     setLoading(true);
-    RecruiterService.update(values, recruiter.id).then(
+    RecruiterService.update({[section]: value}, recruiter.id).then(
       () => {
         setLoading(false);
         setOpen(false);
@@ -73,60 +70,33 @@ const AddEditSection = ({theTrigger, recruiter, createMode, section}) => {
     );
   }
   
-  /**
-   * Validation schema shape
-   */
-  const validationSchema = yup.object().shape({
-    [section]: yup.string().max(1024, "You should not exceed 1024 character")
-  })
-  
   return (
-    <>
-      <Formik
-        initialValues={data}
-        onSubmit={onSubmit}
-        validationSchema={validationSchema}
-        render={({
-                   errors,
-                   touched,
-                   handleSubmit,
-                 }) => {
-          return (
-            <Modal
-              closeIcon
-              open={open}
-              trigger={theTrigger}
-              onClose={() => setOpen(false)}
-              onOpen={() => setOpen(true)}
-            >
-              <Header icon="industry"
-                      content={createMode ? `Add ${sectionName[section]} section` : `Edit ${sectionName[section]} section`}/>
-              <Modal.Content>
-                <Form>
-                  <Field
-                    style={{height: "40vh"}}
-                    as={TextArea}
-                    name={section}
-                    label={`${sectionName[section]} of the company`}
-                    placeholder="Write something describing the company "
-                    error={touched[section] && errors[section]}
-                  />
-                </Form>
-              </Modal.Content>
-              <Modal.Actions>
-                <Button color="red" onClick={() => setOpen(false)}>
-                  <Icon name="remove"/> Cancel
-                </Button>
-                <Button color="green" onClick={handleSubmit} loading={loading}>
-                  <Icon name="checkmark"/> {createMode ? "Create" : "Update"}
-                </Button>
-              </Modal.Actions>
-            </Modal>
-          );
-        }}
-      />
-    </>
+    <Modal
+      closeIcon
+      size="large"
+      open={open}
+      trigger={theTrigger}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+    >
+      <Header icon="industry"
+              content={createMode ? `Add ${sectionName[section]} section` : `Edit ${sectionName[section]} section`}/>
+      <Modal.Content>
+        <MDEditor
+          value={value}
+          onChange={setValue}
+          height={500}
+        />
+      </Modal.Content>
+      <Modal.Actions>
+        <Button color="red" onClick={() => setOpen(false)}>
+          <Icon name="remove"/> Cancel
+        </Button>
+        <Button color="green" onClick={onSubmit} loading={loading}>
+          <Icon name="checkmark"/> {createMode ? "Create" : "Update"}
+        </Button>
+      </Modal.Actions>
+    </Modal>
   )
-    ;
 }
 export default AddEditSection

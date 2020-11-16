@@ -2,6 +2,7 @@
 
 from web_flask.models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Text
+from web_flask.models.recruiter import RecruiterSchema
 from marshmallow import Schema, fields
 
 
@@ -30,7 +31,7 @@ class Job(BaseModel, Base):
     )
     salary = Column(
         String(128),
-        nullable=False
+        default="Not mention"
     )
     level = Column(
         String(128),
@@ -56,4 +57,5 @@ class JobSchema(Schema):
     salary = fields.Str()
     level = fields.Str()
     location = fields.Str()
+    recruiter = fields.Nested(RecruiterSchema(only=["id", "name", "logo"]))
     created_at = fields.DateTime()

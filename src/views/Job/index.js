@@ -29,12 +29,13 @@ const Jobs = () => {
     JobService.jobs().then(
       (response) => {
         setJobs(response.data.jobs);
+        console.log(response.data.jobs[0].created_at, Date.now().toString())
       },
       (error) => {
         setLoading(false);
       }
     );
-  }, [jobs]);
+  }, []);
   
   return (
     <Container>
@@ -70,7 +71,7 @@ const Jobs = () => {
                       src={image}
                     />
                     <Card.Header content={job.title} as={Link} to={`${url}/${job.id}`}/>
-                    <Card.Meta content="Amazon"/>
+                    <Card.Meta content={job.recruiter.name}/>
                     <Card.Meta content={job.location}/>
                     <Card.Description>
                       <List>

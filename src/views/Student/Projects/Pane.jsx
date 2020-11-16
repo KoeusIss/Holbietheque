@@ -1,18 +1,34 @@
-// Project pane
-
-import React, { useEffect, useState } from "react";
-import AddProject from "./add_project";
-import EditProject from "./edit_project";
+/**
+ * Project pane
+ */
+import React, {useEffect, useState} from "react";
+import CreateEditProject from "./CreateEdit";
+import DeleteModal from "./Delete";
 import StudentService from "../../../services/student_service";
-import { Button, Header, Icon, Menu, Segment, Card } from "semantic-ui-react";
-import { toaster } from "evergreen-ui";
+import {
+  Button,
+  Header,
+  Icon,
+  Menu,
+  Segment,
+  Card
+} from "semantic-ui-react";
+import {toaster} from "evergreen-ui";
 
-const ProjectPane = ({ profileId, owner }) => {
+/**
+ * Project pane component
+ * @param {string} profileId
+ * @param owner
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const ProjectPane = ({profileId, owner}) => {
   const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
   const [count, setCount] = useState(0);
   const projectService = new StudentService("projects");
-
+  
+  // Load list of project
   useEffect(() => {
     setLoading(true);
     projectService.all(profileId).then(
@@ -29,41 +45,20 @@ const ProjectPane = ({ profileId, owner }) => {
           error.message ||
           error.toString();
         setLoading(false);
-        toaster.notify(returnError, { duration: 5 });
+        toaster.notify(returnError, {duration: 5});
       }
     );
   }, [projects]);
-
-  const handleDelete = (e) => {
-    console.log(e.target.id);
-    setLoading(true);
-    projectService.delete(e.target.id).then(
-      (response) => {
-        setLoading(false);
-        toaster.notify(response.data.message, { duration: 5 });
-      },
-      (error) => {
-        const returnError =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        setLoading(false);
-        toaster.notify(returnError, { duration: 5 });
-      }
-    );
-  };
-
+  
   return (
     <div>
       <Menu text fluid>
         {owner() && (
           <Menu.Item position="right">
-            <AddProject
+            <CreateEditProject
               theTrigger={
                 <Button icon basic loading={loading}>
-                  <Icon name="plus" />
+                  <Icon name="plus"/>
                 </Button>
               }
               student_id={profileId}
@@ -74,11 +69,11 @@ const ProjectPane = ({ profileId, owner }) => {
       {count === 0 ? (
         <Segment placeholder>
           <Header icon>
-            <Icon name="briefcase" />
+            <Icon name="briefcase"/>
             No experience are listed.
           </Header>
           {owner() && (
-            <AddProject
+            <CreateEditProject
               theTrigger={<Button primary>Add new project</Button>}
               student_id={profileId}
             />
@@ -97,14 +92,13 @@ const ProjectPane = ({ profileId, owner }) => {
                   <Card.Description>{project.description}</Card.Description>
                   {owner() && (
                     <Button.Group basic size="small" floated="right">
-                      <EditProject
-                        theTrigger={<Button icon="pencil" />}
-                        data={project}
+                      <CreateEditProject
+                        theTrigger={<Button icon="pencil"/>}
+                        project={project}
                       />
-                      <Button
-                        icon="trash"
-                        onClick={handleDelete}
-                        id={project.id}
+                      <DeleteModal
+                        theTrigger={<Button icon="trash"/>}
+                        project={project}
                       />
                     </Button.Group>
                   )}

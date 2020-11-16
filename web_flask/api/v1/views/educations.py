@@ -99,3 +99,24 @@ def update_education(education_id):
         "message": "updated successfully",
         "education": education
     }, 200
+
+
+@app_views.route(
+    '/educations/<education_id>',
+    methods=['DELETE'],
+    strict_slashes=False
+)
+def delete_education(education_id):
+    """ DELETE /api/v1/educations/:education_id """
+    the_education = storage.get(Education, education_id)
+    if not the_education:
+        return {
+           "success": False,
+           "message": "Education not found"
+        }, 400
+    storage.delete(the_education)
+    storage.save()
+    return {
+        "success": True,
+        "message": "Education deleted successfully",
+    }, 200

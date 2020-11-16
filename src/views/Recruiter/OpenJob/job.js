@@ -1,12 +1,31 @@
+/**
+ * Create job component
+ */
 import React, {useEffect, useState} from 'react'
-import {Button, Divider, Grid, Header, Icon, Image, Label, List, Menu, Segment} from "semantic-ui-react";
 import {useParams} from "react-router";
 import JobService from "../../../services/job_service";
 import AddEditJob from "./add_edit_job";
 import MDEditor from "@uiw/react-md-editor";
+import DeleteModal from "./delete";
+import {
+  Button,
+  Divider,
+  Grid,
+  Header,
+  Icon,
+  Image,
+  List,
+  Menu,
+  Segment
+} from "semantic-ui-react";
+import image from "../../../images/image.png"
 
-const company_img = "https://i.stack.imgur.com/NC3AA.png"
-
+/**
+ *
+ * @param recruiter
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const Job = ({recruiter}) => {
   let {jobId} = useParams();
   const [job, setJob] = useState({})
@@ -34,7 +53,7 @@ const Job = ({recruiter}) => {
       <Grid>
         <Grid.Row>
           <Grid.Column width={3}>
-            <Image src={company_img}/>
+            <Image src={image}/>
           </Grid.Column>
           <Grid.Column width={10}>
             <Header as='h2' style={{marginTop: "8px"}}>
@@ -68,11 +87,14 @@ const Job = ({recruiter}) => {
             <Menu text style={{marginTop: "0", marginBottom: "0"}}>
               <Menu.Menu position="right">
                 <AddEditJob
-                recruiter={recruiter}
-                theTrigger={<Button basic icon><Icon name="pencil"/></Button>}
-                job={job}
-              />
-                <Button basic icon><Icon name="trash"/></Button>
+                  recruiter={recruiter}
+                  theTrigger={<Button basic icon><Icon name="pencil"/></Button>}
+                  job={job}
+                />
+                <DeleteModal
+                  job={job}
+                  theTrigger={<Button basic icon><Icon name="trash"/></Button>}
+                />
               </Menu.Menu>
             </Menu>
           </Grid.Column>

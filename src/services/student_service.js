@@ -33,8 +33,8 @@ class StudentService {
     return axios.delete(api, { headers: authHeader() });
   }
 
-  update(data) {
-    const api = [API_URL, this.name, data.id].join("/");
+  update(data, id) {
+    const api = [API_URL, this.name, id].join("/");
     return axios.put(api, data, { headers: authHeader() });
   }
 }

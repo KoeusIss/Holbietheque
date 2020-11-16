@@ -1,17 +1,14 @@
 /**
  * Add or edit job modal
  */
-import React, {useEffect, useState} from "react";
-import Recruiter from "../index";
+import React, {useState} from "react";
 import JobService from '../../../services/job_service'
-import * as yup from "yup";
-import {Formik, Field} from "formik";
+import {Formik} from "formik";
 import {toaster} from "evergreen-ui";
 import {
   Button,
-  Form,
   Header,
-  Icon, Input,
+  Icon,
   Modal,
 } from "semantic-ui-react";
 import JobFrm from "./jobFrm";
@@ -19,26 +16,9 @@ import JobFrm from "./jobFrm";
 const AddEditJob = ({theTrigger, recruiter, job = null}) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState({})
+  const [data] = useState({})
   const createMode = !job
   const [value, setValue] = React.useState("");
-  
-  // /**
-  //  * Recruiter initial value instance
-  //  * @type Recruiter
-  //  */
-  // useEffect(() => {
-  //   Object.assign(data, {
-  //     title: (job && job.title) || '',
-  //     description: (job && job.description) || '',
-  //     summary: (job && job.summary) || '',
-  //     salary: (job && job.salary) || '',
-  //     location: (job && job.location) || '',
-  //     level: (job && job.level) || '',
-  //     type: (job && job.type) || '',
-  //     created_at: (job && job.created_at) || '',
-  //   })
-  // }, [])
   
   /**
    * create new job

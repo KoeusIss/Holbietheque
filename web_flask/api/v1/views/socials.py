@@ -12,6 +12,26 @@ social_schema = SocialSchema()
 
 @app_views.route(
     '/<student_id>/socials',
+    methods=['GET'],
+    strict_slashes=False
+)
+def get_socials(student_id):
+    """ GET /api/v1/:student_id/socials """
+    the_student = storage.get(Student, student_id)
+    if not the_student:
+        return {
+            "success": False,
+            "message": "Student not found"
+        }
+    socials = social_schema.dump(the_student.social)
+    return {
+        "success": True,
+        "socials": socials
+    }, 200
+
+
+@app_views.route(
+    '/<student_id>/socials',
     methods=['POST'],
     strict_slashes=False
 )
@@ -48,7 +68,7 @@ def create_social(student_id):
 
 
 @app_views.route(
-    '/social/<social_id>',
+    '/socials/<social_id>',
     methods=['PUT'],
     strict_slashes=False
 )

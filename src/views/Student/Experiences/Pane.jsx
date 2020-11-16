@@ -1,18 +1,34 @@
-// Experience pane
-
-import React, { useEffect, useState } from "react";
-import AddExperience from "./add_experience";
-import EditExperience from "./edit_experience";
+/**
+ * Experience pane
+ */
+import React, {useEffect, useState} from "react";
+import CreateEditExperience from "./CreateEdit";
+import DeleteModal from "./Delete";
 import StudentService from "../../../services/student_service";
-import { Button, Header, Icon, Menu, Segment, Card } from "semantic-ui-react";
-import { toaster } from "evergreen-ui";
+import {
+  Button,
+  Header,
+  Icon,
+  Menu,
+  Segment,
+  Card
+} from "semantic-ui-react";
+import {toaster} from "evergreen-ui";
 
-const ExperiencePane = ({ profileId, owner }) => {
+/**
+ * Experience pane component
+ * @param {string} profileId
+ * @param owner
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const ExperiencePane = ({profileId, owner}) => {
   const [loading, setLoading] = useState(false);
   const [experiences, setExperiences] = useState([]);
   const [count, setCount] = useState(0);
   const experienceService = new StudentService("experiences");
-
+  
+  // Load list of experience
   useEffect(() => {
     setLoading(true);
     experienceService.all(profileId).then(
@@ -29,42 +45,21 @@ const ExperiencePane = ({ profileId, owner }) => {
           error.message ||
           error.toString();
         setLoading(false);
-        toaster.notify(returnError, { duration: 5 });
+        toaster.notify(returnError, {duration: 5});
       }
     );
   }, [experiences]);
-
-  const handleDelete = (e) => {
-    console.log(e.target.id);
-    setLoading(true);
-    experienceService.delete(e.target.id).then(
-      (response) => {
-        setLoading(false);
-        toaster.notify(response.data.message, { duration: 5 });
-      },
-      (error) => {
-        const returnError =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        setLoading(false);
-        toaster.notify(returnError, { duration: 5 });
-      }
-    );
-  };
-
+  
   return (
     <div>
       <Menu text fluid>
         {owner() && (
           <Menu.Item position="right">
             {/* Experience create form modal trigger */}
-            <AddExperience
+            <CreateEditExperience
               theTrigger={
                 <Button icon basic loading={loading}>
-                  <Icon name="plus" />
+                  <Icon name="plus"/>
                 </Button>
               }
               student_id={profileId}
@@ -72,16 +67,16 @@ const ExperiencePane = ({ profileId, owner }) => {
           </Menu.Item>
         )}
       </Menu>
-      {/* Placeholder if there's no expereinces */}
+      {/* Placeholder if there's no experiences */}
       {count === 0 ? (
         <Segment placeholder>
           <Header icon>
-            <Icon name="briefcase" />
+            <Icon name="briefcase"/>
             No experiences are listed.
           </Header>
           {/* Experience create form modal trigger */}
           {owner() && (
-            <AddExperience
+            <CreateEditExperience
               theTrigger={
                 <Button primary loading={loading}>
                   Add new experience
@@ -95,9 +90,12 @@ const ExperiencePane = ({ profileId, owner }) => {
         <div>
           {experiences.map((exp) => {
             return (
-              <Card fluid key={exp.title}>
+              <Card fluid key={exp.id}>
                 <Card.Content>
-                  <Card.Header>{exp.company}</Card.Header>
+                  <Card.Header>{exp.title}</Card.Header>
+                  <Card.Meta>
+                    {exp.company}
+                  </Card.Meta>
                   <Card.Meta>
                     From {exp.start_at} to {exp.end_at}
                   </Card.Meta>
@@ -105,11 +103,15 @@ const ExperiencePane = ({ profileId, owner }) => {
                   {owner() && (
                     <Button.Group basic size="small" floated="right">
                       {/* Experience edit form trigger */}
-                      <EditExperience
-                        theTrigger={<Button icon="pencil" />}
-                        data={exp}
+                      <CreateEditExperience
+                        theTrigger={<Button icon="pencil"/>}
+                        experience={exp}
+                        student_id={profileId}
                       />
-                      <Button icon="trash" onClick={handleDelete} id={exp.id} />
+                      <DeleteModal
+                        theTrigger={<Button icon="trash"/>}
+                        experience={exp}
+                      />
                     </Button.Group>
                   )}
                 </Card.Content>

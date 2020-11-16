@@ -2,21 +2,27 @@
  * Create job form
  */
 import React, {useEffect} from "react";
-import {Field} from "formik";
 import {jobLevels, jobTypes} from "../../../components/Options";
 import MDEditor from '@uiw/react-md-editor';
-import {
-  Form,
-  Input,
-  Select
-} from "semantic-ui-react";
+import {Form} from "semantic-ui-react";
 
-const JobFrm = ({touched, errors, job, createMode, value, setValue, data, handleChange, values, setFieldValue}) => {
+const JobFrm = ({
+                  touched,
+                  errors,
+                  handleBlur,
+                  job,
+                  createMode,
+                  value,
+                  setValue,
+                  data,
+                  handleChange,
+                  values
+                }) => {
+  // Load available data for the job
   useEffect(() => {
     Object.assign(data, {
       title: (job && job.title) || '',
       description: (job && job.description) || '',
-      summary: (job && job.summary) || '',
       salary: (job && job.salary) || '',
       location: (job && job.location) || '',
       level: (job && job.level) || '',
@@ -25,29 +31,33 @@ const JobFrm = ({touched, errors, job, createMode, value, setValue, data, handle
     })
     !createMode && setValue(job.description)
   }, [])
+  
   return (
     <>
       <Form>
         <Form.Group widths={"equal"}>
           <Form.Field>
-            <label>Job title</label>
-            <Field
-              as={Input}
+            <Form.Input
               name="title"
-              placeholder='Job title'
+              required
+              label="Job title"
+              value={values.title}
+              placeholder="Job title"
+              onChange={handleChange}
+              onBlur={handleBlur}
               error={touched.title && errors.title}
             />
           </Form.Field>
-          <Form.Field>
-            <label>Location</label>
-            <Field
-              as={Select}
-              search
-              options={[{key: 1, text: "Tunisia", value: "Tunisia"}]}
-              name="location"
-              placeholder="Location"
-            />
-          </Form.Field>
+          <Form.Input
+            name="location"
+            required
+            label="Location"
+            value={values.location}
+            placeholder="Job location"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.location && errors.location}
+          />
         </Form.Group>
         <Form.Group widths={"equal"}>
           <Form.Select
@@ -60,7 +70,10 @@ const JobFrm = ({touched, errors, job, createMode, value, setValue, data, handle
             search
             searchInput={{id: "form-select-control-job-type"}}
             options={jobTypes}
-            onChange={handleChange}
+            onChange={(e, {value}) => {
+              values.type = value
+            }}
+            value={values.type}
           />
           <Form.Select
             name="level"
@@ -77,15 +90,16 @@ const JobFrm = ({touched, errors, job, createMode, value, setValue, data, handle
             }}
             value={values.level}
           />
-          <Form.Field>
-            <label>Job salary</label>
-            <Field
-              as={Input}
-              name="salary"
-              placeholder='Job salary'
-              error={touched.salary && errors.salary}
-            />
-          </Form.Field>
+          <Form.Input
+            name="salary"
+            required
+            label="Annual salary"
+            value={values.salary}
+            placeholder="Proposed annual salary"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.salary && errors.salary}
+          />
         </Form.Group>
       </Form>
       <MDEditor

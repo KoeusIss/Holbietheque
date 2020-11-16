@@ -31,6 +31,11 @@ class JobService {
     const api = [API_URL, "jobs", job_id].join("/");
     return axios.put(api, data, { headers: authHeader() });
   }
+  
+  delete(job_id) {
+    const api = [API_URL, "jobs", job_id].join("/");
+    return axios.delete(api, { headers: authHeader() });
+  }
 }
 
 export default new JobService();

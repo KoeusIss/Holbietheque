@@ -1,7 +1,7 @@
 /**
  * upload logo
  */
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Formik} from "formik";
 import RecruiterService from "../../services/recruiter_service";
 import {toaster} from "evergreen-ui";
@@ -26,6 +26,11 @@ const UploadLogo = ({recruiter}) => {
   const [open, setOpen] = React.useState(false)
   const [loading, setLoading] = useState(false)
   const [theImage, setImage] = useState(null)
+  const [logo, setLogo] = useState("../../images/image.png")
+  
+  useEffect(() => {
+    setLogo(recruiter.logo)
+  }, [recruiter])
   
   /**
    * Onsubmit form function
@@ -52,7 +57,7 @@ const UploadLogo = ({recruiter}) => {
         setLoading(false)
         toaster.danger(message, {duration: 5});
       }
-    );
+    )
   }
   
   return (
@@ -68,7 +73,7 @@ const UploadLogo = ({recruiter}) => {
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
             open={open}
-            trigger={<Image src={recruiter.logo && image}/>}
+            trigger={<img src={image}/>}
           >
             <Modal.Header>Upload image</Modal.Header>
             <Modal.Content>

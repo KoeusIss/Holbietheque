@@ -119,7 +119,7 @@ def update_certificate(certificate_id):
 
 
 @app_views.route(
-    '/projects/<certificate_id>',
+    '/certificates/<certificate_id>',
     methods=['DELETE'],
     strict_slashes=False
 )

@@ -47,8 +47,8 @@ class Student(BaseModel, Base):
         String(16),
         nullable=False
     )
-    date_of_birth = Column(
-        DateTime()
+    phone_number = Column(
+        String(16)
     )
     gender = Column(
         String(128)
@@ -124,11 +124,11 @@ class StudentSchema(Schema):
     first_name = fields.Str()
     last_name = fields.Str()
     full_name = fields.Method('format_name', dump_only=True)
-    born_at = fields.DateTime()
+    phone_number = fields.Str()
     middle_name = fields.Str()
-    id_number = fields.Str()
+    cin_number = fields.Str()
     passport_number = fields.Str()
-    marital_status = fields.Str()
+    gender = fields.Str()
     school_id = fields.Str()
     about_me = fields.Str()
     languages = fields.Nested(LanguageSchema(many=True, only=["name", "level"]))

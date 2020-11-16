@@ -59,6 +59,6 @@ class ProjectSchema(Schema):
     end_at = fields.Str()
     status = fields.Str()
     url = fields.Str()
-    github_url = fields.Str()
+    github_link = fields.Str()
     description = fields.Str()
     student_id = fields.Str()

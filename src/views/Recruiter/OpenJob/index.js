@@ -1,16 +1,36 @@
+/**
+ * Jobs recruiter pane
+ */
 import React, {useEffect, useState} from "react";
-import {Segment, Header, Grid, Menu, Image, List, Button, Icon, Divider, Label} from "semantic-ui-react";
 import JobService from "../../../services/job_service";
 import Job from "./job";
 import {Link, Route, useRouteMatch, Switch} from "react-router-dom";
 import AddEditJob from "./add_edit_job";
 import image from "../../../images/image.png"
+import {
+  Segment,
+  Header,
+  Grid,
+  Menu,
+  Image,
+  List,
+  Button,
+  Icon
+} from "semantic-ui-react";
 
+/**
+ * jobs pane
+ * @param {string} userID
+ * @param {object} recruiter
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const JobsPane = ({userID, recruiter}) => {
   const [loading, setLoading] = useState(false)
   const [jobs, setJobs] = useState([])
   const owner = userID === recruiter.id
   
+  // Loads the list of jobs for the current recruiter
   useEffect(() => {
     setLoading(true);
     JobService.getJobsByRecruiter(recruiter.id).then(
@@ -23,6 +43,7 @@ const JobsPane = ({userID, recruiter}) => {
     );
   }, [jobs]);
   
+  // get the actual path and the matched url
   let {path, url} = useRouteMatch();
   
   return (
@@ -31,6 +52,7 @@ const JobsPane = ({userID, recruiter}) => {
         <Grid.Row>
           <Menu text fluid style={{marginTop: "0"}}>
             <Menu.Item position="left">
+              {/* Create new job trigger */}
               {owner &&
               <AddEditJob
                 recruiter={recruiter}
@@ -40,8 +62,7 @@ const JobsPane = ({userID, recruiter}) => {
                     Add new job
                   </Button>
                 }
-              />
-              }
+              />}
             </Menu.Item>
           </Menu>
           <Grid.Column width={6}>

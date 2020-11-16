@@ -1,23 +1,18 @@
+/**
+ * Profile pane
+ */
 import {
-  Button,
-  Header,
-  Icon,
   Menu,
-  Divider,
-  Segment,
   Dropdown,
   Card,
 } from "semantic-ui-react";
-import Add_profile from "./add_profile";
-import React, { useEffect } from "react";
-import AddSocialLinks from "./add_social_links";
-import EditExperience from "../Experiences/edit_experience";
+import React from "react";
+import CreateEditSocialLinks from "./CreateEditSocialLinks";
 import AddAddress from "./add_address_modal";
-import AddAboutMe from "./add_about_me";
 import AddLanguage from "./add_language";
 import AddSkill from "./add_skill";
 
-const ProfilePane = ({ student, languages, skills, socialLink, owner }) => {
+const ProfilePane = ({student, languages, skills, socialLinks, owner}) => {
   return (
     <div
       style={{
@@ -42,19 +37,20 @@ const ProfilePane = ({ student, languages, skills, socialLink, owner }) => {
             >
               <Dropdown.Menu>
                 <AddAddress
-                  theTrigger={<Dropdown.Item text="Location" />}
+                  theTrigger={<Dropdown.Item text="Location"/>}
                   student_id={student.id}
                 />
-                <AddSocialLinks
-                  theTrigger={<Dropdown.Item text="Social links" />}
+                <CreateEditSocialLinks
+                  theTrigger={<Dropdown.Item text="Social links"/>}
                   student_id={student.id}
+                  socials={socialLinks}
                 />
                 <AddLanguage
-                  theTrigger={<Dropdown.Item text="Languages" />}
+                  theTrigger={<Dropdown.Item text="Languages"/>}
                   student_id={student.id}
                 />
                 <AddSkill
-                  theTrigger={<Dropdown.Item text="Skills" />}
+                  theTrigger={<Dropdown.Item text="Skills"/>}
                   student_id={student.id}
                 />
               </Dropdown.Menu>

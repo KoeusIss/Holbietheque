@@ -57,6 +57,7 @@ const jobTypes = [
   {key: "4", text: "Contract", value: "Contract"},
   {key: "5", text: "Volunteer", value: "Volunteer"},
   {key: "6", text: "Apprenticeship", value: "Apprenticeship"},
+  {key: "6", text: "Freelance", value: "Apprenticeship"},
 ];
 
 const technologies = [

@@ -63,6 +63,9 @@ const JobItem = () => {
               </List.Item>
             </List>
           </Grid.Column>
+          <Grid.Column>
+            <Button basic >Apply</Button>
+          </Grid.Column>
         </Grid.Row>
         <Divider/>
         <Grid.Row>

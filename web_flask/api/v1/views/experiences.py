@@ -21,15 +21,15 @@ def get_user_experience(student_id):
     the_student = storage.get(Student, student_id)
     if not the_student:
         return {
-            "success": False,
-            "message": "Index not found"
-        }, 400
+                   "success": False,
+                   "message": "Index not found"
+               }, 400
     experiences = experiences_schema.dump(the_student.experiences)
     return {
-        "success": True,
-        "count": len(the_student.experiences),
-        "experiences": experiences
-    }, 201
+               "success": True,
+               "count": len(the_student.experiences),
+               "experiences": experiences
+           }, 201
 
 
 @app_views.route(
@@ -42,14 +42,14 @@ def get_experience(experience_id):
     the_experience = storage.get(Experience, experience_id)
     if not the_experience:
         return {
-            "success": False,
-            "message": "Experience not found"
-        }, 400
+                   "success": False,
+                   "message": "Experience not found"
+               }, 400
     experiences = experience_schema.dump(the_experience)
     return {
-        "success": True,
-        "experiences": experiences
-    }, 201
+               "success": True,
+               "experiences": experiences
+           }, 201
 
 
 @app_views.route(
@@ -62,29 +62,29 @@ def create_experience(student_id):
     the_student = storage.get(Student, student_id)
     if not request.get_json():
         return {
-            "success": False,
-            "message": "Not a json request"
-        }, 400
+                   "success": False,
+                   "message": "Not a json request"
+               }, 400
     if not the_student:
         return {
-            "success": False,
-            "message": "Index not found"
-        }, 400
+                   "success": False,
+                   "message": "Index not found"
+               }, 400
     data = request.get_json()
     the_experience = Experience(**data)
     try:
         the_experience.student_id = the_student.id
         the_experience.save()
         return {
-            "success": True,
-            "message": "Experience created successfully"
-        }, 201
+                   "success": True,
+                   "message": "Experience created successfully"
+               }, 201
     except (IntegrityError, OperationalError) as error:
         the_experience.rollback()
         return {
-           "failed": True,
-           "message": "Something goes wrong with provided data"
-        }, 400
+                   "failed": True,
+                   "message": error.orig.args[1]
+               }, 400
 
 
 @app_views.route(
@@ -97,14 +97,14 @@ def update_experience(experience_id):
     the_experience = storage.get(Experience, experience_id)
     if not request.get_json():
         return {
-            "success": False,
-            "message": "Not a json request"
-        }, 400
+                   "success": False,
+                   "message": "Not a json request"
+               }, 400
     if not the_experience:
         return {
-           "success": False,
-           "message": "Experience not found"
-        }, 400
+                   "success": False,
+                   "message": "Experience not found"
+               }, 400
 
     ignore = ['id', 'created_at', 'updated_at', 'student_id']
     data = request.get_json()
@@ -113,9 +113,9 @@ def update_experience(experience_id):
             setattr(the_experience, key, value)
     storage.save()
     return {
-        "success": True,
-        "message": "Experience updated successfully"
-    }, 200
+               "success": True,
+               "message": "Experience updated successfully"
+           }, 200
 
 
 @app_views.route(
@@ -128,12 +128,12 @@ def delete_experience(experience_id):
     the_experience = storage.get(Experience, experience_id)
     if not the_experience:
         return {
-           "success": False,
-           "message": "Experience not found"
-        }, 400
+                   "success": False,
+                   "message": "Experience not found"
+               }, 400
     storage.delete(the_experience)
     storage.save()
     return {
-        "success": True,
-        "message": "Experience deleted successfully"
-    }, 200
+               "success": True,
+               "message": "Experience deleted successfully"
+           }, 200

@@ -1,18 +1,34 @@
-// Certificate pane
-
-import React, { useEffect, useState } from "react";
-import AddCertificate from "./add_certificate";
-import EditCertificate from "./edit_certificate";
+/**
+ * Certiifcate pane
+ */
+import React, {useEffect, useState} from "react";
+import CreateEditCertificate from "./CreateEdit";
+import DeleteModal from "./Delete";
 import StudentService from "../../../services/student_service";
-import { Button, Header, Icon, Menu, Segment, Card } from "semantic-ui-react";
-import { toaster } from "evergreen-ui";
+import {
+  Button,
+  Header,
+  Icon,
+  Menu,
+  Segment,
+  Card
+} from "semantic-ui-react";
+import {toaster} from "evergreen-ui";
 
-const CertificatePane = ({ profileId, owner }) => {
+/**
+ * Certificate pane component
+ * @param {string} profileId
+ * @param owner
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const CertificatePane = ({profileId, owner}) => {
   const [loading, setLoading] = useState(false);
   const [certificates, setCertificates] = useState([]);
   const [count, setCount] = useState(0);
   const certificateService = new StudentService("certificates");
-
+  
+  // load the list of certificate
   useEffect(() => {
     setLoading(true);
     certificateService.all(profileId).then(
@@ -29,43 +45,21 @@ const CertificatePane = ({ profileId, owner }) => {
           error.message ||
           error.toString();
         setLoading(false);
-        toaster.notify(returnError, { duration: 5 });
+        toaster.notify(returnError, {duration: 5});
       }
     );
   }, [certificates]);
-
   
-  const handleDelete = (e) => {
-    console.log(e.target.id);
-    setLoading(true);
-    certificateService.delete(e.target.id).then(
-      (response) => {
-        setLoading(false);
-        toaster.notify(response.data.message, { duration: 5 });
-      },
-      (error) => {
-        const returnError =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        setLoading(false);
-        toaster.notify(returnError, { duration: 5 });
-      }
-    );
-  };
-
   return (
     <div>
       <Menu text fluid>
         {owner() && (
           <Menu.Item position="right">
             {/* Certificate create form modal trigger */}
-            <AddCertificate
+            <CreateEditCertificate
               theTrigger={
                 <Button icon basic loading={loading}>
-                  <Icon name="plus" />
+                  <Icon name="plus"/>
                 </Button>
               }
               student_id={profileId}
@@ -77,12 +71,12 @@ const CertificatePane = ({ profileId, owner }) => {
       {count === 0 ? (
         <Segment placeholder>
           <Header icon>
-            <Icon name="certificate" />
+            <Icon name="certificate"/>
             No certificates are listed.
           </Header>
           {/* Certificate create form modal trigger */}
           {owner() && (
-            <AddCertificate
+            <CreateEditCertificate
               theTrigger={
                 <Button primary loading={loading}>
                   Add new Certificate
@@ -96,7 +90,7 @@ const CertificatePane = ({ profileId, owner }) => {
         <div>
           {certificates.map((cert) => {
             return (
-              <Card fluid>
+              <Card fluid key={cert.id}>
                 <Card.Content>
                   <Card.Header>{cert.name}</Card.Header>
                   <Card.Meta>{cert.authority}</Card.Meta>
@@ -104,14 +98,14 @@ const CertificatePane = ({ profileId, owner }) => {
                   {owner() && (
                     <Button.Group basic size="small" floated="right">
                       {/* Certificate edit form modal trigger */}
-                      <EditCertificate
-                        theTrigger={<Button icon="pencil" />}
-                        data={cert}
+                      <CreateEditCertificate
+                        theTrigger={<Button icon="pencil"/>}
+                        certificate={cert}
                       />
-                      <Button
-                        icon="trash"
-                        onClick={handleDelete}
-                        id={cert.id}
+                      {/* Certificate delete modal */}
+                      <DeleteModal
+                        theTrigger={<Button icon="trash"/>}
+                        certificate={cert}
                       />
                     </Button.Group>
                   )}

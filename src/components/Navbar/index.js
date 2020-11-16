@@ -70,10 +70,10 @@ const Navbar = () => {
             <Menu.Item active as={NavLink} to={"/"} style={{color: "#fff"}}>
               Home
             </Menu.Item>
-            <Menu.Item as={NavLink} to={"/about"} style={{color: "#fff"}}>About</Menu.Item>
-            <Menu.Item as={NavLink} to={"/contact"} style={{color: "#fff"}}>Contact</Menu.Item>
             <Menu.Item as={NavLink} to={"/jobs"} style={{color: "#fff"}}>Jobs</Menu.Item>
             <Menu.Item as={NavLink} to={"/students"} style={{color: "#fff"}}>Students</Menu.Item>
+            <Menu.Item as={NavLink} to={"/about"} style={{color: "#fff"}}>About</Menu.Item>
+            <Menu.Item as={NavLink} to={"/contact"} style={{color: "#fff"}}>Contact</Menu.Item>
             <Menu.Menu position="right">
               {currentUser ?
                 <>
@@ -120,17 +120,6 @@ const Navbar = () => {
             </Menu.Item>
             <Menu.Item
               as={NavLink}
-              to={"/about"} style={{color: "#fff"}} onClick={handleToggleDropdownMenu}>About</Menu.Item>
-            <Menu.Item
-              as={NavLink}
-              to={"/contact"}
-              style={{color: "#fff"}}
-              onClick={handleToggleDropdownMenu}
-            >
-              Contact
-            </Menu.Item>
-            <Menu.Item
-              as={NavLink}
               to={"/jobs"}
               style={{color: "#fff"}}
               onClick={handleToggleDropdownMenu}
@@ -144,6 +133,17 @@ const Navbar = () => {
               onClick={handleToggleDropdownMenu}
             >
               Students
+            </Menu.Item>
+            <Menu.Item
+              as={NavLink}
+              to={"/about"} style={{color: "#fff"}} onClick={handleToggleDropdownMenu}>About</Menu.Item>
+            <Menu.Item
+              as={NavLink}
+              to={"/contact"}
+              style={{color: "#fff"}}
+              onClick={handleToggleDropdownMenu}
+            >
+              Contact
             </Menu.Item>
             {currentUser ?
               <>

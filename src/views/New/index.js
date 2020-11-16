@@ -3,6 +3,7 @@ import {Segment, Image, Button} from "semantic-ui-react"
 import UserService from "../../services/user_service"
 import AddNewStudent from "./add_student";
 import AddNewRecruiter from "./add_recruiter";
+import AddEditProfile from "../Student/Profile/add_profile";
 
 
 const NewProfile = () => {
@@ -16,9 +17,9 @@ const NewProfile = () => {
         style={{margin: "auto"}}
       />
       {currentUser.role === "student" ?
-        <AddNewStudent
+        <AddEditProfile
           theTrigger={<Button basic>Add profile</Button>}
-          user_id={currentUser.id}
+          userID={currentUser.id}
         />
         :
         <AddNewRecruiter

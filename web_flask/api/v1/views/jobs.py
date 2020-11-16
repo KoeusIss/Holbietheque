@@ -98,3 +98,54 @@ def get_jobs(recruiter_id):
         "recruiter": the_recruiter.id,
         "jobs": jobs
     }, 200
+
+
+@app_views.route(
+    '/jobs/<job_id>',
+    methods=['DELETE'],
+    strict_slashes=False
+)
+def delete_job(job_id):
+    """ DELETE /api/v1/jobs/job_id """
+    the_job = storage.get(Job, job_id)
+    if not the_job:
+        return {
+            "success": False,
+            "message": "Job not found"
+        }, 400
+    storage.delete(the_job)
+    storage.save()
+    return {
+        "success": True,
+        "message": "Job deleted successfully"
+    }, 200
+
+
+@app_views.route(
+    '/jobs/<job_id>',
+    methods=['PUT'],
+    strict_slashes=False
+)
+def update_job(job_id):
+    """ PUT /api/v1/jobs/:job_id """
+    the_job = storage.get(Job, job_id)
+    if not the_job:
+        return {
+           "success": False,
+           "message": "Job not found"
+        }, 400
+    if not request.get_json():
+        return {
+            "success": False,
+            "message": "Not a json request"
+        }, 400
+    ignore = ['id', 'created_at', 'updated_at', 'recruiter_id']
+    data = request.get_json()
+    for key, value in data.items():
+        if key not in ignore:
+            setattr(the_job, key, value)
+    storage.save()
+    return {
+        "success": True,
+        "message": "Job updated successfully",
+    }, 200

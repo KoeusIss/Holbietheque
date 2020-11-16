@@ -1,18 +1,34 @@
-// Education pane
-
-import React, { useEffect, useState } from "react";
-import AddEducation from "./add_education";
-import EditEducation from "./edit_education";
+/**
+ * Education pane
+ */
+import React, {useEffect, useState} from "react";
 import StudentService from "../../../services/student_service";
-import { Button, Header, Icon, Menu, Segment, Card } from "semantic-ui-react";
-import { toaster } from "evergreen-ui";
+import CreateEditEducation from "./CreateEdit";
+import DeleteModal from "./Delete";
+import {
+  Button,
+  Header,
+  Icon,
+  Menu,
+  Segment,
+  Card
+} from "semantic-ui-react";
+import {toaster} from "evergreen-ui";
 
-const EducationPane = ({ profileId, owner }) => {
+/**
+ * EducationPane
+ * @param {string} profileId
+ * @param owner
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const EducationPane = ({profileId, owner}) => {
   const [loading, setLoading] = useState(false);
   const [education, setEducation] = useState([]);
   const [count, setCount] = useState(0);
   const educationService = new StudentService("educations");
-
+  
+  // Load education list
   useEffect(() => {
     setLoading(true);
     educationService.all(profileId).then(
@@ -29,41 +45,22 @@ const EducationPane = ({ profileId, owner }) => {
           error.message ||
           error.toString();
         setLoading(false);
-        toaster.notify(returnError, { duration: 5 });
+        toaster.danger(returnError, {duration: 5});
       }
     );
   }, [education]);
-
-  const handleDelete = (e) => {
-    setLoading(true);
-    educationService.delete(e.target.id).then(
-      (response) => {
-        setLoading(false);
-        toaster.notify(response.data.message, { duration: 5 });
-      },
-      (error) => {
-        const returnError =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        setLoading(false);
-        toaster.notify(returnError, { duration: 5 });
-      }
-    );
-  };
-
+  
+  // Renderer
   return (
     <div>
       <Menu text fluid>
         {owner() && (
           <Menu.Item position="right">
             {/* Education create form modal trigger */}
-            <AddEducation
+            <CreateEditEducation
               theTrigger={
                 <Button icon basic>
-                  <Icon name="plus" />
+                  <Icon name="plus"/>
                 </Button>
               }
               student_id={profileId}
@@ -75,12 +72,12 @@ const EducationPane = ({ profileId, owner }) => {
       {count === 0 ? (
         <Segment placeholder>
           <Header icon>
-            <Icon name="book" />
+            <Icon name="book"/>
             No education are listed.
           </Header>
           {/* Education create form modal trigger */}
           {owner() && (
-            <AddEducation
+            <CreateEditEducation
               theTrigger={
                 <Button primary loading={loading}>
                   Add new education
@@ -106,8 +103,15 @@ const EducationPane = ({ profileId, owner }) => {
                   <Card.Description>{edu.description}</Card.Description>
                   {owner() && (
                     <Button.Group basic size="small" floated="right">
-                      <Button icon="pencil" />
-                      <Button icon="trash" />
+                      <CreateEditEducation
+                        theTrigger={<Button icon="pencil"/>}
+                        student_id={profileId}
+                        education={edu}
+                      />
+                      <DeleteModal
+                        theTrigger={<Button icon="trash"/>}
+                        education={edu}
+                      />
                     </Button.Group>
                   )}
                 </Card.Content>

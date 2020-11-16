@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProfilePane from "./Profile/profile_pane";
-import EducationPane from "./Education/education_pane";
-import ExperiencePane from "./Experiences/experience_pane";
-import ProjectPane from "./Projects/project_pane";
-import CertificatePane from "./Certificates/certificate_pane";
+import EducationPane from "./Education/Pane";
+import ExperiencePane from "./Experiences/Pane";
+import ProjectPane from "./Projects/Pane";
+import CertificatePane from "./Certificates/Pane";
 import UserService from "../../services/user_service";
 import AStudent from "../../models/student";
 // GUI
@@ -21,8 +21,7 @@ import {
   Tab,
 } from "semantic-ui-react";
 import "./student.css";
-import { toaster } from "evergreen-ui";
-import AddProfile from "./Profile/add_profile";
+import AddEditProfile from "./Profile/add_profile";
 
 const Student = () => {
   const [loading, setLoading] = useState(false);
@@ -168,9 +167,10 @@ const Student = () => {
 
                 {owner() && (
                   <Card.Content extra>
-                    <AddProfile
+                    <AddEditProfile
                       theTrigger={<Button basic>Edit profile</Button>}
-                      user_id={id}
+                      student={student}
+                      userID={student.user.id}
                     />
                   </Card.Content>
                 )}
@@ -185,7 +185,7 @@ const Student = () => {
                     render: () => (
                       <ProfilePane
                         student={student}
-                        socialLink={socialLinks}
+                        socialLinks={socialLinks}
                         languages={language}
                         skills={skill}
                         owner={owner}

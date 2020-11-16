@@ -7,18 +7,12 @@ import {
   Modal,
   Form,
   Input,
-  TextArea,
-  Select,
 } from "semantic-ui-react";
 import StudentService from "../../../services/student_service";
 import { toaster } from "evergreen-ui";
 import { Formik } from "formik";
-import Certificate from "../../../models/certificate";
-import * as yup from "yup";
 
 const AddSkill = ({ theTrigger, student_id }) => {
-  const [skill, setSkill] = useState(new Skill());
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false);
   const skillService = new StudentService("skills");
@@ -50,11 +44,7 @@ const AddSkill = ({ theTrigger, student_id }) => {
           );
         }}
         render={({
-          values,
-          errors,
-          touched,
           handleChange,
-          handleBlur,
           handleSubmit,
         }) => {
           return (

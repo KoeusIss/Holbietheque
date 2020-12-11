@@ -73,7 +73,7 @@ const UploadLogo = ({recruiter}) => {
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
             open={open}
-            trigger={<img src={image}/>}
+            trigger={<Image src={image}/>}
           >
             <Modal.Header>Upload image</Modal.Header>
             <Modal.Content>

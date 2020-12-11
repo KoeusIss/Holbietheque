@@ -15,7 +15,7 @@ import {
   Image,
   List,
   Button,
-  Icon
+  Icon, Card, Label
 } from "semantic-ui-react";
 
 /**
@@ -65,44 +65,82 @@ const JobsPane = ({userID, recruiter}) => {
               />}
             </Menu.Item>
           </Menu>
-          <Grid.Column width={6}>
+          <Grid.Column width={"sixteen"}>
             <Segment>
-              <List relaxed='very' divided>
-                {jobs.map((job, index) => {
-                  return (
-                    <List.Item>
-                      <Image size="mini" src={image}/>
-                      <List.Content>
-                        <List.Header as={Link} to={`${url}/${job.id}`}>{job.title}</List.Header>
-                        <List.Description>
-                          {job.location}
-                        </List.Description>
-                        <List.Description style={{marginTop: "6px"}}>
-                          {job.salary}
-                        </List.Description>
-                      </List.Content>
-                    </List.Item>
-                  )
-                })}
-              </List>
+              {/*<List relaxed='very' divided>*/}
+              {/*{jobs.map((job, index) => {*/}
+              {/*  return (*/}
+              {/*      <Card fluid>*/}
+              {/*        <Card.Content>*/}
+              {/*          <Image*/}
+              {/*            floated='left'*/}
+              {/*            size='mini'*/}
+              {/*            src={image}*/}
+              {/*          />*/}
+              {/*          <Card.Header content={job.title} as={Link} to={`${url}/${job.id}`}/>*/}
+              {/*          <Card.Meta content={job.recruiter.name}/>*/}
+              {/*          <Card.Meta content={job.location}/>*/}
+              {/*          <Card.Description>*/}
+              {/*            <List>*/}
+              {/*              <List.Item icon='keyboard outline' content={job.level}/>*/}
+              {/*              <List.Item icon='money bill alternate outline' content={job.salary}/>*/}
+              {/*            </List>*/}
+              {/*          </Card.Description>*/}
+              {/*        </Card.Content>*/}
+              {/*        <Card.Content extra>*/}
+              {/*          <Icon name="time"/>*/}
+              {/*          3 days ago*/}
+              {/*        </Card.Content>*/}
+              {/*      </Card>*/}
+              <Grid>
+                <Grid.Row style={{height: "160px"}}>
+                  <Grid.Column width={2}>
+                    <Image
+                      size='tiny'
+                      src={image}
+                      style={{margin: "auto"}}
+                    />
+                  </Grid.Column>
+                  <Grid.Column width={10}>
+                    <Header as={"h4"} style={{color: "#4c4b53"}}>
+                      Software engineer
+                      <Header.Subheader>By <a>Holberton school</a> | Created 2 days ago</Header.Subheader>
+                    </Header>
+                    <p>
+                      Define Your Future & become a Software Engineer. No repayment until you find a job. Come learn
+                      what we're doing.
+                    </p>
+                    <Label.Group>
+                      <Label>Python</Label>
+                      <Label>AWS</Label>
+                      <Label>HTML/Css</Label>
+                      <Label>Django</Label>
+                      <Label>React</Label>
+                    </Label.Group>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+              {/*  )*/}
+              {/*})}*/}
+              {/*</List>*/}
             </Segment>
           </Grid.Column>
           
-          <Grid.Column width={10}>
-            <Switch>
-              <Route path={`${path}/:jobId`}>
-                <Job recruiter={recruiter}/>
-              </Route>
-              <Route path={path} exact>
-                <Segment placeholder textAlign={"center"}>
-                  <Header as='h4' icon>
-                    <Icon name='paperclip' color="grey"/>
-                    Select a job to see details
-                  </Header>
-                </Segment>
-              </Route>
-            </Switch>
-          </Grid.Column>
+          {/*<Grid.Column width={10}>*/}
+          {/*  <Switch>*/}
+          {/*    <Route path={`${path}/:jobId`}>*/}
+          {/*      <Job recruiter={recruiter}/>*/}
+          {/*    </Route>*/}
+          {/*    <Route path={path} exact>*/}
+          {/*      <Segment placeholder textAlign={"center"}>*/}
+          {/*        <Header as='h4' icon>*/}
+          {/*          <Icon name='paperclip' color="grey"/>*/}
+          {/*          Select a job to see details*/}
+          {/*        </Header>*/}
+          {/*      </Segment>*/}
+          {/*    </Route>*/}
+          {/*  </Switch>*/}
+          {/*</Grid.Column>*/}
         </Grid.Row>
       </Grid>
     </div>

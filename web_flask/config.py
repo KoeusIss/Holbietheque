@@ -20,7 +20,7 @@ class Config:
     MAIL_SERVER = 'smtp.holbie.tech'
     MAIL_PORT = 587
     MAIL_USERNAME = 'support@holbie.tech'
-    MAIL_PASSWORD = 'eSECERA4'
+    MAIL_PASSWORD = 'sneaky_eyes_looking'
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
     MAIL_DEBUG = True

@@ -13,6 +13,7 @@ import {
   Icon, Image, Table, Input
 } from "semantic-ui-react";
 import MDEditor from '@uiw/react-md-editor';
+import {useParams} from "react-router-dom";
 
 const stacks = ["DevOps", "Web Development", "Cloud", "AI", "Machine learning"]
 
@@ -26,7 +27,7 @@ const stacks = ["DevOps", "Web Development", "Cloud", "AI", "Machine learning"]
 const AboutPane = ({userID, recruiter}) => {
   const owner = userID === recruiter.id
   const [hide, setHide] = useState(false)
-  
+  let {tab} = useParams();
   
   return (
     <div>
@@ -87,9 +88,9 @@ const AboutPane = ({userID, recruiter}) => {
             {/* About section */}
             {(recruiter.about || recruiter.core_values || recruiter.our_mission || recruiter.interview_process) ?
               <>
-                {recruiter.about &&
+                {recruiter[tab] &&
                 <Segment>
-                  <MDEditor.Markdown source={recruiter.about}/>
+                  <MDEditor.Markdown source={recruiter[tab]}/>
                   <Menu text style={{marginTop: "0", marginBottom: "0"}}>
                     {owner &&
                     <Menu.Menu position="right">
@@ -97,11 +98,11 @@ const AboutPane = ({userID, recruiter}) => {
                         theTrigger={<Button basic icon><Icon name="pencil"/></Button>}
                         recruiter={recruiter}
                         createMode={false}
-                        section={'about'}
+                        section={tab}
                       />
                       <DeleteModal
                         theTrigger={<Button basic icon><Icon name="trash"/></Button>}
-                        section={'about'}
+                        section={tab}
                         recruiter={recruiter}
                       />
                     </Menu.Menu>
@@ -109,71 +110,71 @@ const AboutPane = ({userID, recruiter}) => {
                   </Menu>
                 </Segment>}
                 {/* Our mission section */}
-                {recruiter.our_mission &&
-                <Segment>
-                  <MDEditor.Markdown source={recruiter.our_mission}/>
-                  <Menu text style={{marginTop: "0", marginBottom: "0"}}>
-                    {owner &&
-                    <Menu.Menu position="right">
-                      <AddEditSection
-                        theTrigger={<Button basic icon><Icon name="pencil"/></Button>}
-                        recruiter={recruiter}
-                        createMode={false}
-                        section={'our_mission'}
-                      />
-                      <DeleteModal
-                        theTrigger={<Button basic icon><Icon name="trash"/></Button>}
-                        section={'our_mission'}
-                        recruiter={recruiter}
-                      />
-                    </Menu.Menu>
-                    }
-                  </Menu>
-                </Segment>}
-                {/* Core value section */}
-                {recruiter.core_values &&
-                <Segment>
-                  <MDEditor.Markdown source={recruiter.core_values}/>
-                  <Menu text style={{marginTop: "0", marginBottom: "0"}}>
-                    {owner &&
-                    <Menu.Menu position="right">
-                      <AddEditSection
-                        theTrigger={<Button basic icon><Icon name="pencil"/></Button>}
-                        recruiter={recruiter}
-                        createMode={false}
-                        section={'core_values'}
-                      />
-                      <DeleteModal
-                        theTrigger={<Button basic icon><Icon name="trash"/></Button>}
-                        section={'core_values'}
-                        recruiter={recruiter}
-                      />
-                    </Menu.Menu>
-                    }
-                  </Menu>
-                </Segment>}
-                {/*  Interview process section */}
-                {recruiter.interview_process &&
-                <Segment>
-                  <MDEditor.Markdown source={recruiter.interview_process}/>
-                  <Menu text style={{marginTop: "0", marginBottom: "0"}}>
-                    {owner &&
-                    <Menu.Menu position="right">
-                      <AddEditSection
-                        theTrigger={<Button basic icon><Icon name="pencil"/></Button>}
-                        recruiter={recruiter}
-                        createMode={false}
-                        section={'interview_process'}
-                      />
-                      <DeleteModal
-                        theTrigger={<Button basic icon><Icon name="trash"/></Button>}
-                        section={'interview_process'}
-                        recruiter={recruiter}
-                      />
-                    </Menu.Menu>
-                    }
-                  </Menu>
-                </Segment>}
+                {/*{recruiter.our_mission &&*/}
+                {/*<Segment>*/}
+                {/*  <MDEditor.Markdown source={recruiter.our_mission}/>*/}
+                {/*  <Menu text style={{marginTop: "0", marginBottom: "0"}}>*/}
+                {/*    {owner &&*/}
+                {/*    <Menu.Menu position="right">*/}
+                {/*      <AddEditSection*/}
+                {/*        theTrigger={<Button basic icon><Icon name="pencil"/></Button>}*/}
+                {/*        recruiter={recruiter}*/}
+                {/*        createMode={false}*/}
+                {/*        section={'our_mission'}*/}
+                {/*      />*/}
+                {/*      <DeleteModal*/}
+                {/*        theTrigger={<Button basic icon><Icon name="trash"/></Button>}*/}
+                {/*        section={'our_mission'}*/}
+                {/*        recruiter={recruiter}*/}
+                {/*      />*/}
+                {/*    </Menu.Menu>*/}
+                {/*    }*/}
+                {/*  </Menu>*/}
+                {/*</Segment>}*/}
+                {/*/!* Core value section *!/*/}
+                {/*{recruiter.core_values &&*/}
+                {/*<Segment>*/}
+                {/*  <MDEditor.Markdown source={recruiter.core_values}/>*/}
+                {/*  <Menu text style={{marginTop: "0", marginBottom: "0"}}>*/}
+                {/*    {owner &&*/}
+                {/*    <Menu.Menu position="right">*/}
+                {/*      <AddEditSection*/}
+                {/*        theTrigger={<Button basic icon><Icon name="pencil"/></Button>}*/}
+                {/*        recruiter={recruiter}*/}
+                {/*        createMode={false}*/}
+                {/*        section={'core_values'}*/}
+                {/*      />*/}
+                {/*      <DeleteModal*/}
+                {/*        theTrigger={<Button basic icon><Icon name="trash"/></Button>}*/}
+                {/*        section={'core_values'}*/}
+                {/*        recruiter={recruiter}*/}
+                {/*      />*/}
+                {/*    </Menu.Menu>*/}
+                {/*    }*/}
+                {/*  </Menu>*/}
+                {/*</Segment>}*/}
+                {/*/!*  Interview process section *!/*/}
+                {/*{recruiter.interview_process &&*/}
+                {/*<Segment>*/}
+                {/*  <MDEditor.Markdown source={recruiter.interview_process}/>*/}
+                {/*  <Menu text style={{marginTop: "0", marginBottom: "0"}}>*/}
+                {/*    {owner &&*/}
+                {/*    <Menu.Menu position="right">*/}
+                {/*      <AddEditSection*/}
+                {/*        theTrigger={<Button basic icon><Icon name="pencil"/></Button>}*/}
+                {/*        recruiter={recruiter}*/}
+                {/*        createMode={false}*/}
+                {/*        section={'interview_process'}*/}
+                {/*      />*/}
+                {/*      <DeleteModal*/}
+                {/*        theTrigger={<Button basic icon><Icon name="trash"/></Button>}*/}
+                {/*        section={'interview_process'}*/}
+                {/*        recruiter={recruiter}*/}
+                {/*      />*/}
+                {/*    </Menu.Menu>*/}
+                {/*    }*/}
+                {/*  </Menu>*/}
+                {/*</Segment>}*/}
               </>
               :
               <Segment placeholder textAlign={"center"}>

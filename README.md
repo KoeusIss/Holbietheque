@@ -54,3 +54,6 @@ yarn run-flask
 Which run the backend environment on port 5000
 To get the same landing on page in this repository put `localhost:3000` on your browser
 
+
+# Authors
+Issam Sebri - Machine learning enthusiast & full stack developer - [Linkedin](https://www.linkedin.com/in/issam-sebri/) - [Twitter](https://twitter.com/KoeusIss)
